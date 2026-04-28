@@ -13,6 +13,9 @@
         <div class="container">
             <span class="navbar-brand">LoopWear Admin</span>
         </div>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.orders.index') }}">Pesanan Masuk</a>
+         </li>
     </nav>
     
     <div class="container">
