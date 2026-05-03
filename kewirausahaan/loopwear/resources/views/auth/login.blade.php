@@ -1,89 +1,264 @@
 @extends('layout.main')
+
 @section('konten')
 <style>
-    body {background-color: #FDFAD8; }
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .auth-page-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 40px 0;
+        font-family: 'Quicksand', sans-serif;
+    }
+
     .auth-container {
-        max-width: 850px;
-        margin: 50px auto;
+        background-color: #FFFFFF;
         border-radius: 30px;
-        overflow: hidden;
-        background: #FFFFFF;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
         border: 1px solid #eee;
-    }
-
-    .auth-yellow-side {
-        background-color: #fff24d;
-        padding: 60px 40px;
-    }
-
-    .auth-form-side {
-        padding: 60px 50px;
-        background-color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
+        width: 850px;
+        max-width: 100%;
+        min-height: 550px;
     }
 
     .auth-title {
-        color: #ffb6a9;
+        color: #FFB6A9;
         font-family: 'Fredoka One', cursive;
+        margin-bottom: 20px;
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
-    .btn-auth-outline {
-        border: 2px solid #333;
+    .auth-container form {
+        background-color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        height: 100%;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        width: 50%;
+        transition: all 0.6s ease-in-out;
+    }
+
+    /* Input Style */
+    .auth-container input {
+        background-color: #F0F4F8; 
+        border: 1px solid #E1E8F0;
+        border-radius: 8px;
+        padding: 14px 15px;
+        margin-bottom: 15px;
+        width: 90%;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 600;
+        color: #47510B;
+    }
+
+    .auth-container a.forgot-pass-trigger {
+        color: #47510B;
+        font-size: 14px;
+        text-decoration: underline;
+        margin-bottom: 20px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* Button Styles */
+    .btn-auth {
         border-radius: 50px;
-        padding: 10px 40px;
         font-weight: bold;
-        color: #333;
-        transition: 0.3s;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 0.1s, background-color 0.3s;
+        cursor: pointer;
+        font-family: 'Quicksand', sans-serif;
     }
 
-    .btn-auth-outline:hover {
-        background: #333;
-        color: #fff24d;
-    }
-
-    .btn-auth-solid {
-        background-color: #fff24d;
+    .btn-solid {
+        background-color: #fff24d; 
         border: none;
-        border-radius: 50px;
-        padding: 12px;
-        font-weight: bold;
-        width: 100%;
+        color: #47510B; 
+        width: 90%;
+        padding: 13px 0;
+        font-size: 15px;
+        box-shadow: 0 6px 15px rgba(255, 242, 77, 0.4);
     }
 
-    .form-control {
-        border-radius: 12px;
-        background-color: #FDFAD8;
-        border: 1px solid #E3E1C3;
-        padding: 14px;
+    .btn-outline {
+        background-color: transparent;
+        border: 2px solid #47510B; 
+        color: #47510B;
+        padding: 12px 45px;
+        font-size: 14px;
+        transition: all 0.3s ease; /* Biar perubahan warnanya nggak kaku */
     }
+   
+    .btn-outline:hover {
+        background-color: #47510B; /* Berubah jadi Grassy Green penuh */
+        color: #fff24d;           /* Teks berubah jadi Kuning */
+        border-color: #47510B;
+    }
+
+    /* --- POSISI FORM --- */
+    .sign-in-form { left: 0; z-index: 2; }
+    .sign-up-form { left: 0; opacity: 0; z-index: 1; }
+    .forgot-form { left: 0; opacity: 0; z-index: 1; }
+
+    /* --- ANIMASI GESER --- */
+    /* State: Sign Up Aktif */
+    .auth-container.right-panel-active .sign-in-form { transform: translateX(100%); opacity: 0; }
+    .auth-container.right-panel-active .sign-up-form { transform: translateX(100%); opacity: 1; z-index: 5; }
+    .auth-container.right-panel-active .forgot-form { transform: translateX(100%); opacity: 0; }
+
+    /* State: Forgot Password Aktif */
+    .auth-container.forgot-panel-active .sign-in-form { opacity: 0; }
+    .auth-container.forgot-panel-active .sign-up-form { opacity: 0; }
+    .auth-container.forgot-panel-active .forgot-form { opacity: 1; z-index: 5; }
+
+    /* --- OVERLAY KUNING --- */
+    .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 100;
+    }
+
+    .auth-container.right-panel-active .overlay-container { transform: translateX(-100%); }
+
+    .overlay {
+        background-color: #fff24d;
+        color: #47510B;
+        position: relative;
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .auth-container.right-panel-active .overlay { transform: translateX(50%); }
+
+    .overlay-panel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        text-align: center;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .overlay-panel h2 {
+        font-family: 'Fredoka One', cursive;
+        color: #47510B;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .overlay-panel p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        font-weight: 500;
+    }
+
+    .overlay-left { transform: translateX(-20%); }
+    .auth-container.right-panel-active .overlay-left { transform: translateX(0); }
+    .overlay-right { right: 0; }
 </style>
 
-<div class="auth-container">
-    <div class="row g-0">
-        <div class="col-md-5 auth-yellow-side d-flex flex-column justify-content-center align-items-center text-center">
-            <h2 class="fw-bold mb-3">WELCOME BACK!</h2>
-            <p class="mb-4 small">To keep connected with us please login with your personal info</p>
-            <a href="{{ route('register') }}" class="btn btn-auth-outline">SIGN UP</a>
-        </div>
-        <div class="col-md-7 auth-form-side">
-            <div class="text-center mb-4">
-                <h2 class="auth-title fw-bold">LOG IN TO LOOP WEAR</h2>
-            </div>
-            <form action="{{ url('/login') }}" method="POST">
+<div class="container auth-page-wrapper">
+    <div class="auth-container" id="auth-container">
+        
+        {{-- 1. FORM REGISTER --}}
+        <form action="{{ url('/register') }}" method="POST" class="sign-up-form">
             @csrf
-            <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="EMAIL" required>
+            <h2 class="auth-title">CREATE ACCOUNT</h2>
+            <input type="text" name="name" placeholder="NAME" required />
+            <input type="email" name="email" placeholder="EMAIL" required />
+            <input type="password" name="password" placeholder="PASSWORD" required />
+            <button type="submit" class="btn-auth btn-solid">SIGN UP</button>
+        </form>
+
+        {{-- 2. FORM LOGIN --}}
+        <form action="{{ url('/login') }}" method="POST" class="sign-in-form" id="login-form">
+            @csrf
+            <h2 class="auth-title">LOG IN TO LOOP WEAR</h2>
+            <input type="email" name="email" placeholder="EMAIL" required />
+            <input type="password" name="password" placeholder="PASSWORD" required />
+            <a class="forgot-pass-trigger" id="toForgotBtn">Forgot your password?</a>
+            <button type="submit" class="btn-auth btn-solid">SIGN IN</button>
+        </form>
+
+        {{-- 3. FORM FORGOT PASSWORD --}}
+        <form action="#" method="POST" class="forgot-form" id="forgot-form">
+            @csrf
+            <h2 class="auth-title">RESET PASSWORD</h2>
+            <p style="color: #47510B; margin-bottom: 20px;">We will send you an email to reset your password</p>
+            <input type="email" name="email" placeholder="EMAIL" required />
+            <button type="submit" class="btn-auth btn-solid">SUBMIT</button>
+            <a class="forgot-pass-trigger" id="backToLoginBtn" style="margin-top: 15px;">Back to Login</a>
+        </form>
+
+        {{-- OVERLAY KUNING --}}
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h2>WELCOME BACK!</h2>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button type="button" class="btn-auth btn-outline" id="signInBtn">SIGN IN</button>
+                </div>
+                
+                <div class="overlay-panel overlay-right">
+                    <h2>HELLO, FRIEND!</h2>
+                    <p>Enter your personal details<br>and start your journey with us</p>
+                    <button type="button" class="btn-auth btn-outline" id="signUpBtn">SIGN UP</button>
+                </div>
             </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="PASSWORD" required>
-            </div>
-            <div class="text-center mb-4">
-                <a href="#" class="text-muted small">Forgot your password?</a>
-            </div>
-            <button type="submit" class="btn btn-auth-outline shadow-sm">SIGN IN</button>
-            </form>
         </div>
     </div>
 </div>
 
+<script>
+    const container = document.getElementById('auth-container');
+    const signUpButton = document.getElementById('signUpBtn');
+    const signInButton = document.getElementById('signInBtn');
+    const toForgotBtn = document.getElementById('toForgotBtn');
+    const backToLoginBtn = document.getElementById('backToLoginBtn');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.remove("forgot-panel-active");
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+        container.classList.remove("forgot-panel-active");
+    });
+
+    toForgotBtn.addEventListener('click', () => {
+        container.classList.add("forgot-panel-active");
+    });
+
+    backToLoginBtn.addEventListener('click', () => {
+        container.classList.remove("forgot-panel-active");
+    });
+</script>
 @endsection

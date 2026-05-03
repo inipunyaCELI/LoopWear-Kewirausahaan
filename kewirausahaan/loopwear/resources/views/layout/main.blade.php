@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Quicksand', sans-serif; background-color: #fff; }
-        .navbar { background-color: #F8F79D !important; padding: 15px 0; }
+        .navbar { background-color: #fff24d !important; padding: 15px 0; }
         .navbar-brand { font-family: 'Fredoka One'; color: #E7998B !important; font-size: 1.8rem; }
         .nav-link { color: #E7998B !important; font-weight: bold; margin: 0 10px; }
         .nav-link:hover { color: #4A4A4A !important; }
@@ -19,7 +19,7 @@
 
 <nav class="navbar navbar-expand-lg sticky-top shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="/">Loop</a>
+        <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,7 +29,7 @@
                 <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
                 <li class="nav-item"><a class="nav-link" href="#review">Review</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
             <div class="d-flex gap-3">
                 <a href="#" class="text-decoration-none">❤️</a>
