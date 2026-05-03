@@ -78,16 +78,16 @@
                 <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
             <div class="d-flex gap-3">
-                <a href="{{ route('wishlist.index') }}" class="text-decoration-none">❤️</a>
-                <a href="{{ route('cart.index') }}" class="text-decoration-none">🛒</a>
+                <a href="<?php echo e(route('wishlist.index')); ?>" class="text-decoration-none">❤️</a>
+                <a href="<?php echo e(route('cart.index')); ?>" class="text-decoration-none">🛒</a>
                 <a href="/login" class="text-decoration-none">👤</a>
             </div>
         </div>
     </div>
 </nav>
 
-@yield('konten')
+<?php echo $__env->yieldContent('konten'); ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/layout/main.blade.php ENDPATH**/ ?>

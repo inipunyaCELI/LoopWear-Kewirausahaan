@@ -27,6 +27,16 @@ class ProductController extends Controller
         return view('products', compact('data'));
     }
 
+    public function category($kategori)
+    {
+        $items = Mbarang::where('status', 'available')
+                    ->where('kategori', $kategori)
+                    ->latest()
+                    ->get();
+
+        return view('category', compact('items', 'kategori'));
+    }
+
     public function create() { }
     public function store(Request $request) { }
 
