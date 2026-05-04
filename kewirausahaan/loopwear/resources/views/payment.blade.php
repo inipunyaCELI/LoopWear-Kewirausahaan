@@ -7,7 +7,7 @@
     <h3>Finalisasi Pesanan</h3>
 
     <p>Order ID: {{ $order->id }}</p>
-    <p>Total: Rp {{ number_format($order->total) }}</p>
+    <p>Total: Rp {{ number_format($order->total_price) }}</p>
 
     <button id="pay-button" class="btn btn-primary">
         Bayar Sekarang

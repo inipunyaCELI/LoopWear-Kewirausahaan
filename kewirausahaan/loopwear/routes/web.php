@@ -27,7 +27,6 @@ Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orde
 Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
 });
 
-Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/checkout/finish', function() {
     return view('checkout_finish');
 })->name('checkout.finish');
@@ -63,3 +62,6 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/checkout/success', function () {
     return view('checkout_success');
 })->name('checkout.success');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');

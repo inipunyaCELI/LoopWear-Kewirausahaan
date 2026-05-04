@@ -1,6 +1,13 @@
 
 <?php $__env->startSection('konten'); ?>
 <div class="card shadow">
+    <div class="d-flex justify-content-between mb-3">
+        <h3>Kelola Barang</h3>
+
+        <a href="/dashboard" class="btn btn-dark">
+            ← Kembali ke Dashboard
+        </a>
+    </div>
     <div class="card-header d-flex justify-content-between bg-white">
         <h5>Koleksi Barang</h5>
         <a href="<?php echo e(route('barang.create')); ?>" class="btn btn-primary btn-sm">+ Tambah</a>

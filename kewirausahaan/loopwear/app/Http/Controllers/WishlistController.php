@@ -17,19 +17,31 @@ class WishlistController extends Controller
 
     public function add($id)
     {
-        Wishlist::create([
-        'barang_id' => $id,
-        'user_id' => auth()->id()
-    ]);
+        $wishlist = session()->get('wishlist', []);
 
-    return back();
+        if (!isset($wishlist[$id])) {
+            $barang = \App\Models\Mbarang::find($id);
+
+            $wishlist[$id] = [
+                "nama" => $barang->nama_barang,
+                "harga" => $barang->harga,
+                "gambar" => $barang->gambar
+            ];
+        }
+
+        session()->put('wishlist', $wishlist);
+
+        return back()->with('success', 'Masuk ke wishlist!');
     }
 
     public function remove($id)
-    {
-        $wishlist = session()->get('wishlist');
-        unset($wishlist[$id]);
-        session()->put('wishlist', $wishlist);
+{
+    $wishlist = session()->get('wishlist', []);
+
+        if(isset($wishlist[$id])){
+            unset($wishlist[$id]);
+            session()->put('wishlist', $wishlist);
+        }
 
         return back();
     }

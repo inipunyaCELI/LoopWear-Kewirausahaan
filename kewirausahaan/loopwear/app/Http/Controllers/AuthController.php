@@ -21,7 +21,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/barang'); // Langsung ke halaman admin
+
+            if (auth()->user()->role == 'admin') {
+                return redirect('/dashboard'); 
+            }
+
+            return redirect('/'); 
         }
 
         return back()->with('loginError', 'Email atau password salah!');
@@ -38,7 +43,9 @@ class AuthController extends Controller
             'password' => 'required|min:5'
         ]);
 
-        $data['password'] = Hash::make($data['password']); // Enkripsi password
+        $data['password'] = Hash::make($data['password']);
+
+        $data['role'] = 'user';
 
         User::create($data);
 

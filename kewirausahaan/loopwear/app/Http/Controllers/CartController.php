@@ -15,44 +15,46 @@ class CartController extends Controller
 
     public function add($id)
     {
-        $item = Mbarang::findOrFail($id);
         $cart = session()->get('cart', []);
+
+        $barang = \App\Models\Mbarang::findOrFail($id);
 
         if(isset($cart[$id])) {
             $cart[$id]['qty']++;
         } else {
             $cart[$id] = [
-                "nama" => $item->nama_barang,
-                "harga" => $item->harga,
-                "gambar" => $item->gambar,
+                "nama" => $barang->nama_barang,
+                "harga" => $barang->harga,
+                "gambar" => $barang->gambar,
                 "qty" => 1
             ];
         }
 
         session()->put('cart', $cart);
+
         return back();
     }
 
     public function update(Request $request, $id)
     {
-         $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
 
-        if ($request->type == 'plus') {
-            $cart[$id]['qty']++;
-        } else {
-            $cart[$id]['qty']--;
+        if(isset($cart[$id])) {
+            $cart[$id]['qty'] = $request->qty;
+            session()->put('cart', $cart);
         }
 
-        session()->put('cart', $cart);
-
-    return back();
+        return back();
     }
 
     public function remove($id)
     {
-        $cart = session()->get('cart');
-        unset($cart[$id]);
-        session()->put('cart', $cart);
+        $cart = session()->get('cart', []);
+
+        if(isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
 
         return back();
     }

@@ -77,11 +77,26 @@
                 <li class="nav-item"><a class="nav-link" href="#review">Review</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
-            <div class="d-flex gap-3">
-                <a href="<?php echo e(route('wishlist.index')); ?>" class="text-decoration-none">❤️</a>
-                <a href="<?php echo e(route('cart.index')); ?>" class="text-decoration-none">🛒</a>
-                <a href="/login" class="text-decoration-none">👤</a>
-            </div>
+            <div class="d-flex gap-3 align-items-center">
+            <a href="/wishlist" class="text-decoration-none">❤️</a>
+            <a href="/cart" class="text-decoration-none">🛒</a>
+
+            <?php if(auth()->guard()->check()): ?>
+                <span style="font-weight:600;">
+                    <?php echo e(auth()->user()->name); ?>
+
+                </span>
+
+                <?php if(auth()->user()->role == 'admin'): ?>
+                    <a href="/dashboard" class="text-decoration-none">Dashboard</a>
+                <?php endif; ?>
+
+                <a href="/logout" class="text-decoration-none text-danger">Logout</a>
+            <?php else: ?>
+                <a href="/login" class="text-decoration-none">👤 Login</a>
+            <?php endif; ?>
+
+        </div>
         </div>
     </div>
 </nav>

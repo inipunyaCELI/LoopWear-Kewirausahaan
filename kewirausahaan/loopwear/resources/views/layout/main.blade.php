@@ -77,11 +77,25 @@
                 <li class="nav-item"><a class="nav-link" href="#review">Review</a></li>
                 <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
-            <div class="d-flex gap-3">
-                <a href="{{ route('wishlist.index') }}" class="text-decoration-none">❤️</a>
-                <a href="{{ route('cart.index') }}" class="text-decoration-none">🛒</a>
-                <a href="/login" class="text-decoration-none">👤</a>
-            </div>
+            <div class="d-flex gap-3 align-items-center">
+            <a href="/wishlist" class="text-decoration-none">❤️</a>
+            <a href="/cart" class="text-decoration-none">🛒</a>
+
+            @auth
+                <span style="font-weight:600;">
+                    {{ auth()->user()->name }}
+                </span>
+
+                @if(auth()->user()->role == 'admin')
+                    <a href="/dashboard" class="text-decoration-none">Dashboard</a>
+                @endif
+
+                <a href="/logout" class="text-decoration-none text-danger">Logout</a>
+            @else
+                <a href="/login" class="text-decoration-none">👤 Login</a>
+            @endauth
+
+        </div>
         </div>
     </div>
 </nav>

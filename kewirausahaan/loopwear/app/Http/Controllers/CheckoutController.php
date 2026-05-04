@@ -68,59 +68,59 @@ class CheckoutController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $cart = session()->get('cart', []);
+    {
+        $cart = session()->get('cart', []);
 
-    if(empty($cart)){
-        return back()->with('error', 'Cart kosong');
-    }
+        if(empty($cart)){
+            return back()->with('error', 'Cart kosong');
+        }
 
-    $total = 0;
-    foreach ($cart as $item) {
-        $total += $item['harga'] * $item['qty'];
-    }
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['harga'] * $item['qty'];
+        }
 
-    $order = Order::create([
-        'nama' => $request->nama,
-        'email' => $request->email,
-        'alamat' => $request->alamat,
-        'total' => $total,
-        'status' => 'pending'
-    ]);
-
-    foreach ($cart as $item) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'nama_barang' => $item['nama'],
-            'harga' => $item['harga'],
-            'qty' => $item['qty']
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'order_number' => 'LW-' . time(),
+            'total_price' => $total,
+            'status_payment' => 'pending',
+            'address' => $request->alamat
         ]);
+
+        foreach ($cart as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'nama_barang' => $item['nama'],
+                'harga' => $item['harga'],
+                'qty' => $item['qty']
+            ]);
+        }
+
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->order_number,
+                'gross_amount' => $total,
+            ],
+            'customer_details' => [
+                'first_name' => $request->nama,
+                'email' => $request->email,
+            ]
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+
+        $order->update([
+            'snap_token' => $snapToken
+        ]);
+
+        return view('payment', compact('order', 'snapToken'));
     }
-
-    Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-    Config::$isProduction = false;
-    Config::$isSanitized = true;
-    Config::$is3ds = true;
-
-    $params = [
-        'transaction_details' => [
-            'order_id' => $order->id,
-            'gross_amount' => $total,
-        ],
-        'customer_details' => [
-            'first_name' => $request->nama,
-            'email' => $request->email,
-        ]
-    ];
-
-    $snapToken = Snap::getSnapToken($params);
-
-    $order->update([
-        'snap_token' => $snapToken
-    ]);
-
-    return view('payment', compact('order', 'snapToken'));
-}
     /**
      * Display the specified resource.
      */
