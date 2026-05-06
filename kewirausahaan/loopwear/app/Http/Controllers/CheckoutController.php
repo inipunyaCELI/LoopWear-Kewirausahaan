@@ -49,11 +49,23 @@ class CheckoutController extends Controller
         return view('checkout', compact('order', 'snapToken'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $cart = session()->get('cart', []);
+        $selected = $request->selected ?? [];
 
-        return view('checkout', compact('cart'));
+        $selectedItems = [];
+
+        foreach ($selected as $id) {
+            if(isset($cart[$id])) {
+                $selectedItems[$id] = $cart[$id];
+            }
+        }
+
+        return view('checkout', [
+            'items' => $selectedItems,
+            'selected' => $selected
+        ]);
     }
 
     /**
@@ -68,59 +80,60 @@ class CheckoutController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $cart = session()->get('cart', []);
+        {
+            $cart = session()->get('cart', []);
+            $selected = $request->selected ?? [];
 
-        if(empty($cart)){
-            return back()->with('error', 'Cart kosong');
-        }
+            if(empty($selected)){
+                return back()->with('error', 'Pilih barang dulu');
+            }
 
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['harga'] * $item['qty'];
-        }
+            $total = 0;
+            $itemsDipilih = [];
 
-        $order = Order::create([
-            'user_id' => auth()->id(),
-            'order_number' => 'LW-' . time(),
-            'total_price' => $total,
-            'status_payment' => 'pending',
-            'address' => $request->alamat
-        ]);
+            foreach ($selected as $id) {
+                if(isset($cart[$id])) {
+                    $item = $cart[$id];
+                    $subtotal = $item['harga'] * $item['qty'];
+                    $total += $subtotal;
 
-        foreach ($cart as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'nama_barang' => $item['nama'],
-                'harga' => $item['harga'],
-                'qty' => $item['qty']
+                    $itemsDipilih[$id] = $item;
+                }
+            }
+
+            $order = Order::create([
+                'user_id' => auth()->id(),
+                'order_number' => 'LW-' . time(),
+                'total_price' => $total,
+                'status_payment' => 'pending',
+                'address' => $request->alamat
             ]);
+
+            foreach ($itemsDipilih as $id => $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'barang_id' => $id,
+                    'nama_barang' => $item['nama'],
+                    'harga' => $item['harga'],
+                    'qty' => $item['qty']
+                ]);
+            }
+
+            Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+            Config::$isProduction = false;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order->order_number,
+                    'gross_amount' => $total,
+                ],
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+
+            return view('payment', compact('order', 'snapToken'));
         }
 
-        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        Config::$isProduction = false;
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        $params = [
-            'transaction_details' => [
-                'order_id' => $order->order_number,
-                'gross_amount' => $total,
-            ],
-            'customer_details' => [
-                'first_name' => $request->nama,
-                'email' => $request->email,
-            ]
-        ];
-
-        $snapToken = Snap::getSnapToken($params);
-
-        $order->update([
-            'snap_token' => $snapToken
-        ]);
-
-        return view('payment', compact('order', 'snapToken'));
-    }
     /**
      * Display the specified resource.
      */

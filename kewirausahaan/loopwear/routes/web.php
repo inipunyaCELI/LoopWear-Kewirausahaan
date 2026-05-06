@@ -57,8 +57,6 @@ Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name
 
 Route::get('/category/{kategori}', [ProductController::class, 'category'])->name('category.show');
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout/success', function () {
     return view('checkout_success');
 })->name('checkout.success');

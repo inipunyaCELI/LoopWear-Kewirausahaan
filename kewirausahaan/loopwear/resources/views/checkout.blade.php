@@ -5,13 +5,18 @@
     <h2>Checkout</h2>
 
     <form action="{{ route('checkout.store') }}" method="POST">
-        @csrf
+    @csrf
 
-        <input type="text" name="nama" class="form-control mb-3" placeholder="Nama" required>
-        <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
-        <textarea name="alamat" class="form-control mb-3" placeholder="Alamat" required></textarea>
+    @foreach($selected as $id)
+        <input type="hidden" name="selected[]" value="{{ $id }}">
+    @endforeach
 
-        <button class="btn btn-success">Lanjut Bayar</button>
+    <input type="text" name="nama" class="form-control mb-3" placeholder="Nama" required>
+    <input type="email" name="email" class="form-control mb-3" placeholder="Email" required>
+    <textarea name="alamat" class="form-control mb-3" placeholder="Alamat" required></textarea>
+
+    <button class="btn btn-success">Lanjut Bayar</button>
+
     </form>
 </div>
 @endsection
