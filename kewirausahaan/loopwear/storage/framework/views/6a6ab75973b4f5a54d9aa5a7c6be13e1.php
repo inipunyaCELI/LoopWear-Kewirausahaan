@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
 
@@ -76,54 +74,55 @@
 
 <div class="container category-page py-5">
     
-    {{-- Header & Tombol Kembali --}}
+    
     <div class="d-flex flex-column align-items-center mb-5">
-        <a href="{{ route('user.products') }}" class="btn-back-loop mb-3 shadow-sm">
+        <a href="<?php echo e(route('user.products')); ?>" class="btn-back-loop mb-3 shadow-sm">
             ← Kembali ke Semua Koleksi
         </a>
         <h2 class="title-main text-center">
-            {{ ucfirst($kategori) }} LoopWear
+            <?php echo e(ucfirst($kategori)); ?> LoopWear
         </h2>
-        <p class="text-muted small">Menampilkan semua koleksi {{ $kategori }} terbaik untukmu</p>
+        <p class="text-muted small">Menampilkan semua koleksi <?php echo e($kategori); ?> terbaik untukmu</p>
     </div>
 
     <div class="row g-4 justify-content-center">
-        @forelse($items as $item)
+        <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-6 col-md-4 col-lg-3">
             <div class="text-center mb-4">
-                {{-- Link ke Detail --}}
-                <a href="{{ route('user.products.detail', $item->id_barang) }}" class="text-decoration-none">
+                
+                <a href="<?php echo e(route('user.products.detail', $item->id_barang)); ?>" class="text-decoration-none">
                     <div class="product-img-wrapper shadow-sm">
-                        <img src="{{ asset('images/'.$item->gambar) }}" class="product-img" onerror="this.src='{{ asset('images/no-image.png') }}'">
+                        <img src="<?php echo e(asset('images/'.$item->gambar)); ?>" class="product-img" onerror="this.src='<?php echo e(asset('images/no-image.png')); ?>'">
                     </div>
-                    <h6 class="product-name">{{ $item->nama_barang }}</h6>
+                    <h6 class="product-name"><?php echo e($item->nama_barang); ?></h6>
                 </a>
 
-                {{-- Meta: Harga & Tombol (Sudah Sejajar) --}}
+                
                 <div class="product-meta">
-                    <span class="price">Rp{{ number_format($item->harga, 0, ',', '.') }}</span>
+                    <span class="price">Rp<?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
                     <span class="divider">|</span>
 
-                    {{-- Form Like --}}
-                    <form action="{{ route('wishlist.add', $item->id_barang) }}" method="POST" class="m-0 p-0">
-                        @csrf
+                    
+                    <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" class="m-0 p-0">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn-icon-loop icon-pink" title="Simpan ke Wishlist">♥</button>
                     </form>
 
-                    {{-- Form Keranjang --}}
-                    <form action="{{ route('cart.add', $item->id_barang) }}" method="POST" class="m-0 p-0">
-                        @csrf
+                    
+                    <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST" class="m-0 p-0">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn-icon-loop icon-blue" title="Masuk Keranjang">🛒</button>
                     </form>
                 </div>
             </div>
         </div>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <div class="col-12 text-center py-5">
-            <p class="text-muted fst-italic">Maaf, koleksi {{ $kategori }} belum tersedia saat ini.</p>
-            <a href="{{ route('user.products') }}" class="btn btn-outline-secondary btn-sm">Lihat Produk Lain</a>
+            <p class="text-muted fst-italic">Maaf, koleksi <?php echo e($kategori); ?> belum tersedia saat ini.</p>
+            <a href="<?php echo e(route('user.products')); ?>" class="btn btn-outline-secondary btn-sm">Lihat Produk Lain</a>
         </div>
-        @endforelse
+        <?php endif; ?>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/category.blade.php ENDPATH**/ ?>

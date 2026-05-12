@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     /* Background halaman dibuat abu-abu agar kotak checkout menonjol ala Shopee */
     body { background-color: #f8f9fa; }
@@ -111,31 +109,31 @@
 
 <div class="container checkout-page pt-4">
     
-    <a href="{{ route('cart.index') }}" class="btn-back">← Kembali ke Keranjang</a>
+    <a href="<?php echo e(route('cart.index')); ?>" class="btn-back">← Kembali ke Keranjang</a>
 
-    <form action="{{ route('checkout.store') }}" method="POST">
-        @csrf
-        @foreach($selected as $id)
-            <input type="hidden" name="selected[]" value="{{ $id }}">
-        @endforeach
+    <form action="<?php echo e(route('checkout.store')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
+        <?php $__currentLoopData = $selected; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <input type="hidden" name="selected[]" value="<?php echo e($id); ?>">
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-        {{-- BAGIAN 1: ALAMAT --}}
+        
         <div class="checkout-card address-card">
             <div class="section-title pink">📍 Alamat Pengiriman</div>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" value="{{ auth()->check() ? auth()->user()->name : '' }}" required>
+                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" value="<?php echo e(auth()->check() ? auth()->user()->name : ''); ?>" required>
                 </div>
                 <div class="col-md-6">
-                    <input type="email" name="email" class="form-loop" placeholder="Email / No. Handphone" value="{{ auth()->check() ? auth()->user()->email : '' }}" required>
+                    <input type="email" name="email" class="form-loop" placeholder="Email / No. Handphone" value="<?php echo e(auth()->check() ? auth()->user()->email : ''); ?>" required>
                 </div>
                 <div class="col-12">
-                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required>{{ auth()->check() ? auth()->user()->alamat ?? '' : '' }}</textarea>
+                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required><?php echo e(auth()->check() ? auth()->user()->alamat ?? '' : ''); ?></textarea>
                 </div>
             </div>
         </div>
 
-        {{-- BAGIAN 2: PRODUK --}}
+        
         <div class="checkout-card">
             <div class="section-title">Produk Dipesan</div>
             <table class="table-produk">
@@ -148,21 +146,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($checkout_items as $id => $item)
+                    <?php $__currentLoopData = $checkout_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
                         <td>
                             <div class="d-flex align-items-center gap-3">
                                 <div style="width: 50px; height: 50px; background: #eee; border-radius: 8px; overflow: hidden;">
-                                    <img src="{{ asset('images/' . ($item['gambar'] ?? 'no-image.png')) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="<?php echo e(asset('images/' . ($item['gambar'] ?? 'no-image.png'))); ?>" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
-                                <div><span class="fw-bold text-dark d-block">{{ $item['nama'] }}</span></div>
+                                <div><span class="fw-bold text-dark d-block"><?php echo e($item['nama']); ?></span></div>
                             </div>
                         </td>
-                        <td class="text-center text-muted">Rp {{ number_format($item['harga'], 0, ',', '.') }}</td>
-                        <td class="text-center">{{ $item['qty'] }}</td>
-                        <td class="text-end fw-bold text-dark">Rp {{ number_format($item['harga'] * $item['qty'], 0, ',', '.') }}</td>
+                        <td class="text-center text-muted">Rp <?php echo e(number_format($item['harga'], 0, ',', '.')); ?></td>
+                        <td class="text-center"><?php echo e($item['qty']); ?></td>
+                        <td class="text-end fw-bold text-dark">Rp <?php echo e(number_format($item['harga'] * $item['qty'], 0, ',', '.')); ?></td>
                     </tr>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
             </table>
             
@@ -180,10 +178,10 @@
             </div>
         </div>
 
-        {{-- BAGIAN 3: METODE PEMBAYARAN & PILIH BANK --}}
+        
         <div class="checkout-card">
             
-            {{-- Wrapper Area Pembayaran --}}
+            
             <div class="border-bottom pb-4 mb-4">
                 <div class="row align-items-center">
                     <div class="col-md-3">
@@ -191,7 +189,7 @@
                     </div>
                     <div class="col-md-9">
                         <label class="payment-label">
-                            {{-- Kita pasang id="pay-qris" dll biar Javascript gampang ngenalin --}}
+                            
                             <input type="radio" name="payment" value="qris" class="payment-radio" checked>
                             <div class="payment-box">QRIS</div>
                         </label>
@@ -206,7 +204,7 @@
                     </div>
                 </div>
 
-                {{-- KOTAK PILIH BANK (Akan Muncul kalau Transfer Bank diklik) --}}
+                
                 <div class="row bank-list-wrapper" id="bank-list-wrapper">
                     <div class="col-md-3">
                         <div class="section-title mb-0" style="font-size: 1rem; color: #333; font-family: 'Quicksand', sans-serif;">Pilih Bank</div>
@@ -257,24 +255,24 @@
                 </div>
             </div>
 
-            {{-- RINCIAN TOTAL --}}
+            
             <div class="row justify-content-end text-end mt-2">
                 <div class="col-md-5 col-lg-4">
                     <div class="d-flex justify-content-between mb-2 summary-text">
                         <span>Subtotal untuk Produk</span>
-                        <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                        <span>Rp <?php echo e(number_format($subtotal, 0, ',', '.')); ?></span>
                     </div>
                     <div class="d-flex justify-content-between mb-2 summary-text">
                         <span>Total Ongkos Kirim</span>
-                        <span>Rp {{ number_format($ongkir, 0, ',', '.') }}</span>
+                        <span>Rp <?php echo e(number_format($ongkir, 0, ',', '.')); ?></span>
                     </div>
                     <div class="d-flex justify-content-between mb-3 summary-text">
                         <span>Biaya Layanan</span>
-                        <span>Rp {{ number_format($biaya_layanan, 0, ',', '.') }}</span>
+                        <span>Rp <?php echo e(number_format($biaya_layanan, 0, ',', '.')); ?></span>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
                         <span class="summary-text fs-5">Total Pembayaran</span>
-                        <span class="summary-total">Rp {{ number_format($grand_total, 0, ',', '.') }}</span>
+                        <span class="summary-total">Rp <?php echo e(number_format($grand_total, 0, ',', '.')); ?></span>
                     </div>
                     <button type="submit" class="btn-pesanan w-100">Buat Pesanan</button>
                 </div>
@@ -284,7 +282,7 @@
     </form>
 </div>
 
-{{-- SCRIPT UNTUK EFEK BUKA TUTUP (TOGGLE) BANK --}}
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const paymentRadios = document.querySelectorAll('.payment-radio');
@@ -311,4 +309,5 @@
         });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/checkout.blade.php ENDPATH**/ ?>

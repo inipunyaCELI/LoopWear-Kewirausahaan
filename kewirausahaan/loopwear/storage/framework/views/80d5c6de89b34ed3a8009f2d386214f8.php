@@ -1,0 +1,1 @@
+<?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/checkout_success.blade.php ENDPATH**/ ?>

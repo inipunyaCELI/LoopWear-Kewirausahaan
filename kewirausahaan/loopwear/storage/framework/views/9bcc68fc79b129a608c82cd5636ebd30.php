@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     body { background-color: #f8f9fa; }
     .payment-page { font-family: 'Quicksand', sans-serif; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
@@ -45,16 +43,16 @@
 <div class="payment-page pt-4">
     <div class="payment-card">
         
-        {{-- Header --}}
+        
         <div class="header-nav">
-            <a href="{{ route('cart.index') }}" class="back-btn">←</a>
+            <a href="<?php echo e(route('cart.index')); ?>" class="back-btn">←</a>
             <h4>Pembayaran</h4>
         </div>
 
-        {{-- Rincian Harga & Waktu --}}
+        
         <div class="detail-row">
             <span>Total Pembayaran</span>
-            <span class="text-orange fs-5">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
+            <span class="text-orange fs-5">Rp <?php echo e(number_format($order->total_price, 0, ',', '.')); ?></span>
         </div>
         <div class="detail-row">
             <span>Bayar dalam</span>
@@ -64,13 +62,13 @@
             </div>
         </div>
 
-        {{-- KONDISI 1: JIKA MEMILIH QRIS --}}
-        @if($payment_method == 'qris')
+        
+        <?php if($payment_method == 'qris'): ?>
             <div class="qris-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" width="100" class="mb-3">
                 <br>
-                {{-- Dummy QR Image untuk Tampilan --}}
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=LoopWear-{{ $order->order_number }}" class="qris-img" alt="QR Code">
+                
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=LoopWear-<?php echo e($order->order_number); ?>" class="qris-img" alt="QR Code">
                 <p class="fw-bold text-muted">NMID: ID2025444802321</p>
             </div>
 
@@ -83,9 +81,9 @@
                 <li><span class="step-number">5</span> Masukkan PIN dan selesaikan pembayaran.</li>
             </ul>
 
-{{-- KONDISI 2: JIKA MEMILIH TRANSFER BANK --}}
-        @elseif($payment_method == 'transfer')
-            @php
+
+        <?php elseif($payment_method == 'transfer'): ?>
+            <?php
                 // Kita buat data dinamis untuk masing-masing bank
                 $bankData = [
                     'bca' => ['nama' => 'Bank BCA', 'logo' => 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg', 'va' => '112233445566'],
@@ -98,62 +96,62 @@
                 
                 // Ambil data bank sesuai yang dipilih user, default ke BSI
                 $selectedBank = $bankData[$bank] ?? $bankData['bsi'];
-            @endphp
+            ?>
 
             <div class="mt-4">
                 <div class="d-flex align-items-center gap-2 mb-3">
-                    <img src="{{ $selectedBank['logo'] }}" height="25" alt="{{ $selectedBank['nama'] }}">
-                    <span class="fw-bold">{{ $selectedBank['nama'] }}</span>
+                    <img src="<?php echo e($selectedBank['logo']); ?>" height="25" alt="<?php echo e($selectedBank['nama']); ?>">
+                    <span class="fw-bold"><?php echo e($selectedBank['nama']); ?></span>
                 </div>
                 
                 <div class="va-box">
                     <p class="mb-1 text-muted">No. Rekening / Virtual Account</p>
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="va-number">{{ $selectedBank['va'] }}</span>
+                        <span class="va-number"><?php echo e($selectedBank['va']); ?></span>
                         <button class="btn-copy" onclick="alert('Nomor VA berhasil disalin!')">SALIN</button>
                     </div>
                 </div>
                 <p class="text-muted-small" style="color: #00bfa5 !important;">Proses verifikasi kurang dari 10 menit setelah pembayaran berhasil</p>
             </div>
 
-            <div class="instruction-title">Petunjuk Transfer Virtual Account {{ $selectedBank['nama'] }}</div>
+            <div class="instruction-title">Petunjuk Transfer Virtual Account <?php echo e($selectedBank['nama']); ?></div>
             <ul class="instruction-list">
                 <li><span class="step-number">1</span> Masuk dan login ke aplikasi m-banking atau internet banking kamu.</li>
                 <li><span class="step-number">2</span> Pilih menu <strong>Transfer</strong> lalu pilih <strong>Virtual Account</strong>.</li>
-                <li><span class="step-number">3</span> Masukkan nomor Virtual Account <strong>{{ $selectedBank['va'] }}</strong>, dan klik Lanjutkan.</li>
+                <li><span class="step-number">3</span> Masukkan nomor Virtual Account <strong><?php echo e($selectedBank['va']); ?></strong>, dan klik Lanjutkan.</li>
                 <li><span class="step-number">4</span> Periksa informasi di layar. Pastikan nama merchant adalah LoopWear.</li>
                 <li><span class="step-number">5</span> Masukkan PIN dan tunggu transaksimu selesai diproses.</li>
             </ul>
 
-        {{-- KONDISI 3: JIKA MEMILIH COD --}}
-            @elseif($payment_method == 'cod')
+        
+            <?php elseif($payment_method == 'cod'): ?>
             <div class="qris-box py-5">
                 <h1 style="font-size: 4rem;">📦</h1>
                 <h4 class="text-orange mt-3">Bayar di Tempat (COD)</h4>
-                <p class="text-muted">Pesananmu akan segera dikemas dan dikirim.<br>Silakan siapkan uang tunai sebesar <strong>Rp {{ number_format($order->total_price, 0, ',', '.') }}</strong> saat kurir datang.</p>
+                <p class="text-muted">Pesananmu akan segera dikemas dan dikirim.<br>Silakan siapkan uang tunai sebesar <strong>Rp <?php echo e(number_format($order->total_price, 0, ',', '.')); ?></strong> saat kurir datang.</p>
             </div>
-        @endif
+        <?php endif; ?>
 
-        {{-- TOMBOL TRIGGER MIDTRANS --}}
+        
         <hr class="my-4">
         <p class="text-center text-muted-small mb-2">PENTING: Karena ini sistem percobaan, silakan klik tombol di bawah untuk memproses pembayaran sesungguhnya melalui Midtrans Gateway.</p>
         <button id="pay-button" class="btn-midtrans">Verifikasi Pembayaran via Midtrans</button>
     </div>
 </div>
 
-{{-- SCRIPT MIDTRANS SNAP --}}
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo e(env('MIDTRANS_CLIENT_KEY')); ?>"></script>
 <script>
     // Trigger pop-up Midtrans saat tombol diklik
     document.getElementById('pay-button').onclick = function(){
-        snap.pay('{{ $snapToken }}', {
+        snap.pay('<?php echo e($snapToken); ?>', {
             // Jika pembayaran berhasil
             onSuccess: function(result){
-                window.location.href = "{{ route('checkout.success') }}";
+                window.location.href = "<?php echo e(route('checkout.success')); ?>";
             },
             // Jika pembayaran tertunda (misal pilih transfer VA)
             onPending: function(result){
-                window.location.href = "{{ route('checkout.success') }}"; 
+                window.location.href = "<?php echo e(route('checkout.success')); ?>"; 
             },
             // Jika pembayaran gagal
             onError: function(result){
@@ -172,4 +170,5 @@
     document.getElementById('duedate').innerText = tomorrow.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/payment.blade.php ENDPATH**/ ?>
