@@ -22,7 +22,8 @@ class CheckoutController extends Controller
 
         $order = Order::create([
             'user_id' => auth()->id(),
-            'order_number' => 'LW-' . time(),
+            // FIX: Tambahkan rand() biar Order ID selalu unik!
+            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
             'total_price' => $grand_total,
             'status_payment' => 'pending',
             'address' => $request->address,
@@ -34,15 +35,18 @@ class CheckoutController extends Controller
         Config::$is3ds = true;
 
         $params = [
-           'transaction_details' => [
+            'transaction_details' => [
                 'order_id' => $order->order_number,
-                'gross_amount' => $order->total_price,
+                'gross_amount' => $grand_total,
             ],
             'customer_details' => [
-                'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-            ],
-        ];
+                'first_name' => $request->nama,
+                'email' => $request->email,
+                'billing_address' => [
+                    'address' => $request->alamat
+                ]
+            ]
+        ]; // Koma dan kode expiry di bawah sini dihapus aja
 
         $snapToken = Snap::getSnapToken($params);
         $order->update(['snap_token' => $snapToken]);
@@ -117,7 +121,8 @@ class CheckoutController extends Controller
         // 1. Simpan ke tabel Orders
         $order = Order::create([
             'user_id' => auth()->id(),
-            'order_number' => 'LW-' . time(),
+            // FIX: Tambahkan rand() biar Order ID selalu unik!
+            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
             'total_price' => $grand_total, // Simpan harga keseluruhan
             'status_payment' => 'pending',
             'address' => $request->alamat
@@ -132,9 +137,6 @@ class CheckoutController extends Controller
                 'harga' => $item['harga'],
                 'qty' => $item['qty']
             ]);
-            
-            // Opsional: Hapus barang yang sudah dicheckout dari session cart
-            // unset($cart[$id]);
         }
         session()->put('cart', $cart);
 
@@ -158,7 +160,6 @@ class CheckoutController extends Controller
             ]
         ];
 
-// ... kode midtrans kamu sebelumnya
         $snapToken = Snap::getSnapToken($params);
 
         // Tangkap metode pembayaran DAN bank yang dipilih

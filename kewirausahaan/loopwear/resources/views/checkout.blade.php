@@ -43,65 +43,6 @@
     .table-produk th { color: #888; font-weight: 600; padding-bottom: 15px; border-bottom: 1px solid #eee; }
     .table-produk td { padding: 20px 0; border-bottom: 1px dashed #eee; vertical-align: middle; }
 
-    /* Radio Button Pembayaran Custom */
-    .payment-label { cursor: pointer; margin-right: 15px; margin-bottom: 10px; display: inline-block; }
-    .payment-label input { display: none; }
-    .payment-box { border: 1px solid #ddd; padding: 10px 20px; border-radius: 8px; transition: 0.3s; color: #555; font-weight: 600; background: #fff; }
-    
-    /* Efek saat diklik (Active) */
-    .payment-label input:checked + .payment-box {
-        border-color: #E7998B; /* Warna Pink LoopWear */
-        color: #E7998B;
-        background-color: #fffaf9;
-        position: relative;
-    }
-    
-    /* Tambahan centang merah kecil di sudut ala Shopee */
-    .payment-label input:checked + .payment-box::after {
-        content: '✔';
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background: #E7998B;
-        color: white;
-        font-size: 8px;
-        padding: 2px 4px;
-        border-radius: 4px 0 4px 0;
-    }
-
-    /* CSS DAFTAR BANK ALA SHOPEE */
-    .bank-list-wrapper {
-        display: none; /* Disembunyikan secara default */
-        border-top: 1px solid #f0f0f0;
-        margin-top: 25px;
-        padding-top: 25px;
-    }
-    .bank-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 18px;
-        cursor: pointer;
-    }
-    .bank-item input[type="radio"] {
-        accent-color: #ee4d2d; /* Warna merah radio button Shopee */
-        width: 18px;
-        height: 18px;
-        margin-right: 15px;
-        cursor: pointer;
-    }
-    .bank-logo {
-        width: 45px;
-        height: 30px;
-        object-fit: contain;
-        margin-right: 15px;
-        border: 1px solid #eee;
-        border-radius: 4px;
-        padding: 3px;
-        background: #fff;
-    }
-    .bank-name { font-size: 0.95rem; color: #333; }
-    .bank-name small { display: block; color: #888; font-size: 0.8rem; margin-top: 2px; }
-
     /* Ringkasan Pembayaran */
     .summary-text { color: #777; font-size: 0.95rem; }
     .summary-total { font-size: 1.8rem; font-weight: bold; color: #E7998B; }
@@ -180,85 +121,9 @@
             </div>
         </div>
 
-        {{-- BAGIAN 3: METODE PEMBAYARAN & PILIH BANK --}}
+        {{-- BAGIAN 3: RINCIAN TOTAL PEMBAYARAN --}}
         <div class="checkout-card">
-            
-            {{-- Wrapper Area Pembayaran --}}
-            <div class="border-bottom pb-4 mb-4">
-                <div class="row align-items-center">
-                    <div class="col-md-3">
-                        <div class="section-title mb-0" style="font-size: 1.1rem;">Metode Pembayaran</div>
-                    </div>
-                    <div class="col-md-9">
-                        <label class="payment-label">
-                            {{-- Kita pasang id="pay-qris" dll biar Javascript gampang ngenalin --}}
-                            <input type="radio" name="payment" value="qris" class="payment-radio" checked>
-                            <div class="payment-box">QRIS</div>
-                        </label>
-                        <label class="payment-label">
-                            <input type="radio" name="payment" value="transfer" class="payment-radio">
-                            <div class="payment-box">Transfer Bank</div>
-                        </label>
-                        <label class="payment-label">
-                            <input type="radio" name="payment" value="cod" class="payment-radio">
-                            <div class="payment-box">COD</div>
-                        </label>
-                    </div>
-                </div>
-
-                {{-- KOTAK PILIH BANK (Akan Muncul kalau Transfer Bank diklik) --}}
-                <div class="row bank-list-wrapper" id="bank-list-wrapper">
-                    <div class="col-md-3">
-                        <div class="section-title mb-0" style="font-size: 1rem; color: #333; font-family: 'Quicksand', sans-serif;">Pilih Bank</div>
-                    </div>
-                    <div class="col-md-9">
-                        
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="bca">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" class="bank-logo" alt="BCA">
-                            <span class="bank-name">Bank BCA</span>
-                        </label>
-
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="mandiri">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" class="bank-logo" alt="Mandiri">
-                            <span class="bank-name">Bank Mandiri</span>
-                        </label>
-
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="bni">
-                            <img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/512px-BNI_logo.svg.png" class="bank-logo" alt="BNI">
-                            <span class="bank-name">Bank BNI</span>
-                        </label>
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="bri">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/BRI_2020.svg" class="bank-logo" alt="BRI">
-                            <span class="bank-name">Bank BRI</span>
-                        </label>
-
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="bsi" checked>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Bank_Syariah_Indonesia.svg" class="bank-logo" alt="BSI">
-                            <span class="bank-name">Bank Syariah Indonesia (BSI)</span>
-                        </label>
-
-                        <label class="bank-item">
-                            <input type="radio" name="bank" value="lainnya">
-                            <div class="bank-logo d-flex align-items-center justify-content-center" style="background: #f0f0f0;">
-                                <span style="font-size: 1.2rem;">🏛️</span>
-                            </div>
-                            <span class="bank-name">
-                                Bank lainnya
-                                <small>Menerima transfer dari semua bank.</small>
-                            </span>
-                        </label>
-
-                    </div>
-                </div>
-            </div>
-
-            {{-- RINCIAN TOTAL --}}
-            <div class="row justify-content-end text-end mt-2">
+            <div class="row justify-content-end text-end">
                 <div class="col-md-5 col-lg-4">
                     <div class="d-flex justify-content-between mb-2 summary-text">
                         <span>Subtotal untuk Produk</span>
@@ -272,8 +137,12 @@
                         <span>Biaya Layanan</span>
                         <span>Rp {{ number_format($biaya_layanan, 0, ',', '.') }}</span>
                     </div>
+                    
+                    {{-- Garis Pemisah --}}
+                    <div class="border-top my-3"></div>
+
                     <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
-                        <span class="summary-text fs-5">Total Pembayaran</span>
+                        <span class="summary-text fs-5" style="color: #333;">Total Pembayaran</span>
                         <span class="summary-total">Rp {{ number_format($grand_total, 0, ',', '.') }}</span>
                     </div>
                     <button type="submit" class="btn-pesanan w-100">Buat Pesanan</button>
@@ -283,32 +152,4 @@
 
     </form>
 </div>
-
-{{-- SCRIPT UNTUK EFEK BUKA TUTUP (TOGGLE) BANK --}}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const paymentRadios = document.querySelectorAll('.payment-radio');
-        const bankListWrapper = document.getElementById('bank-list-wrapper');
-
-        // Fungsi mengecek mana yang lagi dipilih
-        function toggleBankList() {
-            // Cari radio button yang sedang 'checked'
-            const selectedPayment = document.querySelector('.payment-radio:checked').value;
-            
-            if (selectedPayment === 'transfer') {
-                bankListWrapper.style.display = 'flex'; // Munculkan daftar bank
-            } else {
-                bankListWrapper.style.display = 'none'; // Sembunyikan
-            }
-        }
-
-        // Jalankan saat halaman pertama kali diload
-        toggleBankList();
-
-        // Tambahkan event listener ke setiap tombol metode pembayaran
-        paymentRadios.forEach(radio => {
-            radio.addEventListener('change', toggleBankList);
-        });
-    });
-</script>
 @endsection
