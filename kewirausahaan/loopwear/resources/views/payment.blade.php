@@ -77,24 +77,28 @@
     // 1. Fungsi bawaan Midtrans saat tombol diklik
     document.getElementById('pay-button').onclick = function(){
         snap.pay('{{ $snapToken }}', {
+            // Jika pembayaran LUNAS (misal pakai QRIS/GoPay yang langsung potong saldo)
             onSuccess: function(result){
                 window.location.href = "{{ route('checkout.success') }}";
             },
+            // FIX: Jika pembayaran MENUNGGU (misal Transfer VA, lalu pop-up ditutup)
             onPending: function(result){
-                window.location.href = "{{ route('checkout.success') }}"; 
+                // Hapus redirect-nya, ganti dengan alert peringatan
+                alert("Nomor Virtual Account telah dibuat! Silakan lakukan transfer sesuai nominal. \n\nKamu bisa mengeklik tombol 'Selesaikan Pembayaran' lagi jika ingin melihat nomor rekeningnya kembali.");
             },
+            // Jika pembayaran gagal
             onError: function(result){
                 alert("Pembayaran gagal! Silakan coba lagi.");
             },
+            // Jika pop-up ditutup sebelum memilih metode apapun
             onClose: function(){
-                // Dibiarkan kosong agar pelanggan tetap di halaman ini jika pop-up ditutup
+                // Dibiarkan kosong agar pelanggan tetap di halaman ini
             }
         });
     };
 
     // 2. OTOMATIS BUKA POP-UP SAAT HALAMAN DIMUAT
     window.onload = function() {
-        // Beri sedikit jeda 500ms agar halaman tampil cantik dulu, baru pop-up muncul
         setTimeout(function() {
             document.getElementById('pay-button').click();
         }, 500);
