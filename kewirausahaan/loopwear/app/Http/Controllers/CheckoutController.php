@@ -96,8 +96,9 @@ class CheckoutController extends Controller
         }
 
         // Jika user belum punya alamat di akunnya, simpan alamat yang dia ketik ini ke akunnya
+        // Jika user SEDANG LOGIN dan belum punya alamat, simpan alamatnya
         $user = auth()->user();
-        if (empty($user->alamat)) {
+        if ($user && empty($user->alamat)) {
             $user->update([
                 'alamat' => $request->alamat
             ]);
