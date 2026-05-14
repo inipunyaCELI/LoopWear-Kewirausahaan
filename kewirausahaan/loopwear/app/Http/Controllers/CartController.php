@@ -15,45 +15,66 @@ class CartController extends Controller
 
     public function add($id)
     {
-        $item = Mbarang::findOrFail($id);
         $cart = session()->get('cart', []);
+        $barang = \App\Models\Mbarang::findOrFail($id);
 
         if(isset($cart[$id])) {
             $cart[$id]['qty']++;
         } else {
             $cart[$id] = [
-                "nama" => $item->nama_barang,
-                "harga" => $item->harga,
-                "gambar" => $item->gambar,
-                "qty" => 1
+                "id_barang" => $barang->id_barang,
+                "nama"      => $barang->nama_barang,
+                "harga"     => $barang->harga,
+                "gambar"    => $barang->gambar,
+                "qty"       => 1
             ];
         }
 
         session()->put('cart', $cart);
-        return back();
+
+        // Menghapus item dari wishlist jika ada saat ditambahkan ke keranjang
+        $wishlist = session()->get('wishlist', []);
+        if(isset($wishlist[$id])) {
+            unset($wishlist[$id]); 
+            session()->put('wishlist', $wishlist); 
+        }
+
+        return back()->with('success', 'Produk berhasil dipindah ke Keranjang! 🛒');
     }
 
     public function update(Request $request, $id)
     {
-         $cart = session()->get('cart');
+        $cart = session()->get('cart', []);
 
-        if ($request->type == 'plus') {
-            $cart[$id]['qty']++;
-        } else {
-            $cart[$id]['qty']--;
+        if(isset($cart[$id])) {
+            // Logika untuk tombol increase (+) dan decrease (-)
+            if ($request->has('action')) {
+                if ($request->action == 'increase') {
+                    $cart[$id]['qty']++;
+                } elseif ($request->action == 'decrease' && $cart[$id]['qty'] > 1) {
+                    $cart[$id]['qty']--;
+                }
+            } 
+            // Tetap mendukung input manual jika qty lebih dari 0
+            elseif ($request->has('qty') && $request->qty > 0) {
+                $cart[$id]['qty'] = $request->qty;
+            }
+
+            session()->put('cart', $cart);
         }
 
-        session()->put('cart', $cart);
-
-    return back();
+        return back()->with('success', 'Jumlah barang diperbarui!');
     }
 
     public function remove($id)
     {
-        $cart = session()->get('cart');
-        unset($cart[$id]);
-        session()->put('cart', $cart);
+        $cart = session()->get('cart', []);
 
-        return back();
+        if(isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+
+        return back()->with('success', 'Produk dihapus dari Keranjang.');
     }
 }

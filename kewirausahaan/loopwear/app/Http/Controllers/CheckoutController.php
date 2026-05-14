@@ -11,148 +11,168 @@ use Midtrans\Snap;
 
 class CheckoutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function process (Request $request)
+    // Ini fungsi jika user checkout 1 barang langsung (beli sekarang)
+    public function process(Request $request)
     {
         $barang = Mbarang::findOrFail($request->id_barang);
+        
+        $ongkir = 10000;
+        $biaya_layanan = 2000;
+        $grand_total = $barang->harga + $ongkir + $biaya_layanan;
 
         $order = Order::create([
             'user_id' => auth()->id(),
-            'order_number' => 'LW-' . time(),
-            'total_price' => $barang->harga,
+            // FIX: Tambahkan rand() biar Order ID selalu unik!
+            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
+            'total_price' => $grand_total,
             'status_payment' => 'pending',
             'address' => $request->address,
         ]);
 
-        Config::$serverKey = config('midtrans.server_key'); 
+        Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY'); 
         Config::$isProduction = false;
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
         $params = [
-           'transaction_details' => [
+            'transaction_details' => [
                 'order_id' => $order->order_number,
-                'gross_amount' => $order->total_price,
+                'gross_amount' => $grand_total,
             ],
             'customer_details' => [
-                'first_name' => auth()->user()->name,
-                'email' => auth()->user()->email,
+                'first_name' => $request->nama,
+                'email' => $request->email,
+                'billing_address' => [
+                    'address' => $request->alamat
+                ]
+            ]
+        ]; // Koma dan kode expiry di bawah sini dihapus aja
+
+        $snapToken = Snap::getSnapToken($params);
+        $order->update(['snap_token' => $snapToken]);
+
+        return view('payment', compact('order', 'snapToken'));
+    }
+
+    // Ini fungsi untuk memunculkan Halaman Checkout (dari Keranjang)
+    public function index(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $selected = $request->selected ?? [];
+
+        if (empty($selected)) {
+            return redirect()->route('cart.index')->with('error', 'Pilih minimal satu barang untuk di-checkout.');
+        }
+
+        $checkout_items = [];
+        $subtotal = 0;
+
+        foreach ($selected as $id) {
+            if(isset($cart[$id])) {
+                $checkout_items[$id] = $cart[$id];
+                $subtotal += $cart[$id]['harga'] * $cart[$id]['qty'];
+            }
+        }
+
+        // Tetapkan biaya tambahan (Bisa diganti dinamis nanti kalau ada API Ekspedisi)
+        $ongkir = 10000;
+        $biaya_layanan = 2000;
+        $grand_total = $subtotal + $ongkir + $biaya_layanan;
+
+        // Bawa data ke halaman checkout
+        return view('checkout', compact('checkout_items', 'selected', 'subtotal', 'ongkir', 'biaya_layanan', 'grand_total'));
+    }
+
+    public function create() {}
+
+    // Ini fungsi saat tombol "Buat Pesanan" diklik
+    public function store(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $selected = $request->selected ?? [];
+
+        if(empty($selected)){
+            return back()->with('error', 'Data pesanan tidak valid.');
+        }
+
+        // Jika user belum punya alamat di akunnya, simpan alamat yang dia ketik ini ke akunnya
+        // Jika user SEDANG LOGIN dan belum punya alamat, simpan alamatnya
+        $user = auth()->user();
+        if ($user && empty($user->alamat)) {
+            $user->update([
+                'alamat' => $request->alamat
+            ]);
+        }
+
+        $subtotal = 0;
+        $itemsDipilih = [];
+
+        foreach ($selected as $id) {
+            if(isset($cart[$id])) {
+                $item = $cart[$id];
+                $subtotal += $item['harga'] * $item['qty'];
+                $itemsDipilih[$id] = $item;
+            }
+        }
+
+        $ongkir = 10000;
+        $biaya_layanan = 2000;
+        $grand_total = $subtotal + $ongkir + $biaya_layanan;
+
+        // 1. Simpan ke tabel Orders
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            // FIX: Tambahkan rand() biar Order ID selalu unik!
+            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
+            'total_price' => $grand_total, // Simpan harga keseluruhan
+            'status_payment' => 'pending',
+            'address' => $request->alamat
+        ]);
+
+        // 2. Simpan per item ke tabel OrderItems
+        foreach ($itemsDipilih as $id => $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'barang_id' => $id,
+                'nama_barang' => $item['nama'],
+                'harga' => $item['harga'],
+                'qty' => $item['qty']
+            ]);
+        }
+        session()->put('cart', $cart);
+
+        // 3. Request Token Midtrans
+        Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = false;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $order->order_number,
+                'gross_amount' => $grand_total,
             ],
+            'customer_details' => [
+                'first_name' => $request->nama,
+                'email' => $request->email,
+                'billing_address' => [
+                    'address' => $request->alamat
+                ]
+            ]
         ];
 
         $snapToken = Snap::getSnapToken($params);
 
-        $order->update(['snap_token' => $snapToken]);
+        // Tangkap metode pembayaran DAN bank yang dipilih
+        $payment_method = $request->payment; 
+        $bank = $request->bank ?? 'bsi'; // Default ke bsi kalau kosong
 
-        return view('checkout', compact('order', 'snapToken'));
+        // Bawa $bank ke halaman view
+        return view('payment', compact('order', 'snapToken', 'payment_method', 'bank'));
     }
 
-    public function index()
-    {
-        $cart = session()->get('cart', []);
-
-        return view('checkout', compact('cart'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-{
-    $cart = session()->get('cart', []);
-
-    if(empty($cart)){
-        return back()->with('error', 'Cart kosong');
-    }
-
-    $total = 0;
-    foreach ($cart as $item) {
-        $total += $item['harga'] * $item['qty'];
-    }
-
-    $order = Order::create([
-        'nama' => $request->nama,
-        'email' => $request->email,
-        'alamat' => $request->alamat,
-        'total' => $total,
-        'status' => 'pending'
-    ]);
-
-    foreach ($cart as $item) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'nama_barang' => $item['nama'],
-            'harga' => $item['harga'],
-            'qty' => $item['qty']
-        ]);
-    }
-
-    Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-    Config::$isProduction = false;
-    Config::$isSanitized = true;
-    Config::$is3ds = true;
-
-    $params = [
-        'transaction_details' => [
-            'order_id' => $order->id,
-            'gross_amount' => $total,
-        ],
-        'customer_details' => [
-            'first_name' => $request->nama,
-            'email' => $request->email,
-        ]
-    ];
-
-    $snapToken = Snap::getSnapToken($params);
-
-    $order->update([
-        'snap_token' => $snapToken
-    ]);
-
-    return view('payment', compact('order', 'snapToken'));
+    public function show(string $id) {}
+    public function edit(string $id) {}
+    public function update(Request $request, string $id) {}
+    public function destroy(string $id) {}
 }
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-}
-
-
-

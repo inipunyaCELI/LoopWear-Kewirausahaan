@@ -14,14 +14,22 @@ class AuthController extends Controller
     }
 
     public function auth(Request $request) {
+        // Tambahkan regex dan custom message
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'email' => ['required', 'email', 'regex:/^[a-zA-Z0-9.]+@gmail\.com$/'],
             'password' => 'required'
+        ], [
+            'email.regex' => 'Format email salah! Gunakan hanya huruf, angka, dan wajib diakhiri @gmail.com'
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/barang'); // Langsung ke halaman admin
+
+            if (auth()->user()->role == 'admin') {
+                return redirect('/dashboard'); 
+            }
+
+            return redirect('/'); 
         }
 
         return back()->with('loginError', 'Email atau password salah!');
@@ -32,13 +40,18 @@ class AuthController extends Controller
     }
 
     public function storeRegister(Request $request) {
+        // Samakan regex di registrasi agar data yang masuk juga valid
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => ['required', 'email', 'unique:users', 'regex:/^[a-zA-Z0-9.]+@gmail\.com$/'],
             'password' => 'required|min:5'
+        ], [
+            'email.regex' => 'Email hanya boleh berisi huruf/angka dan wajib berakhiran @gmail.com'
         ]);
 
-        $data['password'] = Hash::make($data['password']); // Enkripsi password
+        $data['password'] = Hash::make($data['password']);
+
+        $data['role'] = 'user';
 
         User::create($data);
 
