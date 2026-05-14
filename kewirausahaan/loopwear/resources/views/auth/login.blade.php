@@ -195,6 +195,34 @@
             <input type="email" name="email" placeholder="EMAIL" required />
             <input type="password" name="password" placeholder="PASSWORD" required />
             <button type="submit" class="btn-auth btn-solid">SIGN UP</button>
+
+            <div style="width: 90%; display: flex; align-items: center; margin: 10px 0;">
+                <hr style="flex: 1; border-color: #ddd;">
+                <span style="margin: 0 10px; color: #aaa; font-size: 13px; font-weight: 600;">OR</span>
+                <hr style="flex: 1; border-color: #ddd;">
+            </div>
+    
+            <a href="{{ route('google.login') }}" style="width: 90%; text-decoration: none;">
+                <button type="button" style="
+                width: 100%;
+                padding: 13px 0;
+                border-radius: 50px;
+                border: 2px solid #ddd;
+                background: #fff;
+                color: #47510B;
+                font-family: 'Quicksand', sans-serif;
+                font-weight: 700;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            ">
+                <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
+                SIGN UP WITH GOOGLE
+                </button>
+            </a>
         </form>
 
         {{-- 2. FORM LOGIN --}}
@@ -205,6 +233,33 @@
             <input type="password" name="password" placeholder="PASSWORD" required />
             <a class="forgot-pass-trigger" id="toForgotBtn">Forgot your password?</a>
             <button type="submit" class="btn-auth btn-solid">SIGN IN</button>
+
+            <div style="width: 90%; display: flex; align-items: center; margin: 10px 0;">
+                <hr style="flex: 1; border-color: #ddd;">
+                <span style="margin: 0 10px; color: #aaa; font-size: 13px; font-weight: 600;">OR</span>
+                <hr style="flex: 1; border-color: #ddd;">
+            </div>
+            <a href="{{ route('google.login') }}" style="width: 90%; text-decoration: none;">
+                <button type="button" style="
+                width: 100%;
+                padding: 13px 0;
+                border-radius: 50px;
+                border: 2px solid #ddd;
+                background: #fff;
+                color: #47510B;
+                font-family: 'Quicksand', sans-serif;
+                font-weight: 700;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            ">
+                <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
+                CONTINUE WITH GOOGLE
+                </button>
+            </a>
         </form>
 
         {{-- 3. FORM FORGOT PASSWORD --}}
