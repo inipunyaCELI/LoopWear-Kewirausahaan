@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap');
 
@@ -83,7 +81,7 @@
 
 <div class="container py-5">
     <div class="text-center mb-5 mt-4">
-        <img src="{{ asset('images/logo_loop.png') }}" alt="Loop Logo" style="max-width: 300px;" class="mb-4">
+        <img src="<?php echo e(asset('images/logo_loop.png')); ?>" alt="Loop Logo" style="max-width: 300px;" class="mb-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <p class="about-text mb-4">
@@ -127,4 +125,5 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\KULIAH\SEMESTER 2\KEWIR\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/about.blade.php ENDPATH**/ ?>

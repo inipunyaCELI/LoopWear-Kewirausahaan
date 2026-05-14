@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
@@ -129,7 +127,7 @@
     <div class="row w-100 align-items-center justify-content-center">
         
         <div class="col-md-4 text-center mb-4 mb-md-0 logo-wrapper">
-            <img src="{{ asset('images/logo_loop.png') }}" alt="LoopWear Logo" class="img-fluid" style="max-width: 380px;">
+            <img src="<?php echo e(asset('images/logo_loop.png')); ?>" alt="LoopWear Logo" class="img-fluid" style="max-width: 380px;">
         </div>
 
         <div class="col-md-4 col-lg-3 mb-4 mb-md-0 ps-md-4">
@@ -199,4 +197,5 @@
 
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\KULIAH\SEMESTER 2\KEWIR\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/contact.blade.php ENDPATH**/ ?>

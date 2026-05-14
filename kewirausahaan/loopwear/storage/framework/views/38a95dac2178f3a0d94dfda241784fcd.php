@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
     
@@ -39,20 +37,22 @@
         width: 100%; 
         aspect-ratio: 1 / 1; 
         object-fit: cover; 
-        object-position: center; 
-        border-radius: 10px; 
+        object-position: center; /* Fokus crop ada di tengah */
+        border-radius: 10px; /* Opsional, kasih border radius dikit biar rapi */
         transition: transform 0.3s ease;
     }
     
+    /* Efek hover untuk banner */
     .banner-wrapper:hover .banner-img {
         transform: scale(1.03);
     }
     
+    /* Product Cards (Grid Produk) */
     .product-img { 
         width: 100%; 
         height: 380px; 
         object-fit: cover; 
-        border-radius: 15px;
+        border-radius: 15px; /* Opsional, biar lebih modis */
         transition: transform 0.3s ease;
     }
     .product-img-wrapper {
@@ -76,6 +76,7 @@
         color: #555; 
     }
     
+    /* Buttons */
     .btn-view-all { 
         border-radius: 50px; 
         font-weight: 600; 
@@ -170,89 +171,91 @@
     <div class="row justify-content-center g-4 mb-5 pb-4 text-center">
         <div class="col-md-6 col-lg-5 banner-wrapper">
             <a href="#hijab" class="text-decoration-none" style="display: block;">
-                <img src="{{ asset('images/banner-hijab.png') }}" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                <img src="<?php echo e(asset('images/banner-hijab.png')); ?>" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                 <h4 class="title-kategori color-hijab" style="font-size: 1.5rem;">Hijab LoopWear</h4>
             </a>
         </div>
         
         <div class="col-md-6 col-lg-5 banner-wrapper">
             <a href="#baju" class="text-decoration-none" style="display: block;">
-                <img src="{{ asset('images/banner-baju.png') }}" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                <img src="<?php echo e(asset('images/banner-baju.png')); ?>" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                 <h4 class="title-kategori color-baju" style="font-size: 1.5rem;">Baju LoopWear</h4>
             </a>
         </div>
         
         <div class="col-md-6 col-lg-5 banner-wrapper">
             <a href="#celana" class="text-decoration-none" style="display: block;">
-                <img src="{{ asset('images/banner-celana.png') }}" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                <img src="<?php echo e(asset('images/banner-celana.png')); ?>" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                 <h4 class="title-kategori color-celana" style="font-size: 1.5rem;">Celana LoopWear</h4>
             </a>
         </div>
         
         <div class="col-md-6 col-lg-5 banner-wrapper">
             <a href="#sepatu" class="text-decoration-none" style="display: block;">
-                <img src="{{ asset('images/banner-sepatu.png') }}" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                <img src="<?php echo e(asset('images/banner-sepatu.png')); ?>" class="img-fluid banner-img mb-3 shadow-sm" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                 <h4 class="title-kategori color-sepatu" style="font-size: 1.5rem;">Sepatu LoopWear</h4>
             </a>
         </div>
     </div>
 
-    @php
+    <?php
         $categories = [
             'hijab' => ['title' => 'Hijab LoopWear', 'color_class' => 'color-hijab'],
             'baju' => ['title' => 'Baju LoopWear', 'color_class' => 'color-baju'],
             'celana' => ['title' => 'Celana LoopWear', 'color_class' => 'color-celana'],
             'sepatu' => ['title' => 'Sepatu LoopWear', 'color_class' => 'color-sepatu']
         ];
-    @endphp
+    ?>
 
-    @foreach($categories as $key => $cat)
-<section id="{{ $key }}" class="mb-5 pb-4">
+    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+<section id="<?php echo e($key); ?>" class="mb-5 pb-4">
     <div class="text-center mb-4">
-        <h2 class="title-kategori {{ $cat['color_class'] }}">{{ $cat['title'] }}</h2>
+        <h2 class="title-kategori <?php echo e($cat['color_class']); ?>"><?php echo e($cat['title']); ?></h2>
     </div>
 
     <div class="row justify-content-center g-4 mb-4">
-        @forelse(collect($data[$key])->take(3) as $item)
+        <?php $__empty_1 = true; $__currentLoopData = collect($data[$key])->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-md-4">
             <div class="text-center">
-                <a href="{{ route('user.products.detail', $item->id_barang) }}" class="text-decoration-none text-dark">
+                <a href="<?php echo e(route('user.products.detail', $item->id_barang)); ?>" class="text-decoration-none text-dark">
                     <div class="product-img-wrapper">
-                        <img src="{{ asset('images/' . $item->gambar) }}" class="product-img" 
-                             onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                        <img src="<?php echo e(asset('images/' . $item->gambar)); ?>" class="product-img" 
+                             onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                     </div>
-                    <h6 class="product-name">{{ $item->nama_barang }}</h6>
+                    <h6 class="product-name"><?php echo e($item->nama_barang); ?></h6>
                 </a>
                 <div class="product-meta">
                     <span class="price">
-                        Rp {{ number_format($item->harga, 0, ',', '.') }}
+                        Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?>
+
                     </span>
 
                     <span class="divider">|</span>
 
-                    <form action="{{ route('wishlist.add', $item->id_barang) }}" method="POST" style="display:inline;">
-                        @csrf
+                    <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline;">
+                        <?php echo csrf_field(); ?>
                         <button class="icon love">❤️</button>
                     </form>
 
-                    <form action="{{ route('cart.add', $item->id_barang) }}" method="POST" style="display:inline;">
-                        @csrf
+                    <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST" style="display:inline;">
+                        <?php echo csrf_field(); ?>
                         <button class="icon cart">🛒</button>
                     </form>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="{{ route('category.show', $key) }}" class="btn-view-all">
+                    <a href="<?php echo e(route('category.show', $key)); ?>" class="btn-view-all">
                         VIEW ALL
                     </a>
                 </div>
             </div>
         </div>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <div class="col-12 text-center text-muted fst-italic">Koleksi belum tersedia.</div>
-        @endforelse
+        <?php endif; ?>
     </div>
 </section>
-@endforeach
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\KULIAH\SEMESTER 2\KEWIR\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/products.blade.php ENDPATH**/ ?>
