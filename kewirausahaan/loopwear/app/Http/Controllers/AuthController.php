@@ -74,21 +74,32 @@ class AuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             
-            $user = User::updateOrCreate([
-                'email' => $googleUser->email,
-            ], [
-                'name' => $googleUser->name,
-                'google_id' => $googleUser->id,
-                'password' => bcrypt('loopwear123'), 
-            ]);
+            $user = User::where('email', $googleUser->email)->first();
 
-            Auth::login($user);
+            if (!$user) {
+                $user = User::create([
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'google_id' => $googleUser->id,
+                    'password' => bcrypt('loopwear123'), 
+                    'role' => 'user',
+                ]);
+            
+                usleep(500000); 
+            } else {
+                if (empty($user->google_id)) {
+                    $user->update(['google_id' => $googleUser->id]);
+                }
+            }
 
+            Auth::loginUsingId($user->id);
+        
+            request()->session()->regenerate();
+            request()->session()->save();
+        
             return redirect()->route('home');
-
         } catch (\Exception $e) {
             return redirect('/login')->with('error', 'Gagal login dengan Google');
         }
     }
-
 }
