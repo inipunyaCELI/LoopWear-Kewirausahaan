@@ -204,7 +204,7 @@
             <input type="email" name="email" placeholder="EMAIL" required />
             <input type="password" name="password" placeholder="PASSWORD" required />
             <a class="forgot-pass-trigger" id="toForgotBtn">Forgot your password?</a>
-            <button type="submit" class="btn-auth btn-solid">SIGN IN</button>
+            <button type="submit" class="btn-auth btn-solid">LOGIN</button>
         </form>
 
         {{-- 3. FORM FORGOT PASSWORD --}}
@@ -223,7 +223,7 @@
                 <div class="overlay-panel overlay-left">
                     <h2>WELCOME BACK!</h2>
                     <p>To keep connected with us please login with your personal info</p>
-                    <button type="button" class="btn-auth btn-outline" id="signInBtn">SIGN IN</button>
+                    <button type="button" class="btn-auth btn-outline" id="signInBtn">LOGIN</button>
                 </div>
                 
                 <div class="overlay-panel overlay-right">

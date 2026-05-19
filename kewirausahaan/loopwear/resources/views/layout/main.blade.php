@@ -4,8 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LoopWear - Preloved Store</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link 
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- SWEETALERT2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700;800&display=swap" rel="stylesheet">
+
     <style>
         body { font-family: 'Quicksand', sans-serif; background-color: #fff; }
         
@@ -17,7 +24,12 @@
             top: 0; 
             z-index: 1020; 
         }
-        .navbar-brand { font-family: 'Fredoka One'; color: #E7998B !important; font-size: 1.8rem; }
+
+        .navbar-brand { 
+            font-family: 'Fredoka One'; 
+            color: #E7998B !important; 
+            font-size: 1.8rem; 
+        }
 
         /* --- MENU TENGAH (PINK) --- */
         .nav-center-group {
@@ -27,6 +39,7 @@
             display: flex;
             align-items: center;
         }
+
         .nav-link-custom { 
             color: #E7998B !important; 
             font-weight: 700; 
@@ -34,7 +47,10 @@
             text-decoration: none;
             transition: 0.3s;
         }
-        .nav-link-custom:hover { color: #47510B !important; }
+
+        .nav-link-custom:hover { 
+            color: #47510B !important; 
+        }
 
         /* --- MENU KANAN (GRASSY GREEN) --- */
         .nav-right-link {
@@ -47,21 +63,24 @@
             align-items: center;
             font-size: 1.1rem;
         }
-        .nav-right-link:hover { color: #E7998B !important; }
+
+        .nav-right-link:hover { 
+            color: #E7998B !important; 
+        }
 
         /* --- FIX UKURAN IKON (HATI & KERANJANG) --- */
         .nav-icon-group {
-            font-size: 1.2rem !important; /* Ukuran seragam */
+            font-size: 1.2rem !important;
             text-decoration: none;
             transition: transform 0.2s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin-left: 18px; /* Jarak antar ikon */
+            margin-left: 18px;
         }
 
         .nav-icon-group:hover {
-            transform: scale(1.2); /* Membesar saat kursor lewat */
+            transform: scale(1.2);
         }
 
         /* Animasi Pop/Bounce saat dipencet */
@@ -95,14 +114,31 @@
             text-transform: lowercase;
         }
 
-        .user-icon-fix { display: flex; align-items: center; }
+        .user-icon-fix { 
+            display: flex; 
+            align-items: center; 
+        }
 
         /* --- PRODUCT STYLING (GLOBAL) --- */
-        .product-img { width: 100%; height: 280px; object-fit: cover; border-radius: 15px; }
-        .product-img-wrapper { overflow: hidden; margin-bottom: 15px; border-radius: 15px; }
-        .product-img-wrapper:hover .product-img { transform: scale(1.05); }
+        .product-img { 
+            width: 100%; 
+            height: 280px; 
+            object-fit: cover; 
+            border-radius: 15px; 
+        }
+
+        .product-img-wrapper { 
+            overflow: hidden; 
+            margin-bottom: 15px; 
+            border-radius: 15px; 
+        }
+
+        .product-img-wrapper:hover .product-img { 
+            transform: scale(1.05); 
+        }
     </style>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
@@ -137,18 +173,20 @@
                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                         </svg>
                     </span>
+
                     <span>{{ Str::limit(auth()->user()->name, 5, '') }}</span>
                 </div>
                 
                 @if(auth()->user()->role == 'admin')
                     <a href="/dashboard" class="nav-right-link">Dashboard</a>
                 @endif
+
                 <a href="/logout" class="nav-right-link">Logout</a>
+
             @else
                 <a href="/login" class="nav-right-link">👤 Login</a>
             @endauth
         </div>
-
     </div>
 </nav>
 
@@ -156,6 +194,31 @@
     @yield('konten')
 </main>
 
+{{-- SWEET ALERT SUCCESS --}}
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: '{{ session('success') }}',
+        showConfirmButton: false,
+        timer: 2000
+    });
+</script>
+@endif
+
+{{-- SWEET ALERT ERROR --}}
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: '{{ session('error') }}'
+    });
+</script>
+@endif
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

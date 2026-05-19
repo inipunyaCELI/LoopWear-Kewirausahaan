@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     /* Tipografi khas Loopwear */
     .add-container { font-family: 'Quicksand', sans-serif; }
@@ -65,16 +63,16 @@
         </div>
         
         <div class="card-body p-4 p-md-5">
-            <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
+            <form action="<?php echo e(route('barang.store')); ?>" method="POST" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
                 <div class="row">
-                    {{-- BARIS 1: NAMA BARANG (Full Width) --}}
+                    
                     <div class="col-12 mb-4">
                         <label class="form-label-loop">Nama Barang </label>
                         <input type="text" name="nama_barang" class="form-control form-control-loop" placeholder="Contoh: Cute Lilac Cardigan" required>
                     </div>
 
-                    {{-- BARIS 2: KATEGORI & WARNA (Symmetrical) --}}
+                    
                     <div class="col-md-6 mb-4">
                         <label class="form-label-loop">Kategori</label>
                         <select name="kategori" class="form-select form-control-loop" required>
@@ -105,16 +103,16 @@
                         </select>
                     </div>
 
-                    {{-- BARIS 3: HARGA & STOK (Symmetrical) --}}
+                    
                     <div class="col-md-6 mb-4">
                         <label class="form-label-loop">Harga (Rp)</label>
                         <input type="number" name="harga" class="form-control form-control-loop" placeholder="0" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label class="form-label-loop">Stok Ready</label>
-                        <input type="number" name="stok" class="form-control form-control-loop" value="{{ old('stok', 1) }}" required>                    </div>
+                        <input type="number" name="stok" class="form-control form-control-loop" value="<?php echo e(old('stok', 1)); ?>" required>                    </div>
 
-                    {{-- BARIS 4: FOTO PRODUK (Full Width) --}}
+                    
                     <div class="col-12 mb-5">
                         <label class="form-label-loop">Foto Produk </label>
                         <input type="file" name="gambar" class="form-control form-control-loop" required>
@@ -122,13 +120,14 @@
                     </div>
                 </div>
 
-                {{-- TOMBOL AKSI --}}
+                
                 <div class="d-flex justify-content-end gap-3">
-                    <a href="{{ route('barang.index') }}" class="btn-cancel-loop">Batal</a>
+                    <a href="<?php echo e(route('barang.index')); ?>" class="btn-cancel-loop">Batal</a>
                     <button type="submit" class="btn-save-loop">Simpan Koleksi </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\KULIAH\SEMESTER 2\KEWIR\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/admin/barang/create.blade.php ENDPATH**/ ?>

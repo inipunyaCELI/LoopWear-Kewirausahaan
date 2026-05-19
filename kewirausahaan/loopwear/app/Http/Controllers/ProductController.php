@@ -13,16 +13,13 @@ class ProductController extends Controller
         return view('welcome', compact('items'));
     }
 
-    // INI HALAMAN PRODUCTS YANG ADA 4 KATEGORI
     public function center(Request $request)
     {
-        // Tarik semua data yang available
         $all_items = \App\Models\Mbarang::where('status', 'available')->get();
 
         $data = [
             'hijab'  => $all_items->filter(function($item) { return strtolower($item->kategori) == 'hijab'; }),
             
-            // Kita bikin fleksibel: mau nulis 'baju' atau 'atasan' di admin, bakal tetap masuk ke sini!
             'baju'   => $all_items->filter(function($item) { 
                 $kat = strtolower($item->kategori);
                 return $kat == 'baju' || $kat == 'atasan'; 
@@ -61,7 +58,6 @@ class ProductController extends Controller
 
     public function category($kategori)
     {
-        // Mulai pencarian barang yang available
         $query = Mbarang::where('status', 'available');
 
         // Kalau yang diklik adalah kategori "baju", kita suruh sistem nyari "baju" ATAU "atasan"
