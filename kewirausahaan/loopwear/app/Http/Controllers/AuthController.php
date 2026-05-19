@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -63,5 +64,42 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect('/login');
+    }
+
+    public function redirectToGoogle(){
+        return Socialite::driver('google')->redirect();
+    }
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            
+            $user = User::where('email', $googleUser->email)->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'google_id' => $googleUser->id,
+                    'password' => bcrypt('loopwear123'), 
+                    'role' => 'user',
+                ]);
+            
+                usleep(500000); 
+            } else {
+                if (empty($user->google_id)) {
+                    $user->update(['google_id' => $googleUser->id]);
+                }
+            }
+
+            Auth::loginUsingId($user->id);
+        
+            request()->session()->regenerate();
+            request()->session()->save();
+        
+            return redirect()->route('home');
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Gagal login dengan Google');
+        }
     }
 }
