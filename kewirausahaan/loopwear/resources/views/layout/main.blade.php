@@ -167,7 +167,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" r
             <a href="/cart" class="nav-icon-group" title="Cart">🛒</a>
 
             @auth
-                <div class="user-pill">
+                <a href="/profile/edit" class="user-pill">
                     <span class="user-icon-fix">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#A0A0A0" class="bi bi-person-fill" viewBox="0 0 16 16">
                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
@@ -175,7 +175,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" r
                     </span>
 
                     <span>{{ Str::limit(auth()->user()->name, 5, '') }}</span>
-                </div>
+                </a>
                 
                 @if(auth()->user()->role == 'admin')
                     <a href="/dashboard" class="nav-right-link">Dashboard</a>
