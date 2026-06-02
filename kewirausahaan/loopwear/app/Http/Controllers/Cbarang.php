@@ -79,7 +79,7 @@ class Cbarang extends Controller
 
             $data['gambar'] = $nama_file;
         } else {
-            $data['gambar'] = $barang->gambar;
+            unset($data['gambar']);
         }
 
         $barang->update($data);

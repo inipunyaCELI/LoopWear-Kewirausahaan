@@ -131,6 +131,8 @@ class CheckoutController extends Controller
 
             $snapToken = Snap::getSnapToken($params);
 
+            $order->update(['snap_token' => $snapToken]);
+
             return view('payment', compact('order', 'snapToken'));
         }
 

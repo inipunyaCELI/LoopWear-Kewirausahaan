@@ -222,7 +222,7 @@
         <?php $__empty_1 = true; $__currentLoopData = collect($data[$key])->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-md-4">
             <div class="text-center">
-                <a href="<?php echo e(route('user.products.detail', $item->id_barang)); ?>" class="text-decoration-none text-dark">
+                <a href="javascript:void(0)" onclick="showImageModal('<?php echo e(asset('images/' . $item->gambar)); ?>', '<?php echo e($item->nama_barang); ?>')" class="text-decoration-none text-dark">
                     <div class="product-img-wrapper">
                         <img src="<?php echo e(asset('images/' . $item->gambar)); ?>" class="product-img" 
                              onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
@@ -260,6 +260,30 @@
     </div>
 </section>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+<!-- Modal Foto Produk -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="imageModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-2">
+        <img id="modalImage" src="" class="img-fluid rounded" alt="Product Image" style="max-height: 80vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showImageModal(imgSrc, title) {
+    document.getElementById('modalImage').src = imgSrc;
+    document.getElementById('imageModalLabel').innerText = title;
+    var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+    myModal.show();
+}
+</script>
 
 </div>
 <?php $__env->stopSection(); ?>

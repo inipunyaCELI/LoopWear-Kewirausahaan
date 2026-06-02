@@ -1,13 +1,13 @@
-@extends('layout.main')
 
-@section('konten')
+
+<?php $__env->startSection('konten'); ?>
 
 <div class="container mt-5 text-center">
 
     <h3>Finalisasi Pesanan</h3>
 
-    <p>Order ID: {{ $order->id }}</p>
-    <p>Total: Rp {{ number_format($order->total_price) }}</p>
+    <p>Order ID: <?php echo e($order->id); ?></p>
+    <p>Total: Rp <?php echo e(number_format($order->total_price)); ?></p>
 
     <button id="pay-button" class="btn btn-primary">
         Bayar Sekarang
@@ -16,11 +16,11 @@
 </div>
 
 <script src="https://app.sandbox.midtrans.com/snap/snap.js"
-data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+data-client-key="<?php echo e(env('MIDTRANS_CLIENT_KEY')); ?>"></script>
 
 <script>
     document.getElementById('pay-button').onclick = function(){
-        snap.pay('{{ $snapToken }}', {
+        snap.pay('<?php echo e($snapToken); ?>', {
             // Optional
             onSuccess: function(result){
                 window.location.href = '/pesanan'; // Sesuaikan dengan route halaman sukses kamu
@@ -41,4 +41,5 @@ data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
     };
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/payment.blade.php ENDPATH**/ ?>

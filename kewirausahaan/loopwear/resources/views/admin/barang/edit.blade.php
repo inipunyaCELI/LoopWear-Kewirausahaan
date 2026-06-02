@@ -13,8 +13,10 @@
             <div class="mb-3">
                 <label>Kategori Produk</label>
                 <select name="kategori" class="form-select">
-                    <option value="atasan" {{ $barang->kategori == 'atasan' ? 'selected' : '' }}>Atasan</option>
-                    <option value="bawahan" {{ $barang->kategori == 'bawahan' ? 'selected' : '' }}>Bawahan</option>
+                    <option value="hijab" {{ $barang->kategori == 'hijab' ? 'selected' : '' }}>Hijab</option>
+                    <option value="baju" {{ $barang->kategori == 'baju' ? 'selected' : '' }}>Baju</option>
+                    <option value="celana" {{ $barang->kategori == 'celana' ? 'selected' : '' }}>Celana</option>
+                    <option value="sepatu" {{ $barang->kategori == 'sepatu' ? 'selected' : '' }}>Sepatu</option>
                 </select>
             </div>
             <div class="mb-3">

@@ -38,7 +38,8 @@
     <div class="mt-5 p-4 bg-light rounded-4 border">
         <h4>Selamat Datang, Admin!</h4>
         <p>Gunakan menu di samping untuk mengelola stok barang, melihat pesanan masuk, atau memantau pembayaran otomatis Midtrans.</p>
-        <a href="/barang" class="btn btn-dark rounded-pill px-4">Kelola Stok Barang Sekarang</a>
+        <a href="/barang" class="btn btn-dark rounded-pill px-4 me-2">Kelola Stok Barang</a>
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-dark rounded-pill px-4">Lihat Daftar Pesanan</a>
     </div>
 </div>
 @endsection

@@ -8,7 +8,8 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
-
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,11 +21,17 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
 Route::resource('barang', Cbarang::class);
+Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+Route::post('/pesanan/{id}/cancel', [PesananController::class, 'cancel'])->name('pesanan.cancel');
+Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+Route::get('/admin/orders/{id}/detail', [OrderController::class, 'detail'])->name('admin.orders.detail');
+Route::post('/admin/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+Route::post('/admin/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('admin.orders.cancel');
 });
 
 Route::get('/checkout/finish', function() {
@@ -63,3 +70,5 @@ Route::get('/checkout/success', function () {
 
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+Route::get('/review', [ReviewController::class, 'index'])->name('review.index');

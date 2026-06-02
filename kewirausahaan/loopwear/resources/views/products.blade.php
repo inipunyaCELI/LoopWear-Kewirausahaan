@@ -224,7 +224,7 @@
         @forelse(collect($data[$key])->take(3) as $item)
         <div class="col-md-4">
             <div class="text-center">
-                <a href="{{ route('user.products.detail', $item->id_barang) }}" class="text-decoration-none text-dark">
+                <a href="javascript:void(0)" onclick="showImageModal('{{ asset('images/' . $item->gambar) }}', '{{ $item->nama_barang }}')" class="text-decoration-none text-dark">
                     <div class="product-img-wrapper">
                         <img src="{{ asset('images/' . $item->gambar) }}" class="product-img" 
                              onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
@@ -261,6 +261,30 @@
     </div>
 </section>
 @endforeach
+
+<!-- Modal Foto Produk -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold" id="imageModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center pt-2">
+        <img id="modalImage" src="" class="img-fluid rounded" alt="Product Image" style="max-height: 80vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showImageModal(imgSrc, title) {
+    document.getElementById('modalImage').src = imgSrc;
+    document.getElementById('imageModalLabel').innerText = title;
+    var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+    myModal.show();
+}
+</script>
 
 </div>
 @endsection

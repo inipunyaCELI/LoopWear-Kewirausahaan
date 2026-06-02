@@ -32,7 +32,7 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        return back();
+        return back()->with('success_cart', 'Produk berhasil dimasukkan ke keranjang!');
     }
 
     public function update(Request $request, $id)
