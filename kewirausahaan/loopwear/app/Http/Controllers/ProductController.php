@@ -7,11 +7,19 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    // --- INI YANG KITA PERBAIKI AGAR NYAMBUNG KE DESAIN BARU ---
     public function index()
     {
-        $items = Mbarang::where('status', 'available')->latest()->take(4)->get();
-        return view('welcome', compact('items'));
+        // 1. Ambil 4 produk terbaru untuk 'Most Wanted Picks'
+        $latestProducts = Mbarang::where('status', 'available')->latest()->take(4)->get();
+        
+        // 2. Ambil 4 produk acak untuk 'Just For You'
+        $randomProducts = Mbarang::where('status', 'available')->inRandomOrder()->take(4)->get();
+
+        // 3. Kembalikan ke view 'welcome' membawa kedua data tersebut
+        return view('welcome', compact('latestProducts', 'randomProducts'));
     }
+    // -----------------------------------------------------------
 
     public function center(Request $request)
     {
@@ -32,7 +40,6 @@ class ProductController extends Controller
         return view('products', compact('data'));
     }
 
-    // --- INI YANG KITA PERBAIKI ---
     public function showDetail($id)
     {
         // 1. Cari barang berdasarkan id_barang
@@ -54,7 +61,6 @@ class ProductController extends Controller
         // 4. Buka file review.blade.php dan bawa data product, recommendations, dan reviews
         return view('review', compact('product', 'recommendations', 'reviews'));
     }
-    // -------------------------------------------------------------------
 
     public function category($kategori)
     {
