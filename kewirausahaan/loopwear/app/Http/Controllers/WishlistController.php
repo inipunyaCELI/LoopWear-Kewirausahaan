@@ -15,14 +15,16 @@ class WishlistController extends Controller
         return view('wishlist', compact('wishlist'));
     }
 
-    public function add($id)
+public function add($id)
     {
         $wishlist = session()->get('wishlist', []);
 
         if (!isset($wishlist[$id])) {
-            $barang = \App\Models\Mbarang::find($id);
+            // Pakai findOrFail biar lebih aman
+            $barang = \App\Models\Mbarang::findOrFail($id);
 
             $wishlist[$id] = [
+                "id_barang" => $barang->id_barang, // Aku tambahin simpan ID-nya juga
                 "nama" => $barang->nama_barang,
                 "harga" => $barang->harga,
                 "gambar" => $barang->gambar
@@ -31,9 +33,10 @@ class WishlistController extends Controller
 
         session()->put('wishlist', $wishlist);
 
-        return back()->with('success', 'Masuk ke wishlist!');
+        // Nanti pesan success ini bisa kita tampilkan pakai SweetAlert/Popup
+        return back()->with('success', 'Berhasil ditambahkan ke daftar Like!');
     }
-
+    
     public function remove($id)
 {
     $wishlist = session()->get('wishlist', []);
@@ -46,3 +49,5 @@ class WishlistController extends Controller
         return back();
     }
 }
+
+

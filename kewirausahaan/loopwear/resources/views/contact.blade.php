@@ -12,138 +12,258 @@
         min-height: 80vh;
         display: flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* RUMUS KESEJAJARAN (Tinggi 45px, Jarak 20px) */
-    .info-item {
-        display: flex;
-        align-items: center;
-        height: 45px; /* Tinggi disamakan dengan input form */
-        margin-bottom: 20px; /* Jarak bawah disamakan dengan form */
-        color: #555;
-    }
-    
-    .info-icon {
-        font-size: 1.5rem;
-        width: 40px;
-        color: #333; 
-    }
-    
-    .info-text {
-        display: flex;
-        align-items: baseline;
-        gap: 8px;
-    }
-    
-    .info-text h6 {
-        font-size: 0.85rem;
-        font-weight: 700;
-        margin: 0;
-        letter-spacing: 0.5px;
-        color: #8A9E71; 
-    }
-    
-    .info-text p {
-        font-size: 0.85rem;
-        margin: 0;
-        color: #666;
+    /* Dekorasi background subtle */
+    .contact-page::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 320px;
+        height: 320px;
+        background: radial-gradient(circle, rgba(250, 237, 75, 0.18) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
     }
 
-    /* Garis Pembatas Vertikal */
-    .vertical-divider {
-        border-left: 2px solid #8A9E71; 
-        height: 100%;
-        min-height: 350px; 
-        margin: 0 auto;
-        width: 1px;
+    .contact-page::after {
+        content: '';
+        position: absolute;
+        bottom: -60px;
+        left: -60px;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(138, 158, 113, 0.13) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
     }
 
-    /* Styling Form Input */
-    .custom-input {
-        background-color: #EBEBEB; 
-        border: none;
-        border-radius: 5px;
-        padding: 10px 15px;
-        height: 45px; /* Tinggi fix agar sejajar Info Kiri */
-        font-weight: 700;
-        font-size: 0.85rem;
-        color: #777;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05); 
-        margin-bottom: 20px; /* Jarak fix agar sejajar Info Kiri */
-        width: 100%;
-    }
-    
-    .custom-input::placeholder {
-        color: #A9A9A9;
-        letter-spacing: 1px;
-    }
-    
-    .custom-input:focus {
-        background-color: #E2E2E2;
-        outline: none;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    .contact-page .row {
+        position: relative;
+        z-index: 1;
     }
 
-    /* Khusus Kotak Pesan (Digabung 2 Baris) */
-    textarea.custom-input {
-        /* Tinggi 2 Input (45+45) + 1 Jarak (20) = 110px */
-        height: 110px; 
-        resize: none;
-        padding-top: 12px;
-    }
-
-    /* Tombol Submit */
-    .btn-submit {
-        background-color: transparent;
-        color: #47510B; 
-        font-weight: 600;
-        border-radius: 25px;
-        padding: 0 30px;
-        height: 45px; /* Tinggi disamakan dengan Facebook di kiri */
-        border: 1px solid #47510B; 
-        transition: all 0.3s ease;
-        letter-spacing: 1px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .btn-submit:hover {
-        background-color: #47510B; 
-        color: #ffffff; 
-        transform: translateY(-2px);
-    }
-
-    /* Efek glow di belakang logo */
+    /* === LOGO === */
     .logo-wrapper {
         position: relative;
+        animation: fadeInLeft 0.7s ease both;
     }
-    
+
     .logo-wrapper::before {
         content: '';
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 350px; 
-        height: 350px; 
-        background: radial-gradient(circle, rgba(250,237,75,0.15) 0%, rgba(255,255,255,0) 70%);
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(250, 237, 75, 0.18) 0%, rgba(255,255,255,0) 70%);
         z-index: -1;
+    }
+
+    .logo-wrapper img {
+        transition: transform 0.4s ease;
+    }
+
+    .logo-wrapper img:hover {
+        transform: scale(1.04) rotate(-1deg);
+    }
+
+    /* === INFO ITEMS === */
+    .info-col {
+        animation: fadeInUp 0.7s ease 0.15s both;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        height: 45px;
+        margin-bottom: 20px;
+        color: #555;
+        border-radius: 10px;
+        padding: 0 8px;
+        transition: background 0.25s ease, transform 0.25s ease;
+        cursor: default;
+    }
+
+    .info-item:hover {
+        background: rgba(138, 158, 113, 0.08);
+        transform: translateX(5px);
+    }
+
+    .info-icon {
+        font-size: 1.3rem;
+        width: 40px;
+        color: #8A9E71;
+        transition: color 0.25s ease, transform 0.25s ease;
+    }
+
+    .info-item:hover .info-icon {
+        color: #47510B;
+        transform: scale(1.2);
+    }
+
+    .info-text {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .info-text h6 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: 0.5px;
+        color: #8A9E71;
+        transition: color 0.25s ease;
+    }
+
+    .info-item:hover .info-text h6 {
+        color: #47510B;
+    }
+
+    .info-text p {
+        font-size: 0.85rem;
+        margin: 0;
+        color: #666;
+    }
+
+    /* === DIVIDER === */
+    .vertical-divider {
+        border-left: 2px solid transparent;
+        border-image: linear-gradient(to bottom, transparent, #8A9E71 30%, #8A9E71 70%, transparent) 1;
+        height: 100%;
+        min-height: 350px;
+        margin: 0 auto;
+        width: 1px;
+    }
+
+    /* === FORM === */
+    .form-col {
+        animation: fadeInRight 0.7s ease 0.3s both;
+    }
+
+    .custom-input {
+        background-color: #F4F4F2;
+        border: 1.5px solid transparent;
+        border-radius: 10px;
+        padding: 10px 16px;
+        height: 45px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #555;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        margin-bottom: 16px;
+        width: 100%;
+        transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    }
+
+    .custom-input::placeholder {
+        color: #B0B0B0;
+        letter-spacing: 1px;
+        font-weight: 600;
+    }
+
+    .custom-input:focus {
+        background-color: #fff;
+        border-color: #8A9E71;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(138, 158, 113, 0.15), 0 2px 8px rgba(0,0,0,0.06);
+        transform: translateY(-1px);
+    }
+
+    textarea.custom-input {
+        height: 110px;
+        resize: none;
+        padding-top: 12px;
+    }
+
+    /* === BUTTON === */
+    .btn-submit {
+        background-color: transparent;
+        color: #47510B;
+        font-weight: 700;
+        border-radius: 25px;
+        padding: 0 32px;
+        height: 45px;
+        border: 1.5px solid #47510B;
+        transition: all 0.3s ease;
+        letter-spacing: 1.5px;
+        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: #47510B;
+        border-radius: 25px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+        z-index: 0;
+    }
+
+    .btn-submit span {
+        position: relative;
+        z-index: 1;
+        transition: color 0.35s ease;
+    }
+
+    .btn-submit i {
+        position: relative;
+        z-index: 1;
+        transition: color 0.35s ease, transform 0.35s ease;
+    }
+
+    .btn-submit:hover::before {
+        transform: scaleX(1);
+    }
+
+    .btn-submit:hover span,
+    .btn-submit:hover i {
+        color: #fff;
+    }
+
+    .btn-submit:hover i {
+        transform: translateX(4px);
+    }
+
+    /* === ANIMASI === */
+    @keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to   { opacity: 1; transform: translateX(0); }
     }
 </style>
 
 <div class="container contact-page py-5">
     <div class="row w-100 align-items-center justify-content-center">
-        
-        <!-- Bagian Kiri: Logo -->
+
         <div class="col-md-4 text-center mb-4 mb-md-0 logo-wrapper">
             <img src="{{ asset('images/logo_loop.png') }}" alt="LoopWear Logo" class="img-fluid" style="max-width: 380px;">
         </div>
 
-        <!-- Bagian Tengah: Info Kontak -->
-        <div class="col-md-4 col-lg-3 mb-4 mb-md-0 ps-md-4">
-            
-            <!-- Baris 1 -->
+        <div class="col-md-4 col-lg-3 mb-4 mb-md-0 ps-md-4 info-col">
+
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-store"></i></div>
                 <div class="info-text">
@@ -152,7 +272,6 @@
                 </div>
             </div>
 
-            <!-- Baris 2 -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-envelope"></i></div>
                 <div class="info-text">
@@ -160,8 +279,7 @@
                     <p>hello@loopwear.com</p>
                 </div>
             </div>
-            
-            <!-- Baris 3 -->
+
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                 <div class="info-text">
@@ -170,7 +288,6 @@
                 </div>
             </div>
 
-            <!-- Baris 4 (Sejajar Atas Textarea) -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="info-text">
@@ -179,7 +296,6 @@
                 </div>
             </div>
 
-            <!-- Baris 5 (Sejajar Bawah Textarea) -->
             <div class="info-item">
                 <div class="info-icon"><i class="fab fa-instagram"></i></div>
                 <div class="info-text">
@@ -188,7 +304,6 @@
                 </div>
             </div>
 
-            <!-- Baris 6 (Sejajar Tombol) - Margin 0 -->
             <div class="info-item mb-0">
                 <div class="info-icon"><i class="fab fa-facebook-f"></i></div>
                 <div class="info-text">
@@ -198,28 +313,21 @@
             </div>
         </div>
 
-        <!-- Garis Pembatas (Desktop) -->
         <div class="col-md-1 d-none d-md-flex justify-content-center">
             <div class="vertical-divider"></div>
         </div>
 
-        <!-- Bagian Kanan: Form -->
-        <div class="col-md-3 col-lg-4">
+        <div class="col-md-3 col-lg-4 form-col">
             <form action="#" method="POST" class="m-0">
-                <!-- Baris 1 -->
+                @csrf
                 <input type="text" class="form-control custom-input" placeholder="NAME">
-                
-                <!-- Baris 2 -->
                 <input type="text" class="form-control custom-input" placeholder="PHONE">
-                
-                <!-- Baris 3 -->
                 <input type="email" class="form-control custom-input" placeholder="EMAIL">
-                
-                <!-- Baris 4 & 5 (Tinggi 2x lipat) -->
                 <textarea class="form-control custom-input" placeholder="MESSAGE"></textarea>
-                
-                <!-- Baris 6 -->
-                <button type="submit" class="btn btn-submit">SUBMIT</button>
+                <button type="submit" class="btn btn-submit">
+                    <span>SUBMIT</span>
+                    <i class="fas fa-arrow-right" style="font-size: 0.75rem;"></i>
+                </button>
             </form>
         </div>
 
