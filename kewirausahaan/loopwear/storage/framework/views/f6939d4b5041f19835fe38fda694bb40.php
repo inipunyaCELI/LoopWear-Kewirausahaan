@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     .overview-title {
         font-family: 'Fredoka One', cursive;
@@ -65,41 +63,41 @@
     <h2 class="overview-title mb-5 text-center text-md-start">LOOPWEAR OVERVIEW</h2>
     
     <div class="row g-4">
-        {{-- Total Koleksi - Lemon Yellow --}}
+        
         <div class="col-md-4">
             <div class="card card-overview shadow-sm" style="background-color: #FFF24D; color: #47510B;">
                 <div class="card-body p-4 text-center">
                     <h5 class="stat-label">total koleksi</h5>
-                    <h1 class="stat-number my-2">{{ $totalBarang }}</h1>
+                    <h1 class="stat-number my-2"><?php echo e($totalBarang); ?></h1>
                     <p class="mb-0 fw-bold small">produk terdaftar</p>
                 </div>
             </div>
         </div>
 
-        {{-- Stok Ready - Soft Blue --}}
+        
         <div class="col-md-4">
             <div class="card card-overview shadow-sm" style="background-color: #8CABFF; color: white;">
                 <div class="card-body p-4 text-center">
                     <h5 class="stat-label" style="color: rgba(255,255,255,0.8);">stok ready</h5>
-                    <h1 class="stat-number my-2">{{ $barangTersedia }}</h1>
+                    <h1 class="stat-number my-2"><?php echo e($barangTersedia); ?></h1>
                     <p class="mb-0 fw-bold small">siap jual</p>
                 </div>
             </div>
         </div>
 
-        {{-- Pelanggan - Beet Pink --}}
+        
         <div class="col-md-4">
             <div class="card card-overview shadow-sm" style="background-color: #E7998B; color: white;">
                 <div class="card-body p-4 text-center">
                     <h5 class="stat-label" style="color: rgba(255,255,255,0.8);">pelanggan</h5>
-                    <h1 class="stat-number my-2">{{ $totalUser }}</h1>
+                    <h1 class="stat-number my-2"><?php echo e($totalUser); ?></h1>
                     <p class="mb-0 fw-bold small">user terdaftar</p>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- Welcome Section --}}
+    
     <div class="mt-5 welcome-box border-0 shadow-sm">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -111,7 +109,7 @@
                 <a href="/barang" class="btn btn-loop shadow-sm me-2">
                     Kelola Stok Barang Sekarang
                 </a>
-                <a href="{{ route('admin.orders.index') }}" class="btn btn-outline-dark rounded-pill px-4">Lihat Daftar Pesanan</a>
+                <a href="<?php echo e(route('admin.orders.index')); ?>" class="btn btn-outline-dark rounded-pill px-4">Lihat Daftar Pesanan</a>
             </div>
             <div class="col-md-4 d-none d-md-block text-center">
                 <div style="font-size: 5rem;">📦</div>
@@ -119,4 +117,5 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

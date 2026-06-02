@@ -1,1 +1,0 @@
-<?php /**PATH D:\semester 2\kewir\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/checkout_success.blade.php ENDPATH**/ ?>

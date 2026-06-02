@@ -1,9 +1,7 @@
-@extends('layout.main')
+<?php $__env->startSection('konten'); ?>
 
-@section('konten')
+<?php if(isset($product)): ?>
 
-@isset($product)
-{{-- ===== TAMPILAN DETAIL PRODUK (dipanggil dari Cbarang::show) ===== --}}
 <style>
     .product-detail-container { font-family: 'Quicksand', sans-serif; color: #333; }
     .product-title { color: #556B2F; font-family: 'Fredoka One', cursive; font-size: 2.5rem; }
@@ -59,62 +57,63 @@
 
 <div class="container product-detail-container" style="margin-top: 40px; margin-bottom: 60px;">
 
-    <a href="{{ route('user.products') }}" class="btn-back">
+    <a href="<?php echo e(route('user.products')); ?>" class="btn-back">
         ← Kembali ke Koleksi
     </a>
 
     <div class="row align-items-start">
-        {{-- Kiri: Gambar Produk --}}
+        
         <div class="col-md-5 mb-4 text-center">
             <div class="p-3 shadow-sm" style="background: #f8f9fa; border-radius: 20px;">
-                <img src="{{ asset('images/' . $product->gambar) }}" alt="{{ $product->nama_barang }}" class="img-fluid rounded" style="max-height: 500px; object-fit: contain;">
+                <img src="<?php echo e(asset('images/' . $product->gambar)); ?>" alt="<?php echo e($product->nama_barang); ?>" class="img-fluid rounded" style="max-height: 500px; object-fit: contain;">
             </div>
         </div>
 
-        {{-- Kanan: Detail Produk --}}
+        
         <div class="col-md-7 ps-md-5">
-            <h1 class="product-title">{{ $product->nama_barang }}</h1>
+            <h1 class="product-title"><?php echo e($product->nama_barang); ?></h1>
 
-            @php
+            <?php
                 $jml_review = isset($reviews) ? $reviews->count() : 0;
-            @endphp
+            ?>
 
             <p class="text-muted mb-4" style="font-size: 0.9rem;">
-                @if($jml_review > 0)
-                    4.9 <span style="color: #F29C9C;">★★★★★</span> &nbsp;|&nbsp; {{ $jml_review }} Penilaian &nbsp;|&nbsp; {{ $jml_review + rand(1, 3) }} Terjual
-                @else
+                <?php if($jml_review > 0): ?>
+                    4.9 <span style="color: #F29C9C;">★★★★★</span> &nbsp;|&nbsp; <?php echo e($jml_review); ?> Penilaian &nbsp;|&nbsp; <?php echo e($jml_review + rand(1, 3)); ?> Terjual
+                <?php else: ?>
                     0 <span style="color: #ccc;">★★★★★</span> &nbsp;|&nbsp; 0 Penilaian &nbsp;|&nbsp; 0 Terjual
-                @endif
+                <?php endif; ?>
             </p>
 
-            {{-- KOTAK REVIEW DINAMIS --}}
+            
             <div class="review-ticker-box">
-                @forelse($reviews ?? [] as $rev)
+                <?php $__empty_1 = true; $__currentLoopData = $reviews ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rev): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div class="mb-3 border-bottom pb-2">
-                        <p class="mb-1" style="font-style: italic; color: #556B2F; font-size: 0.95rem;">"{{ $rev->komentar }}"</p>
-                        <span class="review-name">- {{ $rev->user->name ?? 'Anonim' }}</span>
+                        <p class="mb-1" style="font-style: italic; color: #556B2F; font-size: 0.95rem;">"<?php echo e($rev->komentar); ?>"</p>
+                        <span class="review-name">- <?php echo e($rev->user->name ?? 'Anonim'); ?></span>
                     </div>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <p class="mb-1 text-muted" style="font-size: 0.95rem;">Belum ada review untuk produk ini. Jadi yang pertama membeli! ✨</p>
-                @endforelse
+                <?php endif; ?>
             </div>
 
-            {{-- HARGA --}}
+            
             <div class="price-box">
-                Rp {{ number_format($product->harga, 0, ',', '.') }}
+                Rp <?php echo e(number_format($product->harga, 0, ',', '.')); ?>
+
             </div>
 
-            {{-- TOMBOL AKSI --}}
+            
             <div class="row g-3">
                 <div class="col-6">
-                    <form action="{{ route('wishlist.add', $product->id_barang) }}" method="POST">
-                        @csrf
+                    <form action="<?php echo e(route('wishlist.add', $product->id_barang)); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn-action w-100">LIKE ❤️</button>
                     </form>
                 </div>
                 <div class="col-6">
-                    <form action="{{ route('cart.add', $product->id_barang) }}" method="POST">
-                        @csrf
+                    <form action="<?php echo e(route('cart.add', $product->id_barang)); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="btn-action w-100">ADD CART 🛒</button>
                     </form>
                 </div>
@@ -124,27 +123,27 @@
 
     <hr class="my-5">
 
-    {{-- BAGIAN REKOMENDASI PRODUK --}}
-    <h3 class="recommendation-title mb-4">Rekomendasi {{ ucfirst($product->kategori) }} Lainnya </h3>
+    
+    <h3 class="recommendation-title mb-4">Rekomendasi <?php echo e(ucfirst($product->kategori)); ?> Lainnya </h3>
     <div class="row g-4">
-        @forelse($recommendations ?? [] as $rec)
+        <?php $__empty_1 = true; $__currentLoopData = $recommendations ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $rec): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="col-6 col-md-3">
-                <a href="{{ route('user.products.detail', $rec->id_barang) }}" class="rec-card d-block">
+                <a href="<?php echo e(route('user.products.detail', $rec->id_barang)); ?>" class="rec-card d-block">
                     <div class="rec-img-wrapper mb-2 shadow-sm border">
-                        <img src="{{ asset('images/' . $rec->gambar) }}" class="rec-img">
+                        <img src="<?php echo e(asset('images/' . $rec->gambar)); ?>" class="rec-img">
                     </div>
-                    <h6 class="mb-1 fw-bold text-dark" style="font-size: 0.9rem;">{{ $rec->nama_barang }}</h6>
-                    <p class="text-danger fw-bold" style="font-size: 0.85rem;">Rp {{ number_format($rec->harga, 0, ',', '.') }}</p>
+                    <h6 class="mb-1 fw-bold text-dark" style="font-size: 0.9rem;"><?php echo e($rec->nama_barang); ?></h6>
+                    <p class="text-danger fw-bold" style="font-size: 0.85rem;">Rp <?php echo e(number_format($rec->harga, 0, ',', '.')); ?></p>
                 </a>
             </div>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <p class="text-muted">Tidak ada rekomendasi serupa saat ini.</p>
-        @endforelse
+        <?php endif; ?>
     </div>
 </div>
 
-@else
-{{-- ===== TAMPILAN HALAMAN SEMUA ULASAN (dipanggil dari ReviewController::index) ===== --}}
+<?php else: ?>
+
 <style>
     .review-page { min-height: 80vh; }
     .star-display { color: #f5c518; font-size: 1.2rem; letter-spacing: 2px; }
@@ -187,48 +186,52 @@
 
 <div class="container review-page py-5">
 
-    @if(session('success_review'))
-        <div class="alert alert-success rounded-3 mb-4">{{ session('success_review') }}</div>
-    @endif
+    <?php if(session('success_review')): ?>
+        <div class="alert alert-success rounded-3 mb-4"><?php echo e(session('success_review')); ?></div>
+    <?php endif; ?>
 
-    @if($reviews->isEmpty())
+    <?php if($reviews->isEmpty()): ?>
         <div class="text-center py-5">
             <h4 class="text-muted">Belum ada ulasan.</h4>
             <p class="text-muted">Jadilah yang pertama memberikan ulasan setelah berbelanja!</p>
             <a href="/products" class="btn btn-warning rounded-pill px-4 fw-bold mt-2">Mulai Belanja</a>
         </div>
-    @else
+    <?php else: ?>
         <div class="row g-4">
-            @foreach($reviews as $review)
+            <?php $__currentLoopData = $reviews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $review): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="col-md-6 col-lg-4">
                 <div class="card review-card h-100 p-4">
                     <div class="d-flex align-items-center gap-3 mb-3">
                         <div class="avatar">
-                            {{ strtoupper(substr($review->user->name ?? 'U', 0, 1)) }}
+                            <?php echo e(strtoupper(substr($review->user->name ?? 'U', 0, 1))); ?>
+
                         </div>
                         <div>
-                            <h6 class="fw-bold mb-0">{{ $review->user->name ?? 'Anonim' }}</h6>
-                            <small class="text-muted">{{ $review->created_at->format('d M Y') }}</small>
+                            <h6 class="fw-bold mb-0"><?php echo e($review->user->name ?? 'Anonim'); ?></h6>
+                            <small class="text-muted"><?php echo e($review->created_at->format('d M Y')); ?></small>
                         </div>
                     </div>
 
                     <div class="star-display mb-2">
-                        @for($i = 1; $i <= 5; $i++)
-                            @if($i <= $review->rating) ★ @else ☆ @endif
-                        @endfor
-                        <small class="text-muted ms-1" style="font-size: 0.8rem;">{{ $review->rating }}/5</small>
+                        <?php for($i = 1; $i <= 5; $i++): ?>
+                            <?php if($i <= $review->rating): ?> ★ <?php else: ?> ☆ <?php endif; ?>
+                        <?php endfor; ?>
+                        <small class="text-muted ms-1" style="font-size: 0.8rem;"><?php echo e($review->rating); ?>/5</small>
                     </div>
 
                     <p class="mb-0" style="color: #555; font-size: 0.95rem; line-height: 1.6;">
-                        {{ $review->komentar ?? 'Pelanggan ini tidak meninggalkan komentar.' }}
+                        <?php echo e($review->komentar ?? 'Pelanggan ini tidak meninggalkan komentar.'); ?>
+
                     </p>
                 </div>
             </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
-    @endif
+    <?php endif; ?>
 </div>
 
-@endisset
+<?php endif; ?>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/review.blade.php ENDPATH**/ ?>

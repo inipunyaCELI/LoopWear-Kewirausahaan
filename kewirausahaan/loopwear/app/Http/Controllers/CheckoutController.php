@@ -92,18 +92,16 @@ class CheckoutController extends Controller
         $selected = $request->selected ?? [];
 
         if(empty($selected)){
-            return back()->with('error', 'Data pesanan tidak valid.');
+            return back()->with('error', 'Pilih barang dulu');
         }
 
         // Jika user belum punya alamat di akunnya, simpan alamat yang dia ketik ini ke akunnya
-        // Jika user SEDANG LOGIN dan belum punya alamat, simpan alamatnya
         $user = auth()->user();
         if ($user && empty($user->alamat)) {
-            $user->update([
-                'alamat' => $request->alamat
-            ]);
+            $user->update(['alamat' => $request->alamat]);
         }
 
+        $total = 0;
         $subtotal = 0;
         $itemsDipilih = [];
 
@@ -111,6 +109,7 @@ class CheckoutController extends Controller
             if(isset($cart[$id])) {
                 $item = $cart[$id];
                 $subtotal += $item['harga'] * $item['qty'];
+                $total += $item['harga'] * $item['qty'];
                 $itemsDipilih[$id] = $item;
             }
         }
@@ -119,17 +118,14 @@ class CheckoutController extends Controller
         $biaya_layanan = 2000;
         $grand_total = $subtotal + $ongkir + $biaya_layanan;
 
-        // 1. Simpan ke tabel Orders
         $order = Order::create([
             'user_id' => auth()->id(),
-            // FIX: Tambahkan rand() biar Order ID selalu unik!
-            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
-            'total_price' => $grand_total, // Simpan harga keseluruhan
+            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999),
+            'total_price' => $grand_total,
             'status_payment' => 'pending',
             'address' => $request->alamat
         ]);
 
-        // 2. Simpan per item ke tabel OrderItems
         foreach ($itemsDipilih as $id => $item) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -139,9 +135,7 @@ class CheckoutController extends Controller
                 'qty' => $item['qty']
             ]);
         }
-        session()->put('cart', $cart);
 
-        // 3. Request Token Midtrans
         Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
         Config::$isProduction = false;
         Config::$isSanitized = true;
@@ -162,12 +156,11 @@ class CheckoutController extends Controller
         ];
 
         $snapToken = Snap::getSnapToken($params);
+        $order->update(['snap_token' => $snapToken]);
 
-        // Tangkap metode pembayaran DAN bank yang dipilih
-        $payment_method = $request->payment; 
-        $bank = $request->bank ?? 'bsi'; // Default ke bsi kalau kosong
+        $payment_method = $request->payment;
+        $bank = $request->bank ?? 'bsi';
 
-        // Bawa $bank ke halaman view
         return view('payment', compact('order', 'snapToken', 'payment_method', 'bank'));
     }
 

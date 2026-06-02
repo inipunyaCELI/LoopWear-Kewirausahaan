@@ -8,11 +8,12 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ProfileController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ProfileController;
-
 use Illuminate\Support\Facades\Route;
 
 // --- AUTENTIKASI ---
@@ -22,12 +23,33 @@ Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'storeRegister']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
+// --- GOOGLE OAUTH ---
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
 // --- ADMIN AREA ---
 Route::middleware(['auth'])->group(function () {
     Route::resource('barang', Cbarang::class);
+
+    // Pesanan user
+    Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
+    Route::post('/pesanan/{id}/cancel', [PesananController::class, 'cancel'])->name('pesanan.cancel');
+    Route::post('/review', [ReviewController::class, 'store'])->name('review.store');
+
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Admin Orders
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/admin/orders/{id}/detail', [OrderController::class, 'detail'])->name('admin.orders.detail');
+    Route::post('/admin/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
     Route::get('/admin/orders/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+    Route::post('/admin/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('admin.orders.cancel');
+
+    // Profile
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 });
 
 // --- HALAMAN UTAMA & INFO ---
@@ -38,7 +60,6 @@ Route::get('/contact', function () { return view('contact'); })->name('contact')
 // --- PRODUK & REVIEW (DETAIL) ---
 Route::get('/products', [ProductController::class, 'center'])->name('user.products');
 Route::get('/category/{kategori}', [ProductController::class, 'category'])->name('category.show');
-// Perhatikan: Rute ini sekarang mengarah ke 'showDetail' untuk membuka halaman review.blade.php
 Route::get('/products/{id}', [ProductController::class, 'showDetail'])->name('user.products.detail');
 
 // --- KERANJANG (CART) ---
@@ -58,13 +79,5 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/checkout/success', function () { return view('checkout_success'); })->name('checkout.success');
 Route::get('/checkout/finish', function() { return view('checkout_finish'); })->name('checkout.finish');
 
-// --- GOOGLE OAUTH ---
-Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
-
-// --- PROFILE ---
-Route::middleware('auth')->group(function () {
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-});
+// --- REVIEW ---
+Route::get('/review', [ReviewController::class, 'index'])->name('review.index');

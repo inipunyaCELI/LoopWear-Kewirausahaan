@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     body { background-color: #f8f9fa; }
     .payment-page { font-family: 'Quicksand', sans-serif; max-width: 550px; margin: 0 auto; padding-bottom: 50px; }
@@ -49,12 +47,12 @@
         <div style="font-size: 4.5rem; margin-bottom: 10px;">💳</div>
         <h3 class="fw-bold mb-3" style="color: #333;">Menunggu Pembayaran</h3>
         
-        <div class="order-id">Order ID: <strong>{{ $order->order_number }}</strong></div>
+        <div class="order-id">Order ID: <strong><?php echo e($order->order_number); ?></strong></div>
 
         <p class="text-muted mb-4">
             Total tagihan belanja kamu:
             <br>
-            <span class="text-orange fs-2 fw-bold d-block mt-2">Rp {{ number_format($order->total_price, 0, ',', '.') }}</span>
+            <span class="text-orange fs-2 fw-bold d-block mt-2">Rp <?php echo e(number_format($order->total_price, 0, ',', '.')); ?></span>
         </p>
 
         <p class="text-muted mb-4" style="font-size: 0.95rem; line-height: 1.6;">
@@ -62,20 +60,20 @@
             Jika jendela tidak muncul atau tidak sengaja tertutup, silakan klik tombol di bawah ini.
         </p>
 
-        {{-- Tombol utama untuk Pelanggan --}}
+        
         <button id="pay-button" class="btn-midtrans">Selesaikan Pembayaran</button>
         
         <div class="mt-4">
-            <a href="{{ route('cart.index') }}" style="color: #999; text-decoration: none; font-size: 0.9rem;">← Batalkan & Kembali ke Keranjang</a>
+            <a href="<?php echo e(route('cart.index')); ?>" style="color: #999; text-decoration: none; font-size: 0.9rem;">← Batalkan & Kembali ke Keranjang</a>
         </div>
     </div>
 </div>
 
-{{-- SCRIPT MIDTRANS SNAP --}}
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo e(env('MIDTRANS_CLIENT_KEY')); ?>"></script>
 <script>
     document.getElementById('pay-button').onclick = function(){
-        snap.pay('{{ $snapToken }}', {
+        snap.pay('<?php echo e($snapToken); ?>', {
             onSuccess: function(result){
                 window.location.href = '/pesanan';
             },
@@ -99,4 +97,5 @@
     };
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/payment.blade.php ENDPATH**/ ?>

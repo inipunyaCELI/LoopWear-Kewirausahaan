@@ -35,11 +35,11 @@ class CartController extends Controller
         // Menghapus item dari wishlist jika ada saat ditambahkan ke keranjang
         $wishlist = session()->get('wishlist', []);
         if(isset($wishlist[$id])) {
-            unset($wishlist[$id]); 
-            session()->put('wishlist', $wishlist); 
+            unset($wishlist[$id]);
+            session()->put('wishlist', $wishlist);
         }
 
-        return back()->with('success', 'Produk berhasil dipindah ke Keranjang! 🛒');
+        return back()->with('success_cart', 'Produk berhasil dimasukkan ke keranjang!');
     }
 
     public function update(Request $request, $id)

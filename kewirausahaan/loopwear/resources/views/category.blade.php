@@ -5,11 +5,11 @@
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
 
     .category-page { font-family: 'Quicksand', sans-serif; color: #333; }
-    
-    .title-main { 
-        font-family: 'Fredoka One', cursive; 
-        color: #E7998B; /* Pink Coquette */
-        font-size: 2.5rem; 
+
+    .title-main {
+        font-family: 'Fredoka One', cursive;
+        color: #E7998B;
+        font-size: 2.5rem;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
@@ -40,7 +40,7 @@
         background-color: #f8f9fa;
         border-radius: 15px;
         overflow: hidden;
-        display: flex; 
+        display: flex;
         align-items: center;
         justify-content: center;
     }
@@ -70,12 +70,12 @@
         line-height: 1;
     }
     .btn-icon-loop:hover { transform: scale(1.2); }
-    .icon-pink { color: #E7998B; } 
+    .icon-pink { color: #E7998B; }
     .icon-blue { color: #8CABFF; }
 </style>
 
 <div class="container category-page py-5">
-    
+
     {{-- Header & Tombol Kembali --}}
     <div class="d-flex flex-column align-items-center mb-5">
         <a href="{{ route('user.products') }}" class="btn-back-loop mb-3 shadow-sm">
@@ -99,7 +99,7 @@
                     <h6 class="product-name">{{ $item->nama_barang }}</h6>
                 </a>
 
-                {{-- Meta: Harga & Tombol (Sudah Sejajar) --}}
+                {{-- Meta: Harga & Tombol --}}
                 <div class="product-meta">
                     <span class="price">Rp{{ number_format($item->harga, 0, ',', '.') }}</span>
                     <span class="divider">|</span>

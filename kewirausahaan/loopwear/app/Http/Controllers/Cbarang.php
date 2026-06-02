@@ -98,6 +98,8 @@ class Cbarang extends Controller
             $nama_file = time() . "_" . $request->file('gambar')->getClientOriginalName();
             $request->file('gambar')->move(public_path('images'), $nama_file);
             $data['gambar'] = $nama_file;
+        } else {
+            unset($data['gambar']);
         }
 
         $barang->update($data);

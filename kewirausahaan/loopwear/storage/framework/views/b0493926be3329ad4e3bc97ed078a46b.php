@@ -260,11 +260,12 @@
 
 <body>
 
-@php $cartCount = count(session()->get('cart', [])); @endphp
+<?php $cartCount = count(session()->get('cart', [])); ?>
 
-@if(session('success_cart'))
+<?php if(session('success_cart')): ?>
 <div class="cart-toast show" id="cartToast">
-    🛒 {{ session('success_cart') }}
+    🛒 <?php echo e(session('success_cart')); ?>
+
 </div>
 <script>
     setTimeout(function() {
@@ -272,69 +273,69 @@
         if (toast) { toast.classList.remove('show'); }
     }, 3000);
 </script>
-@endif
+<?php endif; ?>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container d-flex align-items-center justify-content-between">
 
-        {{-- KOLOM 1: LOGO --}}
+        
         <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt="LoopWear"></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {{-- KOLOM 2: MENU TENGAH --}}
+        
         <div class="nav-center-group d-none d-lg-flex">
-            <a class="nav-link-custom {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
-            <a class="nav-link-custom {{ request()->is('about') ? 'active' : '' }}" href="/about">About</a>
-            <a class="nav-link-custom {{ request()->is('products*') ? 'active' : '' }}" href="/products">Products</a>
-            <a class="nav-link-custom {{ request()->is('review') ? 'active' : '' }}" href="/review">Review</a>
-            <a class="nav-link-custom {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
+            <a class="nav-link-custom <?php echo e(request()->is('/') ? 'active' : ''); ?>" href="/">Home</a>
+            <a class="nav-link-custom <?php echo e(request()->is('about') ? 'active' : ''); ?>" href="/about">About</a>
+            <a class="nav-link-custom <?php echo e(request()->is('products*') ? 'active' : ''); ?>" href="/products">Products</a>
+            <a class="nav-link-custom <?php echo e(request()->is('review') ? 'active' : ''); ?>" href="/review">Review</a>
+            <a class="nav-link-custom <?php echo e(request()->is('contact') ? 'active' : ''); ?>" href="/contact">Contact</a>
         </div>
 
-        {{-- KOLOM 3: AKSI KANAN --}}
+        
         <div class="d-flex align-items-center">
 
-            {{-- Wishlist --}}
+            
             <a href="/wishlist" class="nav-icon-group like-icon" title="Wishlist">❤️</a>
 
-            {{-- Cart dengan badge --}}
+            
             <a href="/cart" class="cart-wrapper nav-icon-group" title="Cart">
                 🛒
-                @if($cartCount > 0)
-                <span class="cart-badge">{{ $cartCount }}</span>
-                @endif
+                <?php if($cartCount > 0): ?>
+                <span class="cart-badge"><?php echo e($cartCount); ?></span>
+                <?php endif; ?>
             </a>
 
-            @auth
-                @php
+            <?php if(auth()->guard()->check()): ?>
+                <?php
                     $unreadNotifications = auth()->user()->unreadNotifications;
-                @endphp
+                ?>
                 <div class="dropdown">
                     <a href="#" class="cart-wrapper nav-icon-group dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         🔔
-                        @if($unreadNotifications->count() > 0)
-                        <span class="cart-badge bg-danger">{{ $unreadNotifications->count() }}</span>
-                        @endif
+                        <?php if($unreadNotifications->count() > 0): ?>
+                        <span class="cart-badge bg-danger"><?php echo e($unreadNotifications->count()); ?></span>
+                        <?php endif; ?>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-2" style="width: 300px; max-height: 400px; overflow-y: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                         <li><h6 class="dropdown-header fw-bold text-dark">Notifikasi</h6></li>
-                        @if($unreadNotifications->count() > 0)
-                            @foreach($unreadNotifications as $notification)
+                        <?php if($unreadNotifications->count() > 0): ?>
+                            <?php $__currentLoopData = $unreadNotifications; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notification): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <li>
                                     <a class="dropdown-item py-2" href="#" style="white-space: normal; border-bottom: 1px solid #eee;">
-                                        <small class="fw-bold d-block text-danger">{{ $notification->data['title'] }}</small>
-                                        <small class="text-muted" style="font-size: 0.8rem;">{{ $notification->data['message'] }}</small>
+                                        <small class="fw-bold d-block text-danger"><?php echo e($notification->data['title']); ?></small>
+                                        <small class="text-muted" style="font-size: 0.8rem;"><?php echo e($notification->data['message']); ?></small>
                                         <br>
-                                        <small class="text-muted" style="font-size: 0.7rem;">{{ $notification->created_at->diffForHumans() }}</small>
+                                        <small class="text-muted" style="font-size: 0.7rem;"><?php echo e($notification->created_at->diffForHumans()); ?></small>
                                     </a>
                                 </li>
-                                @php $notification->markAsRead(); @endphp
-                            @endforeach
-                        @else
+                                <?php $notification->markAsRead(); ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php else: ?>
                             <li><span class="dropdown-item text-muted text-center py-3"><small>Belum ada notifikasi baru.</small></span></li>
-                        @endif
+                        <?php endif; ?>
                     </ul>
                 </div>
 
@@ -344,57 +345,57 @@
                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                         </svg>
                     </span>
-                    <span>{{ Str::limit(auth()->user()->name, 5, '') }}</span>
+                    <span><?php echo e(Str::limit(auth()->user()->name, 5, '')); ?></span>
                 </a>
 
-                @if(auth()->user()->role == 'admin')
+                <?php if(auth()->user()->role == 'admin'): ?>
                     <a href="/dashboard" class="nav-right-link">Dashboard</a>
-                @else
+                <?php else: ?>
                     <a href="/pesanan" class="nav-right-link">📦 Pesanan</a>
-                @endif
+                <?php endif; ?>
 
                 <a href="/logout" class="nav-right-link text-danger">Logout</a>
-            @else
+            <?php else: ?>
                 <a href="/login" class="nav-right-link">👤 Login</a>
-            @endauth
+            <?php endif; ?>
         </div>
     </div>
 </nav>
 
 <main>
-    @yield('konten')
+    <?php echo $__env->yieldContent('konten'); ?>
 </main>
 
-{{-- SWEET ALERT SUCCESS --}}
-@if(session('success'))
+
+<?php if(session('success')): ?>
 <script>
     Swal.fire({
         icon: 'success',
         title: 'Berhasil',
-        text: '{{ session('success') }}',
+        text: '<?php echo e(session('success')); ?>',
         showConfirmButton: false,
         timer: 2000
     });
 </script>
-@endif
+<?php endif; ?>
 
-{{-- SWEET ALERT ERROR --}}
-@if(session('error'))
+
+<?php if(session('error')): ?>
 <script>
     Swal.fire({
         icon: 'error',
         title: 'Gagal',
-        text: '{{ session('error') }}'
+        text: '<?php echo e(session('error')); ?>'
     });
 </script>
-@endif
+<?php endif; ?>
 
-{{-- FOOTER --}}
+
 <footer style="background-color: #47510B; color: #fff24d; padding: 2rem 0 1rem; margin-top: 0;">
     <div class="container">
         <div class="row gy-4">
 
-            {{-- Kolom 1: Brand + Tagline --}}
+            
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">LoopWear</p>
                 <p style="font-size: 0.82rem; line-height: 1.6; color: #fff24d; margin: 0; opacity: 0.85;">
@@ -402,7 +403,7 @@
                 </p>
             </div>
 
-            {{-- Kolom 2: Menu --}}
+            
             <div class="col-md-2 offset-md-1">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Menu</p>
                 <ul style="list-style: none; padding: 0; font-size: 0.82rem; margin: 0;">
@@ -413,7 +414,7 @@
                 </ul>
             </div>
 
-            {{-- Kolom 3: Kontak --}}
+            
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Kontak</p>
                 <ul style="list-style: none; padding: 0; font-size: 0.82rem; margin: 0;">
@@ -423,7 +424,7 @@
                 </ul>
             </div>
 
-            {{-- Kolom 4: Sosmed --}}
+            
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Ikuti Kami</p>
                 <a href="https://instagram.com/LoopWear.official" target="_blank"
@@ -444,7 +445,7 @@
 
         </div>
 
-        {{-- Garis & Copyright --}}
+        
         <hr style="border-color: rgba(255,242,77,0.2); margin-top: 1.5rem; margin-bottom: 0.8rem;">
         <p style="text-align: center; font-size: 0.78rem; color: #fff24d; opacity: 0.7; margin: 0;">
             © 2025 LoopWear. All rights reserved. Made with 💛 in Banjarmasin.
@@ -473,4 +474,4 @@
 </script>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/layout/main.blade.php ENDPATH**/ ?>
