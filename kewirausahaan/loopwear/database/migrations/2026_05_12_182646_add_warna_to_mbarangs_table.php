@@ -26,5 +26,3 @@ return new class extends Migration
         });
     }
 };
-
-$table->string('warna')->nullable()->after('kategori');
