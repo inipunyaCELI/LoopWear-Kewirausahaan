@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('konten'); ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -14,12 +12,11 @@
         align-items: center;
     }
 
-    /* RUMUS KESEJAJARAN (Tinggi 45px, Jarak 20px) */
     .info-item {
         display: flex;
         align-items: center;
-        height: 45px; /* Tinggi disamakan dengan input form */
-        margin-bottom: 20px; /* Jarak bawah disamakan dengan form */
+        height: 45px;
+        margin-bottom: 20px;
         color: #555;
     }
     
@@ -49,7 +46,6 @@
         color: #666;
     }
 
-    /* Garis Pembatas Vertikal */
     .vertical-divider {
         border-left: 2px solid #8A9E71; 
         height: 100%;
@@ -58,18 +54,17 @@
         width: 1px;
     }
 
-    /* Styling Form Input */
     .custom-input {
         background-color: #EBEBEB; 
         border: none;
         border-radius: 5px;
         padding: 10px 15px;
-        height: 45px; /* Tinggi fix agar sejajar Info Kiri */
+        height: 45px;
         font-weight: 700;
         font-size: 0.85rem;
         color: #777;
         box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05); 
-        margin-bottom: 20px; /* Jarak fix agar sejajar Info Kiri */
+        margin-bottom: 20px; 
         width: 100%;
     }
     
@@ -84,22 +79,19 @@
         box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Khusus Kotak Pesan (Digabung 2 Baris) */
     textarea.custom-input {
-        /* Tinggi 2 Input (45+45) + 1 Jarak (20) = 110px */
         height: 110px; 
         resize: none;
         padding-top: 12px;
     }
 
-    /* Tombol Submit */
     .btn-submit {
         background-color: transparent;
         color: #47510B; 
         font-weight: 600;
         border-radius: 25px;
         padding: 0 30px;
-        height: 45px; /* Tinggi disamakan dengan Facebook di kiri */
+        height: 45px;
         border: 1px solid #47510B; 
         transition: all 0.3s ease;
         letter-spacing: 1px;
@@ -114,7 +106,6 @@
         transform: translateY(-2px);
     }
 
-    /* Efek glow di belakang logo */
     .logo-wrapper {
         position: relative;
     }
@@ -135,15 +126,12 @@
 <div class="container contact-page py-5">
     <div class="row w-100 align-items-center justify-content-center">
         
-        <!-- Bagian Kiri: Logo -->
         <div class="col-md-4 text-center mb-4 mb-md-0 logo-wrapper">
             <img src="<?php echo e(asset('images/logo_loop.png')); ?>" alt="LoopWear Logo" class="img-fluid" style="max-width: 380px;">
         </div>
 
-        <!-- Bagian Tengah: Info Kontak -->
         <div class="col-md-4 col-lg-3 mb-4 mb-md-0 ps-md-4">
             
-            <!-- Baris 1 -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-store"></i></div>
                 <div class="info-text">
@@ -152,7 +140,6 @@
                 </div>
             </div>
 
-            <!-- Baris 2 -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-envelope"></i></div>
                 <div class="info-text">
@@ -161,7 +148,6 @@
                 </div>
             </div>
             
-            <!-- Baris 3 -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                 <div class="info-text">
@@ -170,7 +156,6 @@
                 </div>
             </div>
 
-            <!-- Baris 4 (Sejajar Atas Textarea) -->
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="info-text">
@@ -179,7 +164,6 @@
                 </div>
             </div>
 
-            <!-- Baris 5 (Sejajar Bawah Textarea) -->
             <div class="info-item">
                 <div class="info-icon"><i class="fab fa-instagram"></i></div>
                 <div class="info-text">
@@ -188,7 +172,6 @@
                 </div>
             </div>
 
-            <!-- Baris 6 (Sejajar Tombol) - Margin 0 -->
             <div class="info-item mb-0">
                 <div class="info-icon"><i class="fab fa-facebook-f"></i></div>
                 <div class="info-text">
@@ -198,27 +181,16 @@
             </div>
         </div>
 
-        <!-- Garis Pembatas (Desktop) -->
         <div class="col-md-1 d-none d-md-flex justify-content-center">
             <div class="vertical-divider"></div>
         </div>
 
-        <!-- Bagian Kanan: Form -->
         <div class="col-md-3 col-lg-4">
             <form action="#" method="POST" class="m-0">
-                <!-- Baris 1 -->
                 <input type="text" class="form-control custom-input" placeholder="NAME">
-                
-                <!-- Baris 2 -->
                 <input type="text" class="form-control custom-input" placeholder="PHONE">
-                
-                <!-- Baris 3 -->
                 <input type="email" class="form-control custom-input" placeholder="EMAIL">
-                
-                <!-- Baris 4 & 5 (Tinggi 2x lipat) -->
                 <textarea class="form-control custom-input" placeholder="MESSAGE"></textarea>
-                
-                <!-- Baris 6 -->
                 <button type="submit" class="btn btn-submit">SUBMIT</button>
             </form>
         </div>

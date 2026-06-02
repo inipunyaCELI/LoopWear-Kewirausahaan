@@ -3,43 +3,24 @@
 <style>
 
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
-
-   
-
-    /* Perbaikan global untuk halaman */
-
-    .product-page {
-
-        font-family: 'Quicksand', sans-serif;
-
-        background-color: #fff;
-
+    
+    .product-page { 
+        font-family: 'Quicksand', sans-serif; 
+        background-color: #fff; 
         color: #333;
 
     }
-
-   
-
-    /* Mengaktifkan Smooth Scrolling */
-
+    
     html {
 
         scroll-behavior: smooth;
 
     }
 
-
-
-    /* Typography */
-
-    .title-main {
-
-        font-family: 'Fredoka One', cursive;
-
-        color: #E7998B;
-
-        font-size: 2.5rem;
-
+    .title-main { 
+        font-family: 'Fredoka One', cursive; 
+        color: #E7998B; 
+        font-size: 2.5rem; 
         letter-spacing: 1px;
 
     }
@@ -64,8 +45,7 @@
 
 
 
-    /* Custom Category Colors */
-
+    
     .color-hijab { color: #C46A55; }
 
     .color-baju { color: #E7998B; }
@@ -74,38 +54,31 @@
 
     .color-sepatu { color: #A3B18A; }
 
-
-
-    /* CSS BANNER ATAS */
-
-    .banner-img {
-
-        width: 100%;
-
-        aspect-ratio: 1 / 1;
-
+    
+    .banner-img { 
+        width: 100%; 
+        aspect-ratio: 1 / 1; 
         object-fit: cover;
-
-        object-position: center;
-
-        border-radius: 10px;
-
+        object-position: center; 
+        border-radius: 10px; 
         transition: transform 0.3s ease;
 
     }
-
-   
+    
 
     .banner-wrapper:hover .banner-img {
 
         transform: scale(1.03);
-
     }
-
+    
    
-
-    /* --- CSS PRODUK (KOTAK, KECIL, GAK KEPOTONG) --- */
-
+    .product-img { 
+        width: 100%; 
+        height: 380px; 
+        object-fit: cover; 
+        border-radius: 15px; /* Opsional, biar lebih modis */
+        transition: transform 0.3s ease;
+    }
     .product-img-wrapper {
 
         max-width: 240px; /* Ukuran dikecilin dikit */
@@ -163,12 +136,27 @@
         margin-bottom: 5px;
 
         letter-spacing: 0.5px;
-
     }
-
-   
-
-    /* Meta, Harga, & Ikon */
+    .product-price { 
+        font-size: 0.9rem; 
+        font-weight: 600; 
+        color: #555; 
+    }
+    
+    .btn-view-all { 
+        border-radius: 50px; 
+        font-weight: 600; 
+        font-size: 0.85rem;
+        border: 1px solid #333; 
+        color: #333; 
+        background: transparent;
+        padding: 8px 35px;
+        transition: all 0.3s ease;
+    }
+    .btn-view-all:hover { 
+        background-color: #333; 
+        color: #fff; 
+    }
 
     .product-meta {
 

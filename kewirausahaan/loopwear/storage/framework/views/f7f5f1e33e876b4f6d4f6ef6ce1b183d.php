@@ -1,6 +1,5 @@
 <?php $__env->startSection('konten'); ?>
 <style>
-    /* Import font Quicksand untuk teks bodi dan Fredoka One untuk judul */
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap');
 
     .about-heading {
@@ -25,37 +24,33 @@
         text-align: center;
     }
 
-    /* --- STYLE BARU UNTUK LIST AGAR SANGAT RAPI (HANGING INDENT PERFECT) --- */
-    
-    /* List Angka (Misi) */
     .custom-ol {
         font-family: 'Quicksand', sans-serif;
         font-size: 1.1rem;
         color: #555;
         line-height: 1.8;
-        list-style: none; /* Matikan angka bawaan HTML */
-        counter-reset: angka-misi; /* Buat penghitung angka otomatis di CSS */
+        list-style: none; 
+        counter-reset: angka-misi; 
         padding-left: 0;
         margin: 0;
-        max-width: 600px; /* Batasan lebar teks */
+        max-width: 600px;
     }
 
     .custom-ol li {
         position: relative;
-        margin-bottom: 15px; /* Jarak antar poin */
-        padding-left: 25px; /* Memberi ruang khusus untuk letak angka di kiri */
+        margin-bottom: 15px;
+        padding-left: 25px; 
     }
 
     .custom-ol li::before {
-        content: counter(angka-misi) "."; /* Memanggil angka */
+        content: counter(angka-misi) ".";
         counter-increment: angka-misi;
-        position: absolute; /* Kunci posisi angka di kiri */
+        position: absolute; 
         left: 0;
         top: 0;
-        font-weight: 600; /* Sedikit ditebalkan agar jelas */
+        font-weight: 600;
     }
 
-    /* List Centang (Kenapa Memilih LoopWear) */
     .custom-ul {
         font-family: 'Quicksand', sans-serif;
         font-size: 1.1rem;
@@ -70,7 +65,7 @@
     .custom-ul li {
         position: relative;
         margin-bottom: 15px;
-        padding-left: 35px; /* Ruang khusus untuk tanda centang */
+        padding-left: 35px; 
     }
 
     .custom-ul li::before {
@@ -80,12 +75,11 @@
         font-size: 1.2rem;
         position: absolute;
         left: 0;
-        top: -2px; /* Menyesuaikan tinggi centang dengan huruf */
+        top: -2px; 
     }
 </style>
 
 <div class="container py-5">
-    
     <div class="text-center mb-5 mt-4">
         <img src="<?php echo e(asset('images/logo_loop.png')); ?>" alt="Loop Logo" style="max-width: 300px;" class="mb-4">
         <div class="row justify-content-center">
@@ -100,19 +94,15 @@
         </div>
     </div>
 
-    
     <div class="row justify-content-center pt-3">
         <div class="col-md-8">
-            
             
             <h2 class="text-center mb-3 about-heading" style="color: #6A8EAE;">Visi</h2>
             <p class="mb-5 about-quote">
                 "Menjadi platform penjualan pakaian preloved yang terpercaya dan membantu meningkatkan kesadaran masyarakat tentang pentingnya fashion berkelanjutan."
             </p>
 
-            
             <h2 class="text-center mb-4 about-heading" style="color: #E7998B;">Misi</h2>
-            
             <div class="d-flex justify-content-center mb-5">
                 <ol class="custom-ol">
                     <li>Menyediakan pakaian preloved berkualitas dengan harga terjangkau.</li>
@@ -122,7 +112,6 @@
                 </ol>
             </div>
 
-            
             <h2 class="text-center mb-4 about-heading" style="color: #FFB6A9;">Kenapa Memilih LoopWear?</h2>
             <div class="d-flex justify-content-center">
                 <ul class="custom-ul">
