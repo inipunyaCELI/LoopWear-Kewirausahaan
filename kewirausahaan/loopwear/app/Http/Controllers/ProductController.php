@@ -9,8 +9,9 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $items = Mbarang::where('status', 'available')->latest()->take(4)->get();
-        return view('welcome', compact('items'));
+        $most_wanted  = Mbarang::where('status', 'available')->latest()->take(4)->get();
+        $just_for_you = Mbarang::where('status', 'available')->inRandomOrder()->take(4)->get();
+        return view('welcome', compact('most_wanted', 'just_for_you'));
     }
 
     public function center(Request $request)

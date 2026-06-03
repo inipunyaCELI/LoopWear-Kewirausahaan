@@ -236,11 +236,31 @@
         border: none;
         font-size: 1.2rem;
         color: #bbb;
-        transition: color 0.2s ease;
+        transition: color 0.2s ease, transform 0.2s ease;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
     }
 
     .btn-wishlist-grid:hover {
         color: #F29C9C;
+        transform: scale(1.2);
+    }
+
+    /* State aktif: sudah masuk wishlist */
+    .btn-wishlist-grid.wishlisted,
+    .btn-wishlist-grid.wishlisted:hover {
+        color: #e74c3c;
+    }
+
+    /* Form wishlist tidak menggeser layout */
+    .product-img-box form[action*="wishlist"] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        line-height: 0;
     }
 
     .product-brand {
@@ -282,12 +302,28 @@
         font-size: 0.9rem;
         transition: all 0.3s ease;
         margin-top: auto; /* Tombol selalu di paling bawah */
+        cursor: pointer;
     }
 
     .btn-grid-action:hover {
         border-color: #47510B;
         background-color: #47510B;
         color: white;
+    }
+
+    /* Form keranjang agar full width */
+    .product-grid-card > form {
+        width: 100%;
+    }
+
+    /* Animasi Toast Notifikasi */
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to   { opacity: 0; transform: translateY(10px); }
     }
 
 </style>
@@ -428,78 +464,40 @@
     <div class="best-seller-section shadow">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
         <div class="row g-4">
-            
-            <div class="col-6 col-md-3">
-                <div class="product-grid-card">
-                    <div class="product-img-box">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                        <img src="<?php echo e(asset('images/hijab_pink.png')); ?>" class="grid-img" alt="Pashmina">
-                    </div>
-                    <div class="product-info mb-3 px-1">
-                        <div class="product-brand">BUTTONSCARVES</div>
-                        <div class="product-name">The Maharani Series - Pink (PL)</div>
-                        <div>
-                            <span class="product-price-discount">Rp 180.000</span>
-                            <span class="product-price-ori">Rp 299.000</span>
-                        </div>
-                    </div>
-                    <button class="btn-grid-action">Masukkan ke Tas</button>
-                </div>
-            </div>
 
+            <?php $__empty_1 = true; $__currentLoopData = $most_wanted; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="col-6 col-md-3">
                 <div class="product-grid-card">
                     <div class="product-img-box">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                        <img src="<?php echo e(asset('images/baju.png')); ?>" class="grid-img" alt="Baju">
+                        
+                        <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
+                                <i class="<?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
+                            </button>
+                        </form>
+                        <img src="<?php echo e(asset('images/' . $item->gambar)); ?>"
+                             class="grid-img"
+                             alt="<?php echo e($item->nama_barang); ?>"
+                             onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                     </div>
                     <div class="product-info mb-3 px-1">
-                        <div class="product-brand">ZARA</div>
-                        <div class="product-name">Ribbed Cropped Cardigan Lilac</div>
+                        <div class="product-brand"><?php echo e(strtoupper($item->kategori)); ?></div>
+                        <div class="product-name"><?php echo e($item->nama_barang); ?></div>
                         <div>
-                            <span class="product-price-discount">Rp 120.000</span>
-                            <span class="product-price-ori">Rp 299.000</span>
+                            <span class="product-price-discount">Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
                         </div>
                     </div>
-                    <button class="btn-grid-action">Masukkan ke Tas</button>
+                    
+                    <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST">
+                        <?php echo csrf_field(); ?>
+                        <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
+                    </form>
                 </div>
             </div>
-
-            <div class="col-6 col-md-3">
-                <div class="product-grid-card">
-                    <div class="product-img-box">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                        <img src="<?php echo e(asset('images/celana.png')); ?>" class="grid-img" alt="Celana">
-                    </div>
-                    <div class="product-info mb-3 px-1">
-                        <div class="product-brand">UNIQLO</div>
-                        <div class="product-name">High-Waist Wide Leg Jeans</div>
-                        <div>
-                            <span class="product-price-discount">Rp 210.000</span>
-                            <span class="product-price-ori">Rp 699.000</span>
-                        </div>
-                    </div>
-                    <button class="btn-grid-action">Masukkan ke Tas</button>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-3">
-                <div class="product-grid-card">
-                    <div class="product-img-box">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                        <img src="<?php echo e(asset('images/sepatu.png')); ?>" class="grid-img" alt="Sepatu">
-                    </div>
-                    <div class="product-info mb-3 px-1">
-                        <div class="product-brand">PUMA</div>
-                        <div class="product-name">Palermo Pink Sneakers - PL</div>
-                        <div>
-                            <span class="product-price-discount">Rp 350.000</span>
-                            <span class="product-price-ori">Rp 890.000</span>
-                        </div>
-                    </div>
-                    <button class="btn-grid-action">Masukkan ke Tas</button>
-                </div>
-            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+            <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
+            <?php endif; ?>
 
         </div>
     </div>
@@ -508,83 +506,107 @@
 <div class="container mt-5 pt-4 mb-5">
     <h3 class="text-center section-title mb-5">Just For You</h3>
     <div class="row g-4">
-        
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                    <img src="<?php echo e(asset('images/baju.png')); ?>" class="grid-img" alt="Cardigan">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand">UNIQLO</div>
-                    <div class="product-name">Ribbed Cropped Cardigan LILAC</div>
-                    <div>
-                        <span class="product-price-discount">Rp 120.000</span>
-                    </div>
-                </div>
-                <button class="btn-grid-action">Masukkan ke Tas</button>
-            </div>
-        </div>
 
+        <?php $__empty_1 = true; $__currentLoopData = $just_for_you; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-6 col-md-3">
             <div class="product-grid-card">
                 <div class="product-img-box">
-                    <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                    <img src="<?php echo e(asset('images/hijab_pink.png')); ?>" class="grid-img" alt="Pashmina">
+                    
+                    <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
+                        <?php echo csrf_field(); ?>
+                        <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
+                            <i class="<?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
+                        </button>
+                    </form>
+                    <img src="<?php echo e(asset('images/' . $item->gambar)); ?>"
+                         class="grid-img"
+                         alt="<?php echo e($item->nama_barang); ?>"
+                         onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                 </div>
                 <div class="product-info mb-3 px-1">
-                    <div class="product-brand">RABBANI</div>
-                    <div class="product-name">Pashmina Silk Soft Pink</div>
+                    <div class="product-brand"><?php echo e(strtoupper($item->kategori)); ?></div>
+                    <div class="product-name"><?php echo e($item->nama_barang); ?></div>
                     <div>
-                        <span class="product-price-discount">Rp 75.000</span>
-                        <span class="product-price-ori">Rp 129.000</span>
+                        <span class="product-price-discount">Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
                     </div>
                 </div>
-                <button class="btn-grid-action">Masukkan ke Tas</button>
+                
+                <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
+                </form>
             </div>
         </div>
-
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                    <img src="<?php echo e(asset('images/celana.png')); ?>" class="grid-img" alt="Kulot">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand">ZARA</div>
-                    <div class="product-name">Denim Culotte Jeans - Blue</div>
-                    <div>
-                        <span class="product-price-discount">Rp 210.000</span>
-                    </div>
-                </div>
-                <button class="btn-grid-action">Masukkan ke Tas</button>
-            </div>
-        </div>
-
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
-                    <img src="<?php echo e(asset('images/sepatu.png')); ?>" class="grid-img" alt="Sneakers">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand">ADIDAS</div>
-                    <div class="product-name">Palermo Pink Sneakers - Preloved</div>
-                    <div>
-                        <span class="product-price-discount">Rp 350.000</span>
-                        <span class="product-price-ori">Rp 890.000</span>
-                    </div>
-                </div>
-                <button class="btn-grid-action">Masukkan ke Tas</button>
-            </div>
-        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+        <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
+        <?php endif; ?>
 
     </div>
-    
+
     <div class="text-center mt-5">
         <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
     </div>
 </div>
+
+
+<?php if(session('success')): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.createElement('div');
+        toast.innerHTML = `
+            <div id="toast-notif" style="
+                position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+                background: #47510B; color: white;
+                padding: 14px 22px; border-radius: 12px;
+                font-family: 'Quicksand', sans-serif; font-weight: 700;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                display: flex; align-items: center; gap: 10px;
+                animation: slideIn 0.4s ease;
+            ">
+                <i class="fas fa-heart" style="color:#F29C9C; font-size:1.2rem;"></i>
+                <?php echo e(session('success')); ?>
+
+            </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            const el = document.getElementById('toast-notif');
+            if (el) el.style.animation = 'fadeOut 0.5s ease forwards';
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    });
+</script>
+<?php endif; ?>
+
+<?php if(session('success_cart')): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toast = document.createElement('div');
+        toast.innerHTML = `
+            <div id="toast-cart" style="
+                position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+                background: #2c7a7b; color: white;
+                padding: 14px 22px; border-radius: 12px;
+                font-family: 'Quicksand', sans-serif; font-weight: 700;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                display: flex; align-items: center; gap: 10px;
+                animation: slideIn 0.4s ease;
+            ">
+                <i class="fas fa-shopping-cart" style="color:#b2f5ea; font-size:1.2rem;"></i>
+                <?php echo e(session('success_cart')); ?>
+
+            </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            const el = document.getElementById('toast-cart');
+            if (el) el.style.animation = 'fadeOut 0.5s ease forwards';
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    });
+</script>
+<?php endif; ?>
+
 
 <script>
     /* =========================================
