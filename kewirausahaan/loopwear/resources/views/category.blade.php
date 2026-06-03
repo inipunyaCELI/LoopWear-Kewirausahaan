@@ -32,7 +32,7 @@
         color: #fff24d;
     }
 
-    /* Style Gambar Produk */
+    /* Style Gambar Produk (Sudah Diperbaiki untuk Zoom/Full) */
     .product-img-wrapper {
         max-width: 220px;
         aspect-ratio: 1 / 1;
@@ -43,8 +43,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0; /* Menghilangkan celah putih */
     }
-    .product-img { width: 100%; height: 100%; object-fit: contain; transition: 0.3s; }
+    .product-img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; /* Memaksa gambar penuh nge-zoom */
+        object-position: center top; /* Fokus ke bagian atas baju */
+        transition: transform 0.4s ease; 
+    }
+    
+    /* Efek gambar sedikit membesar saat disorot */
+    .product-img-wrapper:hover .product-img {
+        transform: scale(1.08); 
+    }
+    
     .product-name { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: #47510B; }
 
     /* --- FIX BUTTON LOVE & CART SEJAJAR (HORIZONTAL) --- */

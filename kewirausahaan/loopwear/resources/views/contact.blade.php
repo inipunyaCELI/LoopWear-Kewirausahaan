@@ -318,12 +318,15 @@
         </div>
 
         <div class="col-md-3 col-lg-4 form-col">
-            <form action="#" method="POST" class="m-0">
+            {{-- Form action sudah diubah ke /contact dan ditambah method POST --}}
+            <form action="/contact" method="POST" class="m-0">
                 @csrf
-                <input type="text" class="form-control custom-input" placeholder="NAME">
-                <input type="text" class="form-control custom-input" placeholder="PHONE">
-                <input type="email" class="form-control custom-input" placeholder="EMAIL">
-                <textarea class="form-control custom-input" placeholder="MESSAGE"></textarea>
+                {{-- name="..." dan required sudah ditambahkan --}}
+                <input type="text" name="nama" class="form-control custom-input" placeholder="NAME" required>
+                <input type="text" name="telepon" class="form-control custom-input" placeholder="PHONE" required>
+                <input type="email" name="email" class="form-control custom-input" placeholder="EMAIL" required>
+                <textarea name="pesan" class="form-control custom-input" placeholder="MESSAGE" required></textarea>
+                
                 <button type="submit" class="btn btn-submit">
                     <span>SUBMIT</span>
                     <i class="fas fa-arrow-right" style="font-size: 0.75rem;"></i>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // --- INI YANG KITA PERBAIKI AGAR NYAMBUNG KE DESAIN BARU ---
+    // --- HALAMAN UTAMA (WELCOME) ---
     public function index()
     {
         // 1. Ambil 4 produk terbaru untuk 'Most Wanted Picks'
@@ -18,15 +18,12 @@ class ProductController extends Controller
 
         // 3. Kembalikan ke view 'welcome' membawa kedua data tersebut
         return view('welcome', compact('latestProducts', 'randomProducts'));
-        $most_wanted  = Mbarang::where('status', 'available')->latest()->take(4)->get();
-        $just_for_you = Mbarang::where('status', 'available')->inRandomOrder()->take(4)->get();
-        return view('welcome', compact('most_wanted', 'just_for_you'));
     }
-    // -----------------------------------------------------------
 
+    // --- HALAMAN SEMUA PRODUK ---
     public function center(Request $request)
     {
-        $all_items = \App\Models\Mbarang::where('status', 'available')->get();
+        $all_items = Mbarang::where('status', 'available')->get();
 
         $data = [
             'hijab'  => $all_items->filter(function($item) { return strtolower($item->kategori) == 'hijab'; }),
@@ -43,6 +40,7 @@ class ProductController extends Controller
         return view('products', compact('data'));
     }
 
+    // --- HALAMAN DETAIL & REVIEW PRODUK ---
     public function showDetail($id)
     {
         // 1. Cari barang berdasarkan id_barang
@@ -58,18 +56,19 @@ class ProductController extends Controller
         try {
             $reviews = $product->reviews()->with('user')->latest()->get();
         } catch (\Exception $e) {
-            $reviews = collect(); // Balikin kosong kalau error/belum ada tabelnya
+            $reviews = collect(); // Balik kosong kalau error/belum ada tabelnya
         }
         
-        // 4. Buka file review.blade.php dan bawa data product, recommendations, dan reviews
+        // 4. Buka file review.blade.php
         return view('review', compact('product', 'recommendations', 'reviews'));
     }
 
+    // --- HALAMAN KATEGORI SPESIFIK ---
     public function category($kategori)
     {
         $query = Mbarang::where('status', 'available');
 
-        // Kalau yang diklik adalah kategori "baju", kita suruh sistem nyari "baju" ATAU "atasan"
+        // Kalau yang diklik adalah kategori "baju", nyari "baju" ATAU "atasan"
         if (strtolower($kategori) == 'baju') {
             $query->where(function($q) {
                 $q->where('kategori', 'like', '%baju%')
@@ -86,16 +85,16 @@ class ProductController extends Controller
         return view('category', compact('items', 'kategori'));
     }
 
-    public function create() { }
-    public function store(Request $request) { }
-
-    // Fungsi show bawaan kamu
+    // --- HALAMAN DETAIL BAWAAN (Alternatif) ---
     public function show($id)
     {
         $item = Mbarang::findOrFail($id);
         return view('detail_barang', compact('item'));
     }
 
+    // Fungsi kosong bawaan resource (Bisa diisi nanti kalau dibutuhkan)
+    public function create() { }
+    public function store(Request $request) { }
     public function edit(string $id) { }
     public function update(Request $request, string $id) { }
     public function destroy(string $id) { }

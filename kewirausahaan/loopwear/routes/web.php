@@ -15,6 +15,8 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request; // <-- Tambahan untuk menangkap data form
+use Illuminate\Support\Facades\Mail; // <-- Tambahan untuk mengirim email
 
 // --- AUTENTIKASI ---
 Route::get('/login', [AuthController::class, 'login']);
@@ -56,6 +58,37 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/about', function() { return view('about'); })->name('user.about');
 Route::get('/contact', function () { return view('contact'); })->name('contact');
+
+// --- FUNGSI BARU: PENANGKAP FORM CONTACT (ANTI KOSONG) ---
+Route::post('/contact', function (Request $request) {
+    
+    // 1. SATPAM BACKEND: Cek kalau ada kotak yang kosong
+    if (empty($request->nama) || empty($request->telepon) || empty($request->email) || empty($request->pesan)) {
+        // Kalau kosong, tolak dan kembalikan dengan pesan error!
+        return back()->with('error', 'Eits, formnya nggak boleh dikosongin ya! Isi dulu dong 🥺');
+    }
+
+    // 2. Rangkai isi pesannya (kalau sudah lolos satpam)
+    $isiPesan = "Ada pesan masuk dari form Contact Us LoopWear!\n\n";
+    $isiPesan .= "Nama: " . $request->nama . "\n";
+    $isiPesan .= "Telepon: " . $request->telepon . "\n";
+    $isiPesan .= "Email: " . $request->email . "\n\n";
+    $isiPesan .= "Isi Pesan:\n" . $request->pesan;
+
+    try {
+        // 3. Kirim emailnya
+        Mail::raw($isiPesan, function ($message) use ($request) {
+            $message->to('loopweaar@gmail.com')
+                    ->subject('Pesan dari ' . $request->nama);
+        });
+        
+        // 4. Kembalikan ke halaman semula dengan pop-up sukses!
+        return back()->with('success', 'Pesan kamu berhasil dikirim ke Admin! ✨');
+        
+    } catch (\Exception $e) {
+        return back()->with('error', 'Gagal mengirim pesan. Periksa koneksi internetmu. 😥');
+    }
+});
 
 // --- PRODUK & REVIEW (DETAIL) ---
 Route::get('/products', [ProductController::class, 'center'])->name('user.products');

@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
+use Illuminate\Support\Facades\Log; // Ditambahkan agar bisa mencatat error di log jika terjadi
 
 class CheckoutController extends Controller
 {
@@ -168,4 +169,47 @@ class CheckoutController extends Controller
     public function edit(string $id) {}
     public function update(Request $request, string $id) {}
     public function destroy(string $id) {}
+
+    // --- FUNGSI BARU: PENANGKAP NOTIFIKASI MIDTRANS ---
+    public function callback(Request $request)
+    {
+        try {
+            // Ambil server key dari env
+            $serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY'); 
+
+            // Verifikasi tanda tangan (Signature Key) dari Midtrans untuk keamanan
+            $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+            
+            if ($hashed == $request->signature_key) {
+                // Cari pesanan berdasarkan order_number
+                $order = Order::where('order_number', $request->order_id)->first();
+                
+                if ($order) {
+                    // Update status berdasarkan notifikasi dari Midtrans
+                    if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
+                        $order->status_payment = 'success'; 
+                    } elseif ($request->transaction_status == 'cancel' || $request->transaction_status == 'deny' || $request->transaction_status == 'expire') {
+                        $order->status_payment = 'failed'; 
+                    } elseif ($request->transaction_status == 'pending') {
+                        $order->status_payment = 'pending';
+                    }
+                    
+                    // Simpan perubahan ke database
+                    $order->save();
+                    
+                    // Kirim respon OK ke Midtrans
+                    return response()->json(['message' => 'Status berhasil diupdate'], 200);
+                } else {
+                    return response()->json(['message' => 'Order tidak ditemukan'], 404);
+                }
+            }
+            
+            return response()->json(['message' => 'Invalid Signature'], 403);
+            
+        } catch (\Exception $e) {
+            // Catat ke file laravel.log jika ada error lain
+            Log::error('Midtrans Webhook Error: ' . $e->getMessage());
+            return response()->json(['message' => 'Internal Server Error'], 500);
+        }
+    }
 }

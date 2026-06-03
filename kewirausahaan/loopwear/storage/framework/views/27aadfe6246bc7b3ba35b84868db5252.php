@@ -32,11 +32,10 @@
 
         /* --- MENU TENGAH (PINK) --- */
         .nav-center-group {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex: 1; /* Trik kunci biar posisinya dikunci persis di tengah */
         }
 
         .nav-link-custom {
@@ -276,14 +275,15 @@
 <?php endif; ?>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
-    <div class="container d-flex align-items-center justify-content-between">
+    <div class="container d-flex align-items-center">
 
         
-        <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt="LoopWear"></a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div style="flex: 1;">
+            <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt="LoopWear"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
 
         
         <div class="nav-center-group d-none d-lg-flex">
@@ -295,7 +295,7 @@
         </div>
 
         
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center justify-content-end" style="flex: 1;">
 
             
             <a href="/wishlist" class="nav-icon-group like-icon" title="Wishlist">❤️</a>
@@ -351,7 +351,7 @@
                 <?php if(auth()->user()->role == 'admin'): ?>
                     <a href="/dashboard" class="nav-right-link">Dashboard</a>
                 <?php else: ?>
-                    <a href="/pesanan" class="nav-right-link">📦 Pesanan</a>
+                    <a href="/pesanan" class="nav-right-link">Pesanan</a>
                 <?php endif; ?>
 
                 <a href="/logout" class="nav-right-link text-danger">Logout</a>
@@ -368,13 +368,39 @@
 
 
 <?php if(session('success')): ?>
+<style>
+    /* Styling khusus biar pop-up nya bulat dan unyu */
+    .cute-popup {
+        border-radius: 30px !important;
+        border: 3px solid #E7998B !important; /* Warna pink pastel */
+        font-family: 'Quicksand', sans-serif !important;
+        box-shadow: 0 10px 30px rgba(231, 153, 139, 0.25) !important;
+    }
+    .cute-title {
+        color: #47510B !important; /* Hijau zaitun gelap */
+        font-weight: 800 !important;
+        font-size: 1.6rem !important;
+    }
+    .cute-content {
+        color: #666 !important;
+        font-weight: 600 !important;
+    }
+</style>
 <script>
     Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
+        title: 'Yay! Berhasil! ✨',
         text: '<?php echo e(session('success')); ?>',
+        icon: 'success',
+        iconColor: '#E7998B',       /* Ikon centang warna pink pastel */
+        background: '#FFFCF5',      /* Latar belakang krem/kuning sangat pucat */
         showConfirmButton: false,
-        timer: 2000
+        timer: 2500,                /* Muncul sedikit lebih lama (2.5 detik) */
+        customClass: {
+            popup: 'cute-popup',
+            title: 'cute-title',
+            htmlContainer: 'cute-content'
+        },
+        backdrop: `rgba(71, 81, 11, 0.15)` /* Efek redup latar belakang warna hijau tipis */
     });
 </script>
 <?php endif; ?>
@@ -383,9 +409,20 @@
 <?php if(session('error')): ?>
 <script>
     Swal.fire({
+        title: 'Oops! 🙈',
+        text: '<?php echo e(session('error')); ?>',
         icon: 'error',
-        title: 'Gagal',
-        text: '<?php echo e(session('error')); ?>'
+        iconColor: '#E7998B',       /* Warna pink pastel */
+        background: '#FFFCF5',      /* Latar belakang krem */
+        showConfirmButton: true,
+        confirmButtonColor: '#8A9E71', /* Tombol warna hijau zaitun */
+        confirmButtonText: 'Okeee',
+        customClass: {
+            popup: 'cute-popup',
+            title: 'cute-title',
+            htmlContainer: 'cute-content'
+        },
+        backdrop: `rgba(71, 81, 11, 0.15)`
     });
 </script>
 <?php endif; ?>

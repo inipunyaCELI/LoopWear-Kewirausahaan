@@ -130,14 +130,12 @@
         min-height: 220px;
         display: flex;
         align-items: center;
-        /* Padding horizontal dibesarkan jadi 90px agar aman dari panah */
         padding: 30px 90px; 
         transition: all 0.3s ease;
     }
 
-    /* Efek gemes pada gambar di carousel */
     .save-poster img {
-        max-height: 180px; /* Ukuran gambar dibesarkan */
+        max-height: 180px; 
         object-fit: contain;
         filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
         transition: transform 0.4s ease;
@@ -153,7 +151,7 @@
     .carousel-control-prev-icon, .carousel-control-next-icon { filter: invert(1); }
 
     .earth-edit-banner {
-        background-color: #c7d159; /* Hijau lemon pastel */
+        background-color: #c7d159; 
         border-radius: 20px;
         padding: 40px 20px;
         text-align: center;
@@ -256,13 +254,10 @@
         transform: scale(1.1);
     }
 
+    /* Wishlist Button Styling (Hasil Merge) */
     .btn-wishlist-grid {
-        position: absolute;
-        top: 10px;
-        right: 10px;
         background: #fff;
         border: none;
-<<<<<<< HEAD
         border-radius: 50%;
         width: 35px;
         height: 35px;
@@ -270,40 +265,19 @@
         color: #ddd;
         transition: color 0.3s ease, transform 0.2s ease;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        z-index: 2;
-=======
-        font-size: 1.2rem;
-        color: #bbb;
-        transition: color 0.2s ease, transform 0.2s ease;
         cursor: pointer;
         padding: 0;
         line-height: 1;
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
     }
 
     .btn-wishlist-grid:hover {
         color: #F29C9C;
-<<<<<<< HEAD
         transform: scale(1.1);
-=======
-        transform: scale(1.2);
     }
 
-    /* State aktif: sudah masuk wishlist */
     .btn-wishlist-grid.wishlisted,
     .btn-wishlist-grid.wishlisted:hover {
         color: #e74c3c;
-    }
-
-    /* Form wishlist tidak menggeser layout */
-    .product-img-box form[action*="wishlist"] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        line-height: 0;
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
     }
 
     .product-brand {
@@ -341,12 +315,8 @@
         font-weight: 700;
         font-size: 0.85rem;
         transition: all 0.3s ease;
-<<<<<<< HEAD
-        margin-top: auto;
-=======
-        margin-top: auto; /* Tombol selalu di paling bawah */
+        margin-top: auto; 
         cursor: pointer;
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
     }
 
     .btn-grid-action:hover {
@@ -354,12 +324,10 @@
         background-color: #47510B;
         color: white;
     }
-<<<<<<< HEAD
-=======
 
-    /* Form keranjang agar full width */
-    .product-grid-card > form {
+    .product-grid-card-1 > form, .product-grid-card-2 > form {
         width: 100%;
+        margin-top: auto;
     }
 
     /* Animasi Toast Notifikasi */
@@ -371,8 +339,6 @@
         from { opacity: 1; }
         to   { opacity: 0; transform: translateY(10px); }
     }
-
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
 </style>
 
 {{-- 1. HERO SECTION --}}
@@ -389,7 +355,7 @@
                 </p>
                 <div class="d-flex gap-3 mb-5">
                     <a href="/cart" id="order-btn" class="btn rounded-pill px-4 py-2 fw-bold shadow border-0">ORDER NOW</a>
-                    <a href="/products" id="view-menu-btn" class="btn rounded-pill px-4 py-2 fw-bold">VIEW PRODUCTS</a>
+                    <a href="/category/hijab" id="view-menu-btn" class="btn rounded-pill px-4 py-2 fw-bold">VIEW PRODUCTS</a>
                 </div>
 
                 <div class="d-flex gap-4 hero-thumbs align-items-center">
@@ -484,15 +450,20 @@
     <div class="best-seller-section shadow-sm">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
         <div class="row g-4">
-<<<<<<< HEAD
             
             @forelse($latestProducts as $barang)
             <div class="col-6 col-md-3">
                 <div class="product-grid-card-1">
                     <div class="product-img-box">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
+                        {{-- Fitur Tombol Wishlist --}}
+                        <form action="{{ route('wishlist.add', $barang->id_barang) }}" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
+                            @csrf
+                            <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
+                                <i class="{{ isset(session('wishlist')[$barang->id_barang]) ? 'fas' : 'far' }} fa-heart"></i>
+                            </button>
+                        </form>
                         <a href="/products/{{ $barang->id_barang }}">
-                            <img src="{{ asset('images/' . ($barang->gambar ?? 'no-image.png')) }}" class="grid-img" alt="{{ $barang->nama_barang ?? $barang->nama }}">
+                            <img src="{{ asset('images/' . ($barang->gambar ?? 'no-image.png')) }}" class="grid-img" alt="{{ $barang->nama_barang ?? $barang->nama }}" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         </a>
                     </div>
                     <div class="product-info mb-3 px-2 flex-grow-1">
@@ -504,58 +475,22 @@
                             <span class="product-price-discount">Rp {{ number_format($barang->harga, 0, ',', '.') }}</span>
                         </div>
                     </div>
-                    <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="mt-auto px-2 pb-2">
+                    <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="px-2 pb-2">
                         @csrf
                         <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
                     </form>
                 </div>
             </div>
             @empty
-            <div class="col-12 text-center text-muted">
-                <p>Belum ada produk yang tersedia.</p>
+            <div class="col-12 text-center text-muted fst-italic py-4">
+                Belum ada produk yang tersedia.
             </div>
-=======
-
-            @forelse($most_wanted as $item)
-            <div class="col-6 col-md-3">
-                <div class="product-grid-card">
-                    <div class="product-img-box">
-                        {{-- Tombol Wishlist (Love) --}}
-                        <form action="{{ route('wishlist.add', $item->id_barang) }}" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
-                            @csrf
-                            <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
-                                <i class="{{ isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far' }} fa-heart"></i>
-                            </button>
-                        </form>
-                        <img src="{{ asset('images/' . $item->gambar) }}"
-                             class="grid-img"
-                             alt="{{ $item->nama_barang }}"
-                             onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
-                    </div>
-                    <div class="product-info mb-3 px-1">
-                        <div class="product-brand">{{ strtoupper($item->kategori) }}</div>
-                        <div class="product-name">{{ $item->nama_barang }}</div>
-                        <div>
-                            <span class="product-price-discount">Rp {{ number_format($item->harga, 0, ',', '.') }}</span>
-                        </div>
-                    </div>
-                    {{-- Tombol Keranjang --}}
-                    <form action="{{ route('cart.add', $item->id_barang) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
-                    </form>
-                </div>
-            </div>
-            @empty
-            <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
             @endforelse
 
         </div>
     </div>
 </div>
 
-<<<<<<< HEAD
 {{-- 4. BANNER: THE THRIFT EDIT --}}
 <div class="container mt-5 pt-4">
     <div class="earth-edit-banner shadow">
@@ -566,7 +501,7 @@
 </div>
 
 {{-- 5. SECTION: JUST FOR YOU --}}
-<div class="container mt-5 pt-4">
+<div class="container mt-5 pt-4 mb-5">
     <div class="just-for-you-section shadow-sm">
         <h3 class="text-center section-title mb-5" style="color: #c44131;">Just For You</h3>
         <div class="row g-4">
@@ -575,9 +510,15 @@
             <div class="col-6 col-md-3">
                 <div class="product-grid-card-2"> 
                     <div class="product-img-box" style="background-color: #fff;">
-                        <button class="btn-wishlist-grid"><i class="far fa-heart"></i></button>
+                        {{-- Fitur Tombol Wishlist --}}
+                        <form action="{{ route('wishlist.add', $barang->id_barang) }}" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
+                            @csrf
+                            <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
+                                <i class="{{ isset(session('wishlist')[$barang->id_barang]) ? 'fas' : 'far' }} fa-heart"></i>
+                            </button>
+                        </form>
                         <a href="/products/{{ $barang->id_barang }}">
-                            <img src="{{ asset('images/' . ($barang->gambar ?? 'no-image.png')) }}" class="grid-img" alt="{{ $barang->nama_barang ?? $barang->nama }}">
+                            <img src="{{ asset('images/' . ($barang->gambar ?? 'no-image.png')) }}" class="grid-img" alt="{{ $barang->nama_barang ?? $barang->nama }}" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         </a>
                     </div>
                     <div class="product-info mb-3 px-2 flex-grow-1">
@@ -589,15 +530,15 @@
                             <span class="product-price-discount">Rp {{ number_format($barang->harga, 0, ',', '.') }}</span>
                         </div>
                     </div>
-                    <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="mt-auto px-2 pb-2">
+                    <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="px-2 pb-2">
                         @csrf
                         <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
                     </form>
                 </div>
             </div>
             @empty
-            <div class="col-12 text-center text-muted">
-                <p>Belum ada produk untukmu.</p>
+            <div class="col-12 text-center text-muted fst-italic py-4">
+                Belum ada produk untukmu.
             </div>
             @endforelse
 
@@ -605,54 +546,7 @@
     </div>
 </div>
 
-{{-- SCRIPT HERO --}}
-=======
-<div class="container mt-5 pt-4 mb-5">
-    <h3 class="text-center section-title mb-5">Just For You</h3>
-    <div class="row g-4">
-
-        @forelse($just_for_you as $item)
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    {{-- Tombol Wishlist (Love) --}}
-                    <form action="{{ route('wishlist.add', $item->id_barang) }}" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
-                        @csrf
-                        <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
-                            <i class="{{ isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far' }} fa-heart"></i>
-                        </button>
-                    </form>
-                    <img src="{{ asset('images/' . $item->gambar) }}"
-                         class="grid-img"
-                         alt="{{ $item->nama_barang }}"
-                         onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand">{{ strtoupper($item->kategori) }}</div>
-                    <div class="product-name">{{ $item->nama_barang }}</div>
-                    <div>
-                        <span class="product-price-discount">Rp {{ number_format($item->harga, 0, ',', '.') }}</span>
-                    </div>
-                </div>
-                {{-- Tombol Keranjang --}}
-                <form action="{{ route('cart.add', $item->id_barang) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
-                </form>
-            </div>
-        </div>
-        @empty
-        <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
-        @endforelse
-
-    </div>
-
-    <div class="text-center mt-5">
-        <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
-    </div>
-</div>
-
-{{-- Notifikasi sukses --}}
+{{-- NOTIFIKASI TOAST DARI HASIL MERGE --}}
 @if(session('success'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -709,8 +603,7 @@
 </script>
 @endif
 
-
->>>>>>> c01040415133903f3affa3f1785fa87380c90735
+{{-- SCRIPT HERO UTAMA --}}
 <script>
     const heroData = {
         hijab: {
@@ -722,7 +615,7 @@
             btnBg: "#F29C9C",         
             btnText: "#FFFFFF",       
             mainImg: "{{ asset('images/hijab_pink.png') }}",
-            linkURL: "/category/hijab", /* TAMBAHAN BARU: Link kategori */
+            linkURL: "/category/hijab",
             floaters: [
                 "{{ asset('images/baju.png') }}",
                 "{{ asset('images/celana.png') }}",
@@ -738,7 +631,7 @@
             btnBg: "#C44131",         
             btnText: "#FFFFFF",
             mainImg: "{{ asset('images/baju.png') }}",
-            linkURL: "/category/baju", /* TAMBAHAN BARU: Link kategori */
+            linkURL: "/category/baju",
             floaters: [
                 "{{ asset('images/hijab_pink.png') }}",
                 "{{ asset('images/celana.png') }}",
@@ -754,7 +647,7 @@
             btnBg: "#415AAB",         
             btnText: "#F7B0A1",       
             mainImg: "{{ asset('images/celana.png') }}",
-            linkURL: "/category/celana", /* TAMBAHAN BARU: Link kategori */
+            linkURL: "/category/celana",
             floaters: [
                 "{{ asset('images/baju.png') }}",
                 "{{ asset('images/hijab_pink.png') }}",
@@ -770,7 +663,7 @@
             btnBg: "#4A5828",         
             btnText: "#F7B0A1",       
             mainImg: "{{ asset('images/sepatu.png') }}",
-            linkURL: "/category/sepatu", /* TAMBAHAN BARU: Link kategori */
+            linkURL: "/category/sepatu",
             floaters: [
                 "{{ asset('images/baju.png') }}",
                 "{{ asset('images/hijab_pink.png') }}",
@@ -814,7 +707,6 @@
         const viewMenuBtn = document.getElementById('view-menu-btn');
         viewMenuBtn.style.borderColor = data.btnBg;
         viewMenuBtn.style.color = data.btnBg;
-        /* TAMBAHAN BARU: Mengubah link tombol View Products secara dinamis */
         viewMenuBtn.href = data.linkURL; 
 
         viewMenuBtn.onmouseover = function() {
