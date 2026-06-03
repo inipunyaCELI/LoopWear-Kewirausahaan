@@ -18,6 +18,9 @@ class ProductController extends Controller
 
         // 3. Kembalikan ke view 'welcome' membawa kedua data tersebut
         return view('welcome', compact('latestProducts', 'randomProducts'));
+        $most_wanted  = Mbarang::where('status', 'available')->latest()->take(4)->get();
+        $just_for_you = Mbarang::where('status', 'available')->inRandomOrder()->take(4)->get();
+        return view('welcome', compact('most_wanted', 'just_for_you'));
     }
     // -----------------------------------------------------------
 
