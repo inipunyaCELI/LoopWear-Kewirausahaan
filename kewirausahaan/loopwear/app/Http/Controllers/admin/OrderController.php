@@ -11,6 +11,11 @@ class OrderController extends Controller
     public function index()
     {
         $orders = \App\Models\Order::with('user')->latest()->get();
+        
+        foreach ($orders as $order) {
+            $order->syncMidtransStatus();
+        }
+
         return view('admin.orders.index', compact('orders'));
     }
 

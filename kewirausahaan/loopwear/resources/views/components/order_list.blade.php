@@ -61,6 +61,15 @@
                                 ⚡ Lanjutkan Pembayaran
                             </button>
                         </div>
+                    @elseif($order->status_delivery == 'dikirim')
+                        <div class="d-flex gap-2">
+                            <form action="{{ route('pesanan.complete', $order->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin pesanan telah diterima dengan baik?');">
+                                @csrf
+                                <button type="submit" class="btn btn-success fw-bold text-white rounded-pill px-4">
+                                    ✅ Pesanan Selesai
+                                </button>
+                            </form>
+                        </div>
                     @elseif($order->status_payment != 'pending' && $order->status_delivery != 'dibatalkan' && $order->status_delivery != 'selesai')
                         <small class="text-muted fst-italic">Ingin membatalkan pesanan? <a href="/contact" class="text-decoration-none">Hubungi Admin</a></small>
                     @endif
