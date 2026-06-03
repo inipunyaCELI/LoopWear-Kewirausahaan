@@ -23,4 +23,24 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function syncMidtransStatus()
+    {
+        if ($this->status_payment !== 'pending') return;
+
+        \Midtrans\Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+        \Midtrans\Config::$isProduction = false;
+
+        try {
+            $status = \Midtrans\Transaction::status($this->order_number);
+            
+            if ($status->transaction_status == 'capture' || $status->transaction_status == 'settlement') {
+                $this->update(['status_payment' => 'success']);
+            } else if (in_array($status->transaction_status, ['expire', 'cancel', 'deny'])) {
+                $this->update(['status_payment' => 'dibatalkan', 'status_delivery' => 'dibatalkan']);
+            }
+        } catch (\Exception $e) {
+            // Abaikan jika order_id belum ada di midtrans atau error jaringan
+        }
+    }
 }
