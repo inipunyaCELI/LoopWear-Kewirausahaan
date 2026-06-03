@@ -7,13 +7,27 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- SWEETALERT2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #fff; scroll-behavior: smooth; }
+        /* === KUNCI STICKY FOOTER ADA DI SINI === */
+        body { 
+            font-family: 'Quicksand', sans-serif; 
+            background-color: #fff; 
+            scroll-behavior: smooth; 
+            
+            /* Flexbox Mantra untuk Sticky Footer */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Memaksa konten utama mengisi ruang kosong yang ada */
+        main {
+            flex: 1 0 auto;
+        }
 
         /* --- NAVBAR BASE --- */
         .navbar {
@@ -427,7 +441,7 @@
 @endif
 
 {{-- FOOTER --}}
-<footer style="background-color: #47510B; color: #fff24d; padding: 2rem 0 1rem; margin-top: 0;">
+<footer style="background-color: #47510B; color: #fff24d; padding: 2rem 0 1rem; margin-top: auto;">
     <div class="container">
         <div class="row gy-4">
 
@@ -446,6 +460,7 @@
                     <li style="margin-bottom: 6px;"><a href="/" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Home</a></li>
                     <li style="margin-bottom: 6px;"><a href="/about" style="color: #fff24d; text-decoration: none; opacity: 0.85;">About</a></li>
                     <li style="margin-bottom: 6px;"><a href="/products" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Products</a></li>
+                    <li style="margin-bottom: 6px;"><a href="/review" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Review</a></li>
                     <li style="margin-bottom: 6px;"><a href="/contact" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Contact</a></li>
                 </ul>
             </div>
@@ -454,7 +469,7 @@
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Kontak</p>
                 <ul style="list-style: none; padding: 0; font-size: 0.82rem; margin: 0;">
-                    <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📧 hello@loopwear.com</li>
+                    <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📧 loopweaar@gmail.com</li>
                     <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📞 0812-3456-7890</li>
                     <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📍 Banjarmasin, Indonesia</li>
                 </ul>

@@ -119,19 +119,9 @@
     }
 
     /* =========================================
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
        2. CAROUSEL & NEW BANNER STYLING
        ========================================= */
     .save-carousel { border-radius: 20px; overflow: hidden; border: none; margin-bottom: 50px; }
-=======
-       3. more-ways-to-save STYLING (Carousel Poster)
-       ========================================= */
-    .save-carousel {
-        border-radius: 12px;
-        overflow: hidden;
-        border: none;
-    }
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
     
     .save-poster {
         background-color: #fdf5e6;
@@ -161,7 +151,7 @@
     .earth-edit-banner {
         background-color: #c7d159; 
         border-radius: 20px;
-        padding: 40px 20px;
+        padding: 50px 30px;
         text-align: center;
         color: white;
         box-shadow: 0 8px 20px rgba(199, 209, 89, 0.3);
@@ -196,31 +186,17 @@
         padding: 50px 20px;
     }
 
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
+    .just-for-you-section {
+        background-color: #ffeceb; 
+        border-radius: 25px; 
+        padding: 50px 20px;
+        margin-bottom: 50px;
+    }
+
     .product-grid-card-1 {
         background: #ffffff;
         border-radius: 20px; 
         padding: 12px;
-=======
-    .section-thrift-edit {
-        background-color: #b8cc58;
-        border-radius: 15px;
-        padding: 50px 30px;
-        color: white;
-        text-align: center;
-    }
-
-    .just-for-you-section {
-        background-color: #ffe5e5;
-        border-radius: 15px;
-        padding: 40px 20px;
-    }
-
-    /* Komponen Produk Proper Ala Zalora */
-    .product-grid-card {
-        border: none;
-        background: transparent;
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -232,13 +208,6 @@
     .product-grid-card-1:hover {
         transform: translateY(-8px);
         box-shadow: 0 15px 30px rgba(199, 209, 89, 0.4);
-    }
-
-    .just-for-you-section {
-        background-color: #ffeceb; 
-        border-radius: 25px; 
-        padding: 50px 20px;
-        margin-bottom: 50px;
     }
 
     .product-grid-card-2 {
@@ -259,15 +228,9 @@
     }
     
     .product-img-box {
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
         background-color: #f8f9fa;
         border-radius: 14px;
         padding: 20px;
-=======
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 30px 20px;
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
         position: relative;
         text-align: center;
         margin-bottom: 15px;
@@ -289,7 +252,7 @@
         transform: scale(1.1);
     }
 
-    /* Wishlist Button Styling (Hasil Merge) */
+    /* Wishlist Button Styling */
     .btn-wishlist-grid {
         background: #fff;
         border: none;
@@ -415,16 +378,9 @@
 
 <div id="products-start"></div>
 
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
 
 <div class="container mt-5 pt-4">
-    <div id="saveCarousel" class="carousel slide save-carousel shadow" data-bs-ride="carousel">
-=======
-<div class="container mt-5 pt-4">
-    <h3 class="text-center section-title mb-4"></h3>
-    
     <div id="saveCarousel" class="carousel slide save-carousel shadow-sm" data-bs-ride="carousel">
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
         <div class="carousel-inner">
             
             <div class="carousel-item active">
@@ -488,10 +444,6 @@
 </div>
 
 
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
-=======
-
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
 <div class="container mt-5 pt-4">
     <div class="best-seller-section shadow-sm">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
@@ -537,67 +489,15 @@
     </div>
 </div>
 
-<<<<<<< HEAD:kewirausahaan/loopwear/storage/framework/views/94249d5afd74aa9af6f29ca05499b927.php
 
 <div class="container mt-5 pt-4">
-    <div class="earth-edit-banner shadow">
-        <i class="fa-solid fa-leaf" style="font-size: 3rem;"></i>
-        <h2>THE THRIFT EDIT</h2>
-        <p>Look good and feel good with our curated preloved collection.<br>Explore fashion picks carefully crafted to help reduce impact on our planet.</p>
-=======
-<!-- THE THRIFT EDIT -->
-<div class="container mt-5 pt-4">
-    <div class="section-thrift-edit shadow-sm">
+    <div class="earth-edit-banner shadow-sm">
         <i class="fas fa-leaf mb-3" style="font-size: 2.5rem; color: white;"></i>
         <h2 class="fw-bold mb-3" style="font-family: 'Fredoka One', cursive; letter-spacing: 1px;">THE THRIFT EDIT</h2>
         <p class="mb-0 mx-auto" style="max-width: 600px; font-weight: 500;">
             Look good and feel good with our curated preloved collection.<br>
             Explore fashion picks carefully crafted to help reduce impact on our planet.
         </p>
-    </div>
-</div>
-
-<div class="container mt-5 pt-4 mb-5">
-    <div class="just-for-you-section shadow">
-        <h3 class="text-center section-title mb-5" style="color: #c9302c;">Just For You</h3>
-        <div class="row g-4">
-
-        <?php $__empty_1 = true; $__currentLoopData = $just_for_you; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    
-                    <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
-                        <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
-                            <i class="<?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
-                        </button>
-                    </form>
-                    <img src="<?php echo e(asset('images/' . $item->gambar)); ?>"
-                         class="grid-img"
-                         alt="<?php echo e($item->nama_barang); ?>"
-                         onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand"><?php echo e(strtoupper($item->kategori)); ?></div>
-                    <div class="product-name"><?php echo e($item->nama_barang); ?></div>
-                    <div>
-                        <span class="product-price-discount">Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
-                    </div>
-                </div>
-                
-                <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
-                </form>
-            </div>
-        </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-        <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
-        <?php endif; ?>
-
-        </div>
->>>>>>> ccfc2de84719607848f913097b5b76933e471f91:kewirausahaan/loopwear/storage/framework/views/23cf28edddab61a726ca67c375f3401c.php
     </div>
 </div>
 
@@ -643,6 +543,11 @@
             </div>
             <?php endif; ?>
 
+        </div>
+
+        
+        <div class="text-center mt-5">
+            <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
         </div>
     </div>
 </div>
