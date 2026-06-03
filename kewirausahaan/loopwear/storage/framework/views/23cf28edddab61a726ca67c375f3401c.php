@@ -118,34 +118,6 @@
     }
 
     /* =========================================
-       2. got-you-splurging STYLING (Promo Banner Utama)
-       ========================================= */
-    .promo-banner-main {
-        background-color: #f4ecd8; /* Beige Pastel */
-        border-radius: 12px;
-        min-height: 250px;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .promo-banner-main .promo-text {
-        z-index: 2;
-        padding-left: 5%;
-    }
-
-    .promo-banner-main .promo-img {
-        position: absolute;
-        right: -5%;
-        bottom: 0;
-        height: 110%;
-        object-fit: cover;
-        z-index: 1;
-        opacity: 0.9;
-    }
-
-    /* =========================================
        3. more-ways-to-save STYLING (Carousel Poster)
        ========================================= */
     .save-carousel {
@@ -195,6 +167,20 @@
         padding: 40px 20px;
     }
 
+    .section-thrift-edit {
+        background-color: #b8cc58;
+        border-radius: 15px;
+        padding: 50px 30px;
+        color: white;
+        text-align: center;
+    }
+
+    .just-for-you-section {
+        background-color: #ffe5e5;
+        border-radius: 15px;
+        padding: 40px 20px;
+    }
+
     /* Komponen Produk Proper Ala Zalora */
     .product-grid-card {
         border: none;
@@ -205,7 +191,7 @@
     }
     
     .product-img-box {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         border-radius: 8px;
         padding: 30px 20px;
         position: relative;
@@ -375,26 +361,7 @@
 <div id="products-start"></div>
 
 <div class="container mt-5 pt-4">
-    <h3 class="text-center section-title mb-4">Got You Splurging</h3>
-    <div class="promo-banner-main shadow-sm">
-        <div class="row w-100 align-items-center m-0">
-            <div class="col-md-6 promo-text">
-                <h5 class="fw-bold" style="color: #c27d71; letter-spacing: 1px;">SOFT LOOKS, STRONG STYLE</h5>
-                <h1 class="display-5 fw-bold mb-3" style="color: #e27d60; font-family: 'Fredoka One', cursive;">
-                    EXTRA UP TO<br>65% OFF
-                </h1>
-                <a href="#shop" class="btn btn-dark rounded-0 px-4 py-2 fw-bold" style="font-size: 0.9rem; letter-spacing: 1px;">SHOP NOW ></a>
-                <p class="mt-4 mb-0" style="font-size: 0.8rem; font-weight: 600;">S&K berlaku. Gratis ongkir se-Banjarmasin.</p>
-            </div>
-            <div class="col-md-6 position-static">
-                <img src="<?php echo e(asset('images/baju.png')); ?>" class="promo-img" alt="Promo Model">
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container mt-5 pt-4">
-    <h3 class="text-center section-title mb-4">More Ways to Save</h3>
+    <h3 class="text-center section-title mb-4"></h3>
     
     <div id="saveCarousel" class="carousel slide save-carousel shadow-sm" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -460,6 +427,8 @@
     </div>
 </div>
 
+
+
 <div class="container mt-5 pt-4">
     <div class="best-seller-section shadow">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
@@ -503,9 +472,22 @@
     </div>
 </div>
 
+<!-- THE THRIFT EDIT -->
+<div class="container mt-5 pt-4">
+    <div class="section-thrift-edit shadow-sm">
+        <i class="fas fa-leaf mb-3" style="font-size: 2.5rem; color: white;"></i>
+        <h2 class="fw-bold mb-3" style="font-family: 'Fredoka One', cursive; letter-spacing: 1px;">THE THRIFT EDIT</h2>
+        <p class="mb-0 mx-auto" style="max-width: 600px; font-weight: 500;">
+            Look good and feel good with our curated preloved collection.<br>
+            Explore fashion picks carefully crafted to help reduce impact on our planet.
+        </p>
+    </div>
+</div>
+
 <div class="container mt-5 pt-4 mb-5">
-    <h3 class="text-center section-title mb-5">Just For You</h3>
-    <div class="row g-4">
+    <div class="just-for-you-section shadow">
+        <h3 class="text-center section-title mb-5" style="color: #c9302c;">Just For You</h3>
+        <div class="row g-4">
 
         <?php $__empty_1 = true; $__currentLoopData = $just_for_you; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-6 col-md-3">
@@ -541,6 +523,7 @@
         <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
         <?php endif; ?>
 
+        </div>
     </div>
 
     <div class="text-center mt-5">
