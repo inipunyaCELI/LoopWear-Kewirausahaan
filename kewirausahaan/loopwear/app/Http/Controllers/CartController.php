@@ -77,4 +77,23 @@ class CartController extends Controller
 
         return back()->with('success', 'Produk dihapus dari Keranjang.');
     }
+
+    // Fungsi untuk menghapus banyak barang sekaligus
+    public function removeSelected(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        $selected = $request->selected ?? [];
+
+        // Looping ID barang yang dikirim dari JS, lalu hapus dari keranjang
+        foreach ($selected as $id) {
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
+            }
+        }
+
+        // Simpan sisa keranjang yang baru
+        session()->put('cart', $cart);
+
+        return back()->with('success_cart', 'Barang terpilih berhasil dihapus dari tas!');
+    }
 }

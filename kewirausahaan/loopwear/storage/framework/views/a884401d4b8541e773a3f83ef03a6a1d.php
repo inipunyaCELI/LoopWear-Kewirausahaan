@@ -53,6 +53,9 @@
         transition: 0.3s;
     }
     .btn-checkout:hover { background-color: #8a1212; transform: translateY(-2px); }
+
+    /* Hover efek untuk tombol remove selected */
+    .hover-danger:hover { color: #AB1717 !important; }
 </style>
 
 <div class="container pb-5">
@@ -130,12 +133,20 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 d-flex align-items-center gap-4">
-                <div class="form-check">
+                <div class="form-check m-0 p-0 d-flex align-items-center">
                     <label class="form-check-label text-muted" style="cursor:pointer">
                         Total Items (<?php echo e(count($cart)); ?>)
                     </label>
                 </div>
-                <a href="#" class="text-muted small text-decoration-none hover-danger">Remove Selected</a>
+                
+                
+                <form id="formRemoveSelected" action="<?php echo e(route('cart.remove_selected')); ?>" method="POST" style="display: none;">
+                    <?php echo csrf_field(); ?>
+                    <div id="hiddenRemoveInputs"></div>
+                </form>
+
+                
+                <button type="button" onclick="hapusTerpilih()" class="btn btn-link text-muted small text-decoration-none p-0 border-0 hover-danger" style="font-weight: 600;">Remove Selected</button>
             </div>
             
             <div class="col-md-6 d-flex justify-content-end align-items-center gap-5">
@@ -155,6 +166,7 @@
 </div>
 
 <script>
+// --- FUNGSI HITUNG TOTAL ---
 function hitungTotal() {
     let total = 0;
     let checkedItems = document.querySelectorAll('.item-check:checked');
@@ -171,14 +183,58 @@ function hitungTotal() {
     // Update tampilan total harga
     document.getElementById('totalHarga').innerText = total.toLocaleString('id-ID');
 
-    // LOGIKA SINKRONISASI: 
-    // Jika jumlah yang dicentang sama dengan total produk, maka 'All' menyala. 
-    // Jika ada yang tidak dicentang, 'All' mati.
+    // SINKRONISASI CHECK ALL
     if (allItems.length > 0) {
         checkAll.checked = (checkedItems.length === allItems.length);
     } else {
         checkAll.checked = false;
     }
+}
+
+// --- FUNGSI HAPUS BARANG TERPILIH ---
+function hapusTerpilih() {
+    let checkedItems = document.querySelectorAll('.item-check:checked');
+    
+    // Cegah kalau user belum nyentang apa-apa
+    if (checkedItems.length === 0) {
+        Swal.fire({
+            title: 'Oops!',
+            text: 'Pilih minimal 1 barang dulu untuk dihapus ya.',
+            icon: 'warning',
+            confirmButtonColor: '#47510B'
+        });
+        return;
+    }
+
+    // Munculkan konfirmasi SweetAlert
+    Swal.fire({
+        title: 'Yakin hapus barang?',
+        text: "Barang yang dicentang akan dibuang dari tas belanja.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#AB1717',
+        cancelButtonColor: '#888',
+        confirmButtonText: 'Ya, Hapus!',
+        cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-4' }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let hiddenContainer = document.getElementById('hiddenRemoveInputs');
+            hiddenContainer.innerHTML = ''; // Bersihkan kontainer
+            
+            // Masukkan semua ID barang yang dicentang ke dalam form tersembunyi
+            checkedItems.forEach(item => {
+                let input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected[]';
+                input.value = item.value;
+                hiddenContainer.appendChild(input);
+            });
+            
+            // Kirim data ke backend!
+            document.getElementById('formRemoveSelected').submit();
+        }
+    });
 }
 
 // Jalankan fungsi saat halaman pertama kali dibuka
@@ -190,12 +246,14 @@ document.querySelectorAll('.item-check').forEach(el => {
 });
 
 // Listener untuk checkbox 'Check All' di bagian atas
-document.getElementById('checkAll').addEventListener('change', function() {
-    document.querySelectorAll('.item-check').forEach(el => {
-        el.checked = this.checked;
+if (document.getElementById('checkAll')) {
+    document.getElementById('checkAll').addEventListener('change', function() {
+        document.querySelectorAll('.item-check').forEach(el => {
+            el.checked = this.checked;
+        });
+        hitungTotal();
     });
-    hitungTotal();
-});
+}
 </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/cart.blade.php ENDPATH**/ ?>
