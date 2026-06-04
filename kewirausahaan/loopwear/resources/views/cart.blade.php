@@ -155,11 +155,41 @@
                     <span class="fw-bold fs-3" style="color: #AB1717;">Rp <span id="totalHarga">0</span></span>
                 </div>
                 
-                <form id="formCheckout" action="{{ route('checkout.index') }}" method="GET">
-                    <button type="submit" class="btn-checkout">
+                {{-- FITUR GEMBOK CHECKOUT (WAJIB LOGIN) --}}
+                @auth
+                    {{-- Kalau SUDAH login, tombolnya normal menuju proses checkout --}}
+                    <form id="formCheckout" action="{{ route('checkout.index') }}" method="GET">
+                        <button type="submit" class="btn-checkout">
+                            Checkout
+                        </button>
+                    </form>
+                @else
+                    {{-- Kalau BELUM login, tombolnya memunculkan pop-up peringatan --}}
+                    <button type="button" class="btn-checkout" onclick="wajibLogin()">
                         Checkout
                     </button>
-                </form>
+
+                    <script>
+                        function wajibLogin() {
+                            Swal.fire({
+                                title: 'Login Dulu Yuk! 🔐',
+                                text: 'Kamu harus masuk ke akunmu dulu buat lanjutin pesanan ini.',
+                                icon: 'info',
+                                iconColor: '#E7998B',
+                                showCancelButton: true,
+                                confirmButtonColor: '#47510B',
+                                cancelButtonColor: '#888',
+                                confirmButtonText: 'Login Sekarang',
+                                cancelButtonText: 'Nanti Aja',
+                                customClass: { popup: 'rounded-4' }
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/login'; // Arahkan ke halaman login
+                                }
+                            });
+                        }
+                    </script>
+                @endauth
             </div>
         </div>
     </div>

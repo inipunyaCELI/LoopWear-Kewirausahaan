@@ -44,7 +44,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('/admin/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('admin.orders.cancel');
 });
 
-// --- USER AUTHENTICATED AREA ---
+// --- USER AUTHENTICATED AREA (WAJIB LOGIN) ---
 Route::middleware(['auth'])->group(function () {
     // Pesanan user
     Route::get('/pesanan', [PesananController::class, 'index'])->name('pesanan.index');
@@ -56,6 +56,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // --- CHECKOUT (Dipindah ke sini biar aman!) ---
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/success', function () { return view('checkout_success'); })->name('checkout.success');
+    Route::get('/checkout/finish', function() { return view('checkout_finish'); })->name('checkout.finish');
 });
 
 // --- HALAMAN UTAMA & INFO ---
@@ -110,12 +116,6 @@ Route::post('/cart/remove-selected', [CartController::class, 'removeSelected'])-
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::post('/wishlist/add/{id}', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::get('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-
-// --- CHECKOUT ---
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-Route::get('/checkout/success', function () { return view('checkout_success'); })->name('checkout.success');
-Route::get('/checkout/finish', function() { return view('checkout_finish'); })->name('checkout.finish');
 
 // --- REVIEW ---
 Route::get('/review', [ReviewController::class, 'index'])->name('review.index');

@@ -155,11 +155,41 @@
                     <span class="fw-bold fs-3" style="color: #AB1717;">Rp <span id="totalHarga">0</span></span>
                 </div>
                 
-                <form id="formCheckout" action="<?php echo e(route('checkout.index')); ?>" method="GET">
-                    <button type="submit" class="btn-checkout">
+                
+                <?php if(auth()->guard()->check()): ?>
+                    
+                    <form id="formCheckout" action="<?php echo e(route('checkout.index')); ?>" method="GET">
+                        <button type="submit" class="btn-checkout">
+                            Checkout
+                        </button>
+                    </form>
+                <?php else: ?>
+                    
+                    <button type="button" class="btn-checkout" onclick="wajibLogin()">
                         Checkout
                     </button>
-                </form>
+
+                    <script>
+                        function wajibLogin() {
+                            Swal.fire({
+                                title: 'Eits, Login Dulu Yuk! 🔐',
+                                text: 'Kamu harus masuk ke akunmu dulu buat lanjutin pesanan ini.',
+                                icon: 'info',
+                                iconColor: '#E7998B',
+                                showCancelButton: true,
+                                confirmButtonColor: '#47510B',
+                                cancelButtonColor: '#888',
+                                confirmButtonText: 'Login Sekarang',
+                                cancelButtonText: 'Nanti Aja',
+                                customClass: { popup: 'rounded-4' }
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/login'; // Arahkan ke halaman login
+                                }
+                            });
+                        }
+                    </script>
+                <?php endif; ?>
             </div>
         </div>
     </div>
