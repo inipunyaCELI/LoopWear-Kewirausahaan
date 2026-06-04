@@ -63,15 +63,30 @@
             <div class="section-title pink">📍 Alamat Pengiriman</div>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" value="<?php echo e(auth()->check() ? auth()->user()->name : ''); ?>" required>
+                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" 
+                           value="<?php echo e(auth()->check() ? auth()->user()->name : ''); ?>" required readonly style="background-color: #f4f4f2; cursor: not-allowed;">
                 </div>
                 <div class="col-md-6">
-                    <input type="email" name="email" class="form-loop" placeholder="Email / No. Handphone" value="<?php echo e(auth()->check() ? auth()->user()->email : ''); ?>" required>
+                    <input type="email" name="email" class="form-loop" placeholder="Email" 
+                           value="<?php echo e(auth()->check() ? auth()->user()->email : ''); ?>" required readonly style="background-color: #f4f4f2; cursor: not-allowed;">
+                </div>
+                <div class="col-md-12">
+                    
+                    <input type="text" name="no_hp" class="form-loop" placeholder="Nomor Handphone" 
+                           value="<?php echo e(auth()->check() ? auth()->user()->phone : ''); ?>" required>
                 </div>
                 <div class="col-12">
-                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required><?php echo e(auth()->check() ? auth()->user()->alamat ?? '' : ''); ?></textarea>
+                    
+                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required><?php if(auth()->check() && auth()->user()->address): ?><?php echo e(auth()->user()->address); ?>, <?php echo e(auth()->user()->city); ?> <?php echo e(auth()->user()->postal_code); ?><?php endif; ?></textarea>
                 </div>
             </div>
+            
+            
+            <?php if(auth()->check() && empty(auth()->user()->address)): ?>
+                <small class="text-danger mt-2 d-block fw-bold animate__animated animate__headShake">
+                    ⚠️ Alamat kamu di profil masih kosong nih, langsung isi lengkap di dalam kotak textarea atas ya!
+                </small>
+            <?php endif; ?>
         </div>
 
         

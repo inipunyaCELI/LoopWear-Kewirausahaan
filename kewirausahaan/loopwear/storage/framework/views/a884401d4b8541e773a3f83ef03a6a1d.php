@@ -172,7 +172,7 @@
                     <script>
                         function wajibLogin() {
                             Swal.fire({
-                                title: 'Eits, Login Dulu Yuk! 🔐',
+                                title: 'Login Dulu Yuk! 🔐',
                                 text: 'Kamu harus masuk ke akunmu dulu buat lanjutin pesanan ini.',
                                 icon: 'info',
                                 iconColor: '#E7998B',

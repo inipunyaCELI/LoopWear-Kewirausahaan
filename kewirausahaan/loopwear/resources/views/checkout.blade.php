@@ -60,20 +60,35 @@
             <input type="hidden" name="selected[]" value="{{ $id }}">
         @endforeach
 
-        {{-- BAGIAN 1: ALAMAT --}}
+        {{-- BAGIAN 1: ALAMAT (Otomatis ambil dari Akun/Profil) --}}
         <div class="checkout-card address-card">
             <div class="section-title pink">📍 Alamat Pengiriman</div>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" value="{{ auth()->check() ? auth()->user()->name : '' }}" required>
+                    <input type="text" name="nama" class="form-loop" placeholder="Nama Lengkap Penerima" 
+                           value="{{ auth()->check() ? auth()->user()->name : '' }}" required readonly style="background-color: #f4f4f2; cursor: not-allowed;">
                 </div>
                 <div class="col-md-6">
-                    <input type="email" name="email" class="form-loop" placeholder="Email / No. Handphone" value="{{ auth()->check() ? auth()->user()->email : '' }}" required>
+                    <input type="email" name="email" class="form-loop" placeholder="Email" 
+                           value="{{ auth()->check() ? auth()->user()->email : '' }}" required readonly style="background-color: #f4f4f2; cursor: not-allowed;">
+                </div>
+                <div class="col-md-12">
+                    {{-- Tarik data 'phone' dari database --}}
+                    <input type="text" name="no_hp" class="form-loop" placeholder="Nomor Handphone" 
+                           value="{{ auth()->check() ? auth()->user()->phone : '' }}" required>
                 </div>
                 <div class="col-12">
-                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required>{{ auth()->check() ? auth()->user()->alamat ?? '' : '' }}</textarea>
+                    {{-- Tarik dan gabungkan address, city, dan postal_code --}}
+                    <textarea name="alamat" class="form-loop" rows="3" placeholder="Alamat Lengkap (Nama Jalan, RT/RW, Kec., Kota, Kode Pos)" required>@if(auth()->check() && auth()->user()->address){{ auth()->user()->address }}, {{ auth()->user()->city }} {{ auth()->user()->postal_code }}@endif</textarea>
                 </div>
             </div>
+            
+            {{-- Alert unyu kalau ketahuan dia belum ngisi alamat di profilnya --}}
+            @if(auth()->check() && empty(auth()->user()->address))
+                <small class="text-danger mt-2 d-block fw-bold animate__animated animate__headShake">
+                    ⚠️ Alamat kamu di profil masih kosong nih, langsung isi lengkap di dalam kotak textarea atas ya!
+                </small>
+            @endif
         </div>
 
         {{-- BAGIAN 2: PRODUK --}}

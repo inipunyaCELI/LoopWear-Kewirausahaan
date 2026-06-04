@@ -58,6 +58,20 @@
                                         <a href="<?php echo e(route('admin.orders.show', $order->id)); ?>" class="btn btn-sm btn-primary rounded-pill px-3 shadow-sm" target="_blank">
                                             🖨️ Cetak
                                         </a>
+
+                                        <?php if($order->status_delivery == 'process' || $order->status_delivery == 'pending'): ?>
+                                            <form action="<?php echo e(route('admin.orders.updateStatus', $order->id)); ?>" method="POST" onsubmit="return confirm('Tandai pesanan ini sebagai dikirim?');">
+                                                <?php echo csrf_field(); ?>
+                                                <input type="hidden" name="status_delivery" value="dikirim">
+                                                <button type="submit" class="btn btn-sm btn-success rounded-pill px-3 shadow-sm">
+                                                    📦 Kirim
+                                                </button>
+                                            </form>
+                                        <?php elseif($order->status_delivery == 'dikirim'): ?>
+                                            <button class="btn btn-sm btn-info rounded-pill px-3 text-white" disabled>Sedang Dikirim</button>
+                                        <?php elseif($order->status_delivery == 'selesai'): ?>
+                                            <button class="btn btn-sm btn-secondary rounded-pill px-3" disabled>Selesai</button>
+                                        <?php endif; ?>
                                     <?php else: ?>
                                         <button class="btn btn-sm btn-secondary rounded-pill px-3" disabled>Belum Lunas</button>
                                     <?php endif; ?>

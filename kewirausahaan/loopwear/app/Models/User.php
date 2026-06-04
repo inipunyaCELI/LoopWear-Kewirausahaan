@@ -23,6 +23,13 @@ class User extends Authenticatable
         'password',
         'google_id',
         'role',
+        // --- TAMBAHAN BARU UNTUK PROFIL ---
+        'username',
+        'phone',
+        'address',
+        'city',
+        'postal_code',
+        'avatar',
     ];
 
     /**
