@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -101,5 +102,39 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return redirect('/login')->with('error', 'Gagal login dengan Google');
         }
+    }
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        
+        $status = Password::sendResetLink($request->only('email'));
+        
+        if ($status === Password::RESET_LINK_SENT) {
+            return back()->with('success', 'Link reset password sudah dikirim ke email kamu!');
+    }
+    
+    return back()->withErrors(['email' => 'Email tidak ditemukan.']);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token'    => 'required',
+            'email'    => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill(['password' => Hash::make($password)])->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect('/login')->with('success', 'Password berhasil direset! Silakan login.');
+        }
+
+        return back()->withErrors(['email' => __($status)]);
     }
 }
