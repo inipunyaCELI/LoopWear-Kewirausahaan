@@ -253,17 +253,14 @@ unset($__errorArgs, $__bag); ?>
 
             <div class="mb-3">
                 <label class="profile-label" for="email">Email</label>
-                <input class="profile-input <?php echo e($errors->has('email') ? 'is-invalid' : ''); ?>"
+                
+                <input class="profile-input"
                        type="email" id="email" name="email"
-                       value="<?php echo e(old('email', auth()->user()->email)); ?>">
-                <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> <div class="error-msg"><?php echo e($message); ?></div> <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                       value="<?php echo e(auth()->user()->email); ?>"
+                       readonly
+                       style="background-color: #f4f4f2; cursor: not-allowed; color: #888;"
+                       title="Email tidak dapat diubah">
+                <small style="font-size: 0.7rem; color: #aaa; margin-top: 4px; display: block;">*Email tidak dapat diubah karena terhubung dengan akun Anda.</small>
             </div>
 
             <div class="mb-3">
