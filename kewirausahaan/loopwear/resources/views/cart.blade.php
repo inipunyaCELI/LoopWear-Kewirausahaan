@@ -4,16 +4,13 @@
 <style>
     .cart-title { font-family: 'Fredoka One', cursive; color: #47510B; letter-spacing: 1px; margin-top: 40px; }
     
-    /* Tabel Header */
     .cart-header { color: #888; font-weight: 700; font-size: 0.85rem; border-bottom: 2px solid #f4f4f4; padding-bottom: 15px; }
 
-    /* Baris Produk */
     .cart-item { border-bottom: 1px solid #eee; padding: 25px 0; transition: 0.3s; }
     .cart-item:hover { background-color: #fafafa; }
     .product-name { font-weight: 700; color: #333; margin-bottom: 2px; }
     .product-variant { font-size: 0.8rem; color: #999; }
 
-    /* Tombol Quantity Bulat */
     .qty-control { display: flex; align-items: center; gap: 15px; justify-content: center; }
     .btn-qty {
         width: 28px; height: 28px;
@@ -30,12 +27,10 @@
     }
     .btn-qty:hover { border-color: #47510B; color: #47510B; background: #f9f9f9; }
 
-    /* Harga & Total */
     .price-subtotal { color: #AB1717; font-weight: 800; font-size: 1.1rem; }
     .btn-remove { color: #ccc; text-decoration: none; font-size: 1.2rem; transition: 0.3s; }
     .btn-remove:hover { color: #AB1717; }
 
-    /* Floating Footer Checkout */
     .cart-footer {
         position: sticky;
         bottom: 0;
@@ -46,24 +41,65 @@
         z-index: 100;
     }
     .btn-checkout {
-        background-color: #AB1717; /* Beet Red dari paletmu */
-        color: white !important;
+        background-color: #47510B;
+        color: #fff24d !important;
         padding: 12px 50px;
         border-radius: 8px;
+        font-family: 'Quicksand', sans-serif;
         font-weight: 800;
         border: none;
         transition: 0.3s;
+        cursor: pointer;
     }
-    .btn-checkout:hover { background-color: #8a1212; transform: translateY(-2px); }
-
-    /* Hover efek untuk tombol remove selected */
+    .btn-checkout:hover { background-color: #363d08; transform: translateY(-2px); }
     .hover-danger:hover { color: #AB1717 !important; }
+
+    .voucher-input {
+        border: 1.5px solid #47510B;
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 0.9rem;
+        outline: none;
+        width: 220px;
+        transition: 0.2s;
+    }
+    .voucher-input:focus { border-color: #E7998B; box-shadow: 0 0 0 3px rgba(231,153,139,0.15); }
+
+    .btn-voucher {
+        background: #47510B;
+        color: #fff24d;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 20px;
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn-voucher:hover { background: #363d08; }
+
+    .voucher-aktif-box {
+        background: #f6ffe8;
+        border: 1.5px solid #47510B;
+        border-radius: 10px;
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        transition: 0.3s;
+    }
+
+    .diskon-row {
+        font-family: 'Quicksand', sans-serif;
+        font-size: 0.85rem;
+    }
 </style>
 
 <div class="container pb-5">
     <h2 class="cart-title mb-5">YOUR CART</h2>
 
-    {{-- HEADER TABEL --}}
     <div class="row cart-header d-none d-md-flex text-center">
         <div class="col-md-1 text-start">
             <input type="checkbox" id="checkAll" class="form-check-input" checked>
@@ -75,7 +111,6 @@
         <div class="col-md-1">Aksi</div>
     </div>
 
-    {{-- LIST ITEM --}}
     @forelse($cart as $id => $item)
     <div class="row cart-item align-items-center text-center">
         <div class="col-md-1 text-start">
@@ -90,7 +125,7 @@
         </div>
         
         <div class="col-md-4 d-flex align-items-center text-start">
-            <img src="{{ asset('images/'.$item['gambar']) }}" width="90" class="rounded shadow-sm me-3">
+            <img src="{{ asset('images/'.$item['gambar']) }}" width="90" class="rounded shadow-sm me-3" alt="Produk">
             <div>
                 <div class="product-name">{{ $item['nama'] }}</div>
                 <div class="product-variant">Variasi: Default</div>
@@ -128,104 +163,160 @@
     @endforelse
 </div>
 
-{{-- FIXED FOOTER SUMMARY --}}
 <div class="cart-footer">
+    {{-- VOUCHER SECTION --}}
+    <div class="container mb-3">
+        @if(session('voucher'))
+            <div class="d-flex justify-content-end">
+                <div class="voucher-aktif-box">
+                    <span class="fw-bold" style="color:#47510B; font-family:'Quicksand',sans-serif; font-size:0.9rem;">
+                        🏷️ <strong>{{ session('voucher.kode') }}</strong>
+                        @if(session('voucher.tipe') == 'persen')
+                            — diskon {{ session('voucher.nilai') }}%
+                        @elseif(session('voucher.tipe') == 'nominal')
+                            — potongan Rp {{ number_format(session('voucher.nilai'),0,',','.') }}
+                        @elseif(session('voucher.tipe') == 'gratis_ongkir')
+                            — gratis ongkir
+                        @endif
+                    </span>
+                    <a href="{{ route('cart.voucher.remove') }}" class="text-danger small fw-bold text-decoration-none ms-3">✕ Hapus</a>
+                </div>
+            </div>
+        @else
+            <form action="{{ route('cart.voucher') }}" method="POST" class="d-flex justify-content-end gap-2">
+                @csrf
+                <input type="text" name="kode" placeholder="Punya kode voucher?" 
+                       value="{{ old('kode') }}"
+                       class="voucher-input">
+                <button type="submit" class="btn-voucher">Pakai</button>
+            </form>
+        @endif
+
+        @if(session('voucher_error'))
+            <p class="text-end text-danger small mt-1 mb-0 fw-bold">⚠️ {{ session('voucher_error') }}</p>
+        @endif
+        @if(session('voucher_success'))
+            <p class="text-end small mt-1 mb-0 fw-bold" style="color:#47510B;">✅ {{ session('voucher_success') }}</p>
+        @endif
+    </div>
+
+    {{-- HIDDEN: data diskon & min belanja untuk JS --}}
+    {{-- PERBAIKAN: Menyimpan data tipe voucher dan nilai aslinya (persen/nominal) agar JS bisa menghitung ulang diskon --}}
+    <span id="diskonVoucher" 
+          data-tipe="{{ session('voucher.tipe', '') }}" 
+          data-nilai="{{ session('voucher.nilai', 0) }}" 
+          data-min="{{ session('voucher.min_belanja', 0) }}" 
+          style="display:none;"></span>
+
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 d-flex align-items-center gap-4">
-                <div class="form-check m-0 p-0 d-flex align-items-center">
-                    <label class="form-check-label text-muted" style="cursor:pointer">
-                        Total Items ({{ count($cart) }})
-                    </label>
-                </div>
+                <label class="text-muted" style="cursor:pointer; font-family:'Quicksand',sans-serif;">
+                    Total Items (<span id="countSelected">{{ count($cart) }}</span>)
+                </label>
                 
-                {{-- Form tersembunyi untuk proses hapus banyak --}}
-                <form id="formRemoveSelected" action="{{ route('cart.remove_selected') }}" method="POST" style="display: none;">
+                <form id="formRemoveSelected" action="{{ route('cart.remove_selected') }}" method="POST" style="display:none;">
                     @csrf
                     <div id="hiddenRemoveInputs"></div>
                 </form>
 
-                {{-- Tombol asli yang memicu JavaScript --}}
-                <button type="button" onclick="hapusTerpilih()" class="btn btn-link text-muted small text-decoration-none p-0 border-0 hover-danger" style="font-weight: 600;">Remove Selected</button>
+                <button type="button" onclick="hapusTerpilih()" 
+                        class="btn btn-link text-muted small text-decoration-none p-0 border-0 hover-danger" 
+                        style="font-weight:600; font-family:'Quicksand',sans-serif;">
+                    Hapus Terpilih
+                </button>
             </div>
             
             <div class="col-md-6 d-flex justify-content-end align-items-center gap-5">
                 <div class="text-end">
+                    {{-- Baris subtotal + diskon, muncul hanya kalau ada voucher --}}
+                    <div id="barisDiskon" style="display:none;" class="diskon-row mb-1">
+                        <span class="text-muted">Subtotal: Rp <span id="totalAsli">0</span></span><br>
+                        <span class="fw-bold" style="color:#47510B;">🏷️ Diskon: -Rp <span id="nilaiDiskon">0</span></span>
+                    </div>
                     <span class="text-muted d-block small">Total Pembayaran:</span>
-                    <span class="fw-bold fs-3" style="color: #AB1717;">Rp <span id="totalHarga">0</span></span>
+                    <span class="fw-bold fs-3" style="color:#AB1717;">Rp <span id="totalHarga">0</span></span>
                 </div>
                 
-                {{-- FITUR GEMBOK CHECKOUT (WAJIB LOGIN) --}}
                 @auth
-                    {{-- Kalau SUDAH login, tombolnya normal menuju proses checkout --}}
                     <form id="formCheckout" action="{{ route('checkout.index') }}" method="GET">
-                        <button type="submit" class="btn-checkout">
-                            Checkout
-                        </button>
+                        <button type="submit" class="btn-checkout">Checkout</button>
                     </form>
                 @else
-                    {{-- Kalau BELUM login, tombolnya memunculkan pop-up peringatan --}}
-                    <button type="button" class="btn-checkout" onclick="wajibLogin()">
-                        Checkout
-                    </button>
-
-                    <script>
-                        function wajibLogin() {
-                            Swal.fire({
-                                title: 'Login Dulu Yuk! 🔐',
-                                text: 'Kamu harus masuk ke akunmu dulu buat lanjutin pesanan ini.',
-                                icon: 'info',
-                                iconColor: '#E7998B',
-                                showCancelButton: true,
-                                confirmButtonColor: '#47510B',
-                                cancelButtonColor: '#888',
-                                confirmButtonText: 'Login Sekarang',
-                                cancelButtonText: 'Nanti Aja',
-                                customClass: { popup: 'rounded-4' }
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    window.location.href = '/login'; // Arahkan ke halaman login
-                                }
-                            });
-                        }
-                    </script>
+                    <button type="button" class="btn-checkout" onclick="wajibLogin()">Checkout</button>
                 @endauth
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// --- FUNGSI HITUNG TOTAL ---
 function hitungTotal() {
     let total = 0;
-    let checkedItems = document.querySelectorAll('.item-check:checked');
-    let allItems = document.querySelectorAll('.item-check');
-    let checkAll = document.getElementById('checkAll');
+    const checkedItems = document.querySelectorAll('.item-check:checked');
+    const allItems    = document.querySelectorAll('.item-check');
+    const checkAll    = document.getElementById('checkAll');
 
-    // Menghitung total harga hanya untuk yang dicentang
     checkedItems.forEach(item => {
-        let price = parseInt(item.dataset.price);
-        let qty = parseInt(item.dataset.qty);
-        total += price * qty;
+        total += parseInt(item.dataset.price) * parseInt(item.dataset.qty);
     });
 
-    // Update tampilan total harga
-    document.getElementById('totalHarga').innerText = total.toLocaleString('id-ID');
+    const countSelected = document.getElementById('countSelected');
+    if (countSelected) {
+        countSelected.innerText = checkedItems.length;
+    }
 
-    // SINKRONISASI CHECK ALL
+    const diskonEl = document.getElementById('diskonVoucher');
+    const tipeDiskon = diskonEl?.dataset.tipe || '';
+    const nilaiDiskonRaw = parseFloat(diskonEl?.dataset.nilai || 0);
+    const minBelanja = parseInt(diskonEl?.dataset.min || 0);
+
+    let diskon = 0;
+
+    if (total >= minBelanja && total > 0) {
+        if (tipeDiskon === 'persen') {
+            diskon = (total * nilaiDiskonRaw) / 100; 
+        } else if (tipeDiskon === 'nominal') {
+            diskon = nilaiDiskonRaw;
+            if (diskon > total) diskon = total; 
+        }
+    }
+
+    const finalTotal = Math.max(0, total - diskon);
+
+    const barisDiskon = document.getElementById('barisDiskon');
+    const voucherBox = document.querySelector('.voucher-aktif-box');
+
+    if (diskon > 0) {
+        if(barisDiskon) barisDiskon.style.display = 'block';
+        document.getElementById('totalAsli').innerText  = total.toLocaleString('id-ID');
+        document.getElementById('nilaiDiskon').innerText = diskon.toLocaleString('id-ID');
+        
+        if(voucherBox) voucherBox.style.opacity = '1'; 
+    } else {
+        if(barisDiskon) barisDiskon.style.display = 'none';
+        
+        // Redupkan kotak voucher jika sedang dicentang tapi total belanja kurang dari minimum
+        if(voucherBox && minBelanja > 0 && total < minBelanja) {
+            voucherBox.style.opacity = '0.5';
+        } else if (voucherBox) {
+            voucherBox.style.opacity = '1';
+        }
+    }
+
+    document.getElementById('totalHarga').innerText = finalTotal.toLocaleString('id-ID');
+
     if (allItems.length > 0) {
         checkAll.checked = (checkedItems.length === allItems.length);
-    } else {
+    } else if (checkAll) {
         checkAll.checked = false;
     }
 }
 
-// --- FUNGSI HAPUS BARANG TERPILIH ---
 function hapusTerpilih() {
-    let checkedItems = document.querySelectorAll('.item-check:checked');
+    const checkedItems = document.querySelectorAll('.item-check:checked');
     
-    // Cegah kalau user belum nyentang apa-apa
     if (checkedItems.length === 0) {
         Swal.fire({
             title: 'Oops!',
@@ -236,10 +327,9 @@ function hapusTerpilih() {
         return;
     }
 
-    // Munculkan konfirmasi SweetAlert
     Swal.fire({
         title: 'Yakin hapus barang?',
-        text: "Barang yang dicentang akan dibuang dari tas belanja.",
+        text: 'Barang yang dicentang akan dibuang dari tas belanja.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#AB1717',
@@ -249,35 +339,48 @@ function hapusTerpilih() {
         customClass: { popup: 'rounded-4' }
     }).then((result) => {
         if (result.isConfirmed) {
-            let hiddenContainer = document.getElementById('hiddenRemoveInputs');
-            hiddenContainer.innerHTML = ''; // Bersihkan kontainer
-            
-            // Masukkan semua ID barang yang dicentang ke dalam form tersembunyi
+            const hiddenContainer = document.getElementById('hiddenRemoveInputs');
+            hiddenContainer.innerHTML = '';
             checkedItems.forEach(item => {
                 let input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = 'selected[]';
+                input.type  = 'hidden';
+                input.name  = 'selected[]';
                 input.value = item.value;
                 hiddenContainer.appendChild(input);
             });
-            
-            // Kirim data ke backend!
             document.getElementById('formRemoveSelected').submit();
         }
     });
 }
 
-// Jalankan fungsi saat halaman pertama kali dibuka
+function wajibLogin() {
+    Swal.fire({
+        title: 'Login Dulu Yuk! 🔐',
+        text: 'Kamu harus masuk ke akunmu dulu buat lanjutin pesanan ini.',
+        icon: 'info',
+        iconColor: '#E7998B',
+        showCancelButton: true,
+        confirmButtonColor: '#47510B',
+        cancelButtonColor: '#888',
+        confirmButtonText: 'Login Sekarang',
+        cancelButtonText: 'Nanti Aja',
+        customClass: { popup: 'rounded-4' }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '/login';
+        }
+    });
+}
+
 hitungTotal();
 
-// Listener untuk checkbox produk individu
 document.querySelectorAll('.item-check').forEach(el => {
     el.addEventListener('change', hitungTotal);
 });
 
-// Listener untuk checkbox 'Check All' di bagian atas
-if (document.getElementById('checkAll')) {
-    document.getElementById('checkAll').addEventListener('change', function() {
+const checkAllElement = document.getElementById('checkAll');
+if (checkAllElement) {
+    checkAllElement.addEventListener('change', function () {
         document.querySelectorAll('.item-check').forEach(el => {
             el.checked = this.checked;
         });

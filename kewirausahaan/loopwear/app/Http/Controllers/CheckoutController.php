@@ -5,57 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Mbarang;
 use App\Models\OrderItem;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
-use Illuminate\Support\Facades\Log; // Ditambahkan agar bisa mencatat error di log jika terjadi
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
-    // Ini fungsi jika user checkout 1 barang langsung (beli sekarang)
-    public function process(Request $request)
-    {
-        $barang = Mbarang::findOrFail($request->id_barang);
-        
-        $ongkir = 10000;
-        $biaya_layanan = 2000;
-        $grand_total = $barang->harga + $ongkir + $biaya_layanan;
-
-        $order = Order::create([
-            'user_id' => auth()->id(),
-            // FIX: Tambahkan rand() biar Order ID selalu unik!
-            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999), 
-            'total_price' => $grand_total,
-            'status_payment' => 'pending',
-            'address' => $request->address,
-        ]);
-
-        Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY'); 
-        Config::$isProduction = false;
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        $params = [
-            'transaction_details' => [
-                'order_id' => $order->order_number,
-                'gross_amount' => $grand_total,
-            ],
-            'customer_details' => [
-                'first_name' => $request->nama,
-                'email' => $request->email,
-                'billing_address' => [
-                    'address' => $request->alamat
-                ]
-            ]
-        ]; // Koma dan kode expiry di bawah sini dihapus aja
-
-        $snapToken = Snap::getSnapToken($params);
-        $order->update(['snap_token' => $snapToken]);
-
-        return view('payment', compact('order', 'snapToken'));
-    }
-
-    // Ini fungsi untuk memunculkan Halaman Checkout (dari Keranjang)
     public function index(Request $request)
     {
         $cart = session()->get('cart', []);
@@ -69,145 +26,211 @@ class CheckoutController extends Controller
         $subtotal = 0;
 
         foreach ($selected as $id) {
-            if(isset($cart[$id])) {
+            if (isset($cart[$id])) {
                 $checkout_items[$id] = $cart[$id];
                 $subtotal += $cart[$id]['harga'] * $cart[$id]['qty'];
             }
         }
 
-        // Tetapkan biaya tambahan (Bisa diganti dinamis nanti kalau ada API Ekspedisi)
-        $ongkir = 10000;
+        $ongkir        = 10000;
         $biaya_layanan = 2000;
-        $grand_total = $subtotal + $ongkir + $biaya_layanan;
 
-        // Bawa data ke halaman checkout
-        return view('checkout', compact('checkout_items', 'selected', 'subtotal', 'ongkir', 'biaya_layanan', 'grand_total'));
+        $voucherSession = session()->get('voucher');
+        $voucher        = null;
+        $diskon         = 0;
+        $gratis_ongkir  = false;
+
+        if ($voucherSession) {
+            $voucherModel = Voucher::where('kode', $voucherSession['kode'])->where('aktif', true)->first();
+
+            if ($voucherModel && $voucherModel->isValid($subtotal)) {
+                $voucher = $voucherSession; 
+                
+                if ($voucherModel->tipe === 'gratis_ongkir' || $voucherModel->tipe === 'ongkir') {
+                    $gratis_ongkir = true;
+                    $ongkir = 0;
+                } else {
+                    $diskon = $voucherModel->hitungDiskon($subtotal);
+                    $voucher['diskon'] = $diskon; 
+                    
+                    session()->put('voucher', $voucher);
+                }
+                } else {
+                session()->forget('voucher');
+                session()->now('error', 'Voucher dibatalkan karena syarat minimum belanja tidak terpenuhi.'); 
+            }        
+        }
+
+        $grand_total = max(0, $subtotal - $diskon + $ongkir + $biaya_layanan);
+
+        return view('checkout', compact(
+            'checkout_items', 'selected', 'subtotal',
+            'ongkir', 'biaya_layanan', 'grand_total',
+            'diskon', 'voucher', 'gratis_ongkir'
+        ));
     }
 
-    public function create() {}
-
-    // Ini fungsi saat tombol "Buat Pesanan" diklik
     public function store(Request $request)
     {
-        $cart = session()->get('cart', []);
+        $cart     = session()->get('cart', []);
         $selected = $request->selected ?? [];
 
-        if(empty($selected)){
+        if (empty($selected)) {
             return back()->with('error', 'Pilih barang dulu');
         }
 
-        // Jika user belum punya alamat di akunnya, simpan alamat yang dia ketik ini ke akunnya
         $user = auth()->user();
         if ($user && empty($user->alamat)) {
             $user->update(['alamat' => $request->alamat]);
         }
 
-        $total = 0;
-        $subtotal = 0;
+        $subtotal     = 0;
         $itemsDipilih = [];
 
         foreach ($selected as $id) {
-            if(isset($cart[$id])) {
-                $item = $cart[$id];
+            if (isset($cart[$id])) {
+                $item      = $cart[$id];
                 $subtotal += $item['harga'] * $item['qty'];
-                $total += $item['harga'] * $item['qty'];
                 $itemsDipilih[$id] = $item;
             }
         }
 
-        $ongkir = 10000;
+        $ongkir        = 10000;
         $biaya_layanan = 2000;
-        $grand_total = $subtotal + $ongkir + $biaya_layanan;
+
+        $voucherSession = session()->get('voucher');
+        $diskon         = 0;
+        $voucher        = null;
+
+        if ($voucherSession) {
+            $voucherModel = Voucher::where('kode', $voucherSession['kode'])->where('aktif', true)->first();
+
+            if ($voucherModel && $voucherModel->isValid($subtotal)) {
+                $voucher = $voucherSession;
+                if ($voucherModel->tipe === 'gratis_ongkir' || $voucherModel->tipe === 'ongkir') {
+                    $ongkir = 0;
+                } else {
+                    $diskon = $voucherModel->hitungDiskon($subtotal);
+                }
+            } else {
+                session()->forget('voucher');
+            }
+        }
+
+        $grand_total = max(0, $subtotal - $diskon + $ongkir + $biaya_layanan);
 
         $order = Order::create([
-            'user_id' => auth()->id(),
-            'order_number' => 'LW-' . time() . '-' . rand(1000, 9999),
-            'total_price' => $grand_total,
+            'user_id'        => auth()->id(),
+            'order_number'   => 'LW-' . time() . '-' . rand(1000, 9999),
+            'total_price'    => $grand_total,
             'status_payment' => 'pending',
-            'address' => $request->alamat
+            'address'        => $request->alamat,
         ]);
 
         foreach ($itemsDipilih as $id => $item) {
             OrderItem::create([
-                'order_id' => $order->id,
-                'barang_id' => $id,
-                'nama_barang' => $item['nama'],
-                'harga' => $item['harga'],
-                'qty' => $item['qty']
+                'order_id'   => $order->id,
+                'barang_id'  => $id,
+                'nama_barang'=> $item['nama'],
+                'harga'      => $item['harga'],
+                'qty'        => $item['qty'],
             ]);
         }
 
-        Config::$serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+        if ($voucher) {
+            Voucher::where('kode', $voucher['kode'])->increment('terpakai');
+            session()->forget('voucher');
+        }
+
+        Config::$serverKey    = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
         Config::$isProduction = false;
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
+        Config::$isSanitized  = true;
+        Config::$is3ds        = true;
 
         $params = [
             'transaction_details' => [
-                'order_id' => $order->order_number,
+                'order_id'     => $order->order_number,
                 'gross_amount' => $grand_total,
             ],
             'customer_details' => [
-                'first_name' => $request->nama,
-                'email' => $request->email,
-                'billing_address' => [
-                    'address' => $request->alamat
-                ]
-            ]
+                'first_name'      => $request->nama,
+                'email'           => $request->email,
+                'billing_address' => ['address' => $request->alamat],
+            ],
         ];
 
         $snapToken = Snap::getSnapToken($params);
         $order->update(['snap_token' => $snapToken]);
 
         $payment_method = $request->payment;
-        $bank = $request->bank ?? 'bsi';
+        $bank           = $request->bank ?? 'bsi';
 
         return view('payment', compact('order', 'snapToken', 'payment_method', 'bank'));
     }
 
-    public function show(string $id) {}
-    public function edit(string $id) {}
-    public function update(Request $request, string $id) {}
-    public function destroy(string $id) {}
+    public function process(Request $request)
+    {
+        $barang        = Mbarang::findOrFail($request->id_barang);
+        $ongkir        = 10000;
+        $biaya_layanan = 2000;
+        $grand_total   = $barang->harga + $ongkir + $biaya_layanan;
 
-    // --- FUNGSI BARU: PENANGKAP NOTIFIKASI MIDTRANS ---
+        $order = Order::create([
+            'user_id'        => auth()->id(),
+            'order_number'   => 'LW-' . time() . '-' . rand(1000, 9999),
+            'total_price'    => $grand_total,
+            'status_payment' => 'pending',
+            'address'        => $request->address,
+        ]);
+
+        Config::$serverKey    = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = false;
+        Config::$isSanitized  = true;
+        Config::$is3ds        = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id'     => $order->order_number,
+                'gross_amount' => $grand_total,
+            ],
+            'customer_details' => [
+                'first_name'      => $request->nama,
+                'email'           => $request->email,
+                'billing_address' => ['address' => $request->alamat],
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($params);
+        $order->update(['snap_token' => $snapToken]);
+
+        return view('payment', compact('order', 'snapToken'));
+    }
+
     public function callback(Request $request)
     {
         try {
-            // Ambil server key dari env
-            $serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY'); 
+            $serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+            $hashed    = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
 
-            // Verifikasi tanda tangan (Signature Key) dari Midtrans untuk keamanan
-            $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
-            
             if ($hashed == $request->signature_key) {
-                // Cari pesanan berdasarkan order_number
                 $order = Order::where('order_number', $request->order_id)->first();
-                
+
                 if ($order) {
-                    // Update status berdasarkan notifikasi dari Midtrans
-                    if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
-                        $order->status_payment = 'success'; 
-                    } elseif ($request->transaction_status == 'cancel' || $request->transaction_status == 'deny' || $request->transaction_status == 'expire') {
-                        $order->status_payment = 'failed'; 
+                    if (in_array($request->transaction_status, ['capture', 'settlement'])) {
+                        $order->status_payment = 'success';
+                    } elseif (in_array($request->transaction_status, ['cancel', 'deny', 'expire'])) {
+                        $order->status_payment = 'failed';
                     } elseif ($request->transaction_status == 'pending') {
                         $order->status_payment = 'pending';
                     }
-                    
-                    // Simpan perubahan ke database
                     $order->save();
-                    
-                    // Kirim respon OK ke Midtrans
                     return response()->json(['message' => 'Status berhasil diupdate'], 200);
-                } else {
-                    return response()->json(['message' => 'Order tidak ditemukan'], 404);
                 }
+                return response()->json(['message' => 'Order tidak ditemukan'], 404);
             }
-            
             return response()->json(['message' => 'Invalid Signature'], 403);
-            
+
         } catch (\Exception $e) {
-            // Catat ke file laravel.log jika ada error lain
             Log::error('Midtrans Webhook Error: ' . $e->getMessage());
             return response()->json(['message' => 'Internal Server Error'], 500);
         }

@@ -1,10 +1,8 @@
 <?php $__env->startSection('konten'); ?>
 <style>
-    /* Tipografi */
     .admin-title { font-family: 'Fredoka One', cursive; color: #47510B; letter-spacing: 1px; }
     .table-text { font-family: 'Quicksand', sans-serif; font-weight: 600; color: #555; }
 
-    /* Tombol Custom */
     .btn-back { 
         background-color: #47510B !important; 
         color: #fff24d !important; 
@@ -24,13 +22,12 @@
     }
     .btn-add:hover { background-color: #7195f0 !important; }
 
-    /* Tabel & Card */
     .custom-card { border-radius: 25px; border: none; overflow: hidden; }
     .table-container { background: white; border-radius: 25px; padding: 20px; }
     
     .table thead th {
         border-top: none;
-        color: #E7998B; /* Beet Pink */
+        color: #E7998B;
         font-family: 'Fredoka One', cursive;
         font-weight: normal;
         text-transform: uppercase;
@@ -40,22 +37,19 @@
     .product-name { color: #47510B; font-weight: 800; }
     .price-tag { color: #AB1717; font-weight: 700; }
 
-    /* Aksi */
     .btn-edit-soft { background-color: #FFF24D; color: #47510B; border: none; border-radius: 8px; font-weight: 700; }
     .btn-delete-soft { background-color: #FFB6A9; color: white; border: none; border-radius: 8px; font-weight: 700; }
 </style>
 
 <div class="container py-5">
-    
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="admin-title mb-0">KELOLA BARANG</h2>
         <a href="/dashboard" class="btn btn-back px-4 py-2 shadow-sm">
-            ← Dashboard
+            &larr; Dashboard
         </a>
     </div>
 
     <div class="table-container shadow-sm">
-        
         <div class="d-flex justify-content-between align-items-center mb-4 px-2">
             <h5 class="admin-title" style="font-size: 1.2rem; opacity: 0.7;">Koleksi Barang</h5>
             <a href="<?php echo e(route('barang.create')); ?>" class="btn btn-add px-4 shadow-sm">
@@ -63,7 +57,6 @@
             </a>
         </div>
 
-        
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -94,8 +87,7 @@
                             <span class="price-tag">Rp <?php echo e(number_format($b->harga, 0, ',', '.')); ?></span>
                         </td>
                         <td class="text-center">
-                            <span class="badge rounded-pill px-3 py-2" 
-                                  style="background-color: #f8f9fa; color: #47510B; border: 1px solid #eee;">
+                            <span class="badge rounded-pill px-3 py-2" style="background-color: #f8f9fa; color: #47510B; border: 1px solid #eee;">
                                 <?php echo e($b->stok); ?>
 
                             </span>

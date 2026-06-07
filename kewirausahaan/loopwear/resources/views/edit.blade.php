@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('konten')
-
 <style>
     .profile-wrapper {
         max-width: 640px;
@@ -189,12 +188,10 @@
 <div class="profile-wrapper">
     <h1 class="profile-heading">Edit Profil</h1>
 
-    {{-- ===== CARD 1: Info Profil ===== --}}
     <div class="profile-card">
         <p class="profile-card-title">Informasi Profil</p>
         <p class="profile-card-sub">Perbarui nama, foto, dan informasi kontak kamu.</p>
 
-        {{-- Avatar --}}
         <div class="avatar-row">
             <div class="avatar-circle" id="avatarCircle">
                 @if(auth()->user()->avatar)
@@ -216,68 +213,49 @@
             @csrf
             @method('PUT')
 
-            <input type="file" id="avatarInput" name="avatar" accept="image/*"
-                   style="display:none;" onchange="previewAvatar(this)">
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none;" onchange="previewAvatar(this)">
 
             <p class="section-label">Informasi dasar</p>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="name">Nama lengkap</label>
-                    <input class="profile-input {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                           type="text" id="name" name="name"
-                           value="{{ old('name', auth()->user()->name) }}">
+                    <input class="profile-input {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" id="name" name="name" value="{{ old('name', auth()->user()->name) }}">
                     @error('name') <div class="error-msg">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="username">Username</label>
-                    <input class="profile-input {{ $errors->has('username') ? 'is-invalid' : '' }}"
-                           type="text" id="username" name="username"
-                           value="{{ old('username', auth()->user()->username) }}">
+                    <input class="profile-input {{ $errors->has('username') ? 'is-invalid' : '' }}" type="text" id="username" name="username" value="{{ old('username', auth()->user()->username) }}">
                     @error('username') <div class="error-msg">{{ $message }}</div> @enderror
                 </div>
             </div>
 
             <div class="mb-3">
                 <label class="profile-label" for="email">Email</label>
-                {{-- Email dikunci pakai readonly dan style abu-abu --}}
-                <input class="profile-input"
-                       type="email" id="email" name="email"
-                       value="{{ auth()->user()->email }}"
-                       readonly
-                       style="background-color: #f4f4f2; cursor: not-allowed; color: #888;"
-                       title="Email tidak dapat diubah">
+                <input class="profile-input" type="email" id="email" name="email" value="{{ auth()->user()->email }}" readonly style="background-color: #f4f4f2; cursor: not-allowed; color: #888;" title="Email tidak dapat diubah">
                 <small style="font-size: 0.7rem; color: #aaa; margin-top: 4px; display: block;">*Email tidak dapat diubah karena terhubung dengan akun Anda.</small>
             </div>
 
             <div class="mb-3">
                 <label class="profile-label" for="phone">Nomor HP</label>
-                <input class="profile-input" type="tel" id="phone" name="phone"
-                       placeholder="Contoh: 08123456789"
-                       value="{{ old('phone', auth()->user()->phone) }}">
+                <input class="profile-input" type="tel" id="phone" name="phone" placeholder="Contoh: 08123456789" value="{{ old('phone', auth()->user()->phone) }}">
             </div>
 
             <p class="section-label">Alamat pengiriman</p>
 
             <div class="mb-3">
                 <label class="profile-label" for="address">Alamat</label>
-                <input class="profile-input" type="text" id="address" name="address"
-                       placeholder="Jl. Merdeka No. 10..."
-                       value="{{ old('address', auth()->user()->address) }}">
+                <input class="profile-input" type="text" id="address" name="address" placeholder="Jl. Merdeka No. 10..." value="{{ old('address', auth()->user()->address) }}">
             </div>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="city">Kota</label>
-                    <input class="profile-input" type="text" id="city" name="city"
-                           placeholder="Pontianak"
-                           value="{{ old('city', auth()->user()->city) }}">
+                    <input class="profile-input" type="text" id="city" name="city" placeholder="Pontianak" value="{{ old('city', auth()->user()->city) }}">
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="postal_code">Kode pos</label>
-                    <input class="profile-input" type="text" id="postal_code" name="postal_code"
-                           placeholder="78111"
-                           value="{{ old('postal_code', auth()->user()->postal_code) }}">
+                    <input class="profile-input" type="text" id="postal_code" name="postal_code" placeholder="78111" value="{{ old('postal_code', auth()->user()->postal_code) }}">
                 </div>
             </div>
 
@@ -286,7 +264,6 @@
         </form>
     </div>
 
-    {{-- ===== CARD 2: Ubah Password ===== --}}
     <div class="profile-card">
         <p class="profile-card-title">Ubah Password</p>
         <p class="profile-card-sub">Gunakan password yang kuat untuk keamanan akun kamu.</p>
@@ -303,23 +280,18 @@
 
             <div class="mb-3">
                 <label class="profile-label" for="current_password">Password lama</label>
-                <input class="profile-input {{ $errors->has('current_password') ? 'is-invalid' : '' }}"
-                       type="password" id="current_password" name="current_password"
-                       placeholder="••••••••">
+                <input class="profile-input {{ $errors->has('current_password') ? 'is-invalid' : '' }}" type="password" id="current_password" name="current_password" placeholder="••••••••">
             </div>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="password">Password baru</label>
-                    <input class="profile-input {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                           type="password" id="password" name="password"
-                           placeholder="••••••••">
+                    <input class="profile-input {{ $errors->has('password') ? 'is-invalid' : '' }}" type="password" id="password" name="password" placeholder="••••••••">
                     @error('password') <div class="error-msg">{{ $message }}</div> @enderror
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="password_confirmation">Konfirmasi password</label>
-                    <input class="profile-input" type="password" id="password_confirmation"
-                           name="password_confirmation" placeholder="••••••••">
+                    <input class="profile-input" type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••">
                 </div>
             </div>
 
@@ -333,12 +305,10 @@
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const circle = document.getElementById('avatarCircle');
-                circle.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+                document.getElementById('avatarCircle').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 </script>
-
 @endsection

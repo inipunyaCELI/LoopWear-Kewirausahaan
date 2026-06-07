@@ -12,7 +12,6 @@
         letter-spacing: 1px;
     }
 
-    /* Tombol Kembali yang Estetik */
     .btn-back-loop {
         background-color: #f0f0f0;
         color: #47510B;
@@ -30,7 +29,6 @@
         color: #fff24d;
     }
 
-    /* Style Gambar Produk (Sudah Diperbaiki untuk Zoom/Full) */
     .product-img-wrapper {
         max-width: 220px;
         aspect-ratio: 1 / 1;
@@ -41,24 +39,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0; /* Menghilangkan celah putih */
+        padding: 0; 
     }
     .product-img { 
         width: 100%; 
         height: 100%; 
-        object-fit: cover; /* Memaksa gambar penuh nge-zoom */
-        object-position: center top; /* Fokus ke bagian atas baju */
+        object-fit: cover; 
+        object-position: center top; 
         transition: transform 0.4s ease; 
     }
     
-    /* Efek gambar sedikit membesar saat disorot */
     .product-img-wrapper:hover .product-img {
         transform: scale(1.08); 
     }
     
     .product-name { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: #47510B; }
 
-    /* --- FIX BUTTON LOVE & CART SEJAJAR (HORIZONTAL) --- */
     .product-meta {
         display: flex;
         justify-content: center;
@@ -87,10 +83,9 @@
 
 <div class="container category-page py-5">
 
-    
     <div class="d-flex flex-column align-items-center mb-5">
         <a href="<?php echo e(route('user.products')); ?>" class="btn-back-loop mb-3 shadow-sm">
-            ← Kembali ke Semua Koleksi
+            &larr; Kembali ke Semua Koleksi
         </a>
         <h2 class="title-main text-center">
             <?php echo e(ucfirst($kategori)); ?> LoopWear
@@ -102,7 +97,6 @@
         <?php $__empty_1 = true; $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <div class="col-6 col-md-4 col-lg-3">
             <div class="text-center mb-4">
-                
                 <a href="<?php echo e(route('user.products.detail', $item->id_barang)); ?>" class="text-decoration-none">
                     <div class="product-img-wrapper shadow-sm">
                         <img src="<?php echo e(asset('images/'.$item->gambar)); ?>" class="product-img" onerror="this.src='<?php echo e(asset('images/no-image.png')); ?>'">
@@ -110,21 +104,18 @@
                     <h6 class="product-name"><?php echo e($item->nama_barang); ?></h6>
                 </a>
 
-                
                 <div class="product-meta">
                     <span class="price">Rp<?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
                     <span class="divider">|</span>
 
-                    
                     <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" class="m-0 p-0">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-icon-loop icon-pink" title="Simpan ke Wishlist">♥</button>
+                        <button type="submit" class="btn-icon-loop icon-pink" title="Simpan ke Wishlist">&hearts;</button>
                     </form>
 
-                    
                     <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST" class="m-0 p-0">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-icon-loop icon-blue" title="Masuk Keranjang">🛒</button>
+                        <button type="submit" class="btn-icon-loop icon-blue" title="Masuk Keranjang">&#128722;</button>
                     </form>
                 </div>
             </div>

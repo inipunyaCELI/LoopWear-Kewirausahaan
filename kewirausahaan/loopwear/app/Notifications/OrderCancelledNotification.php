@@ -24,8 +24,8 @@ class OrderCancelledNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Pesanan Dibatalkan',
-            'message' => 'Pesanan kamu dengan nomor ' . $this->order_number . ' telah dibatalkan oleh Admin.',
+            'title'        => 'Pesanan Dibatalkan',
+            'message'      => 'Pesanan kamu dengan nomor ' . $this->order_number . ' telah dibatalkan oleh Admin.',
             'order_number' => $this->order_number
         ];
     }

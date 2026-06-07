@@ -1,5 +1,4 @@
 <?php $__env->startSection('konten'); ?>
-
 <style>
     .detail-card {
         border-radius: 16px;
@@ -46,8 +45,6 @@
 </style>
 
 <div class="container py-5">
-
-    <!-- Header -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <div>
             <h4 class="fw-bold mb-1" style="color: #4A4A4A;">📋 Detail Pesanan</h4>
@@ -55,7 +52,7 @@
         </div>
         <div class="d-flex gap-2">
             <a href="<?php echo e(route('admin.orders.index')); ?>" class="btn btn-outline-secondary rounded-pill px-4">
-                ← Kembali
+                &larr; Kembali
             </a>
             <?php if($order->status_payment == 'success'): ?>
             <a href="<?php echo e(route('admin.orders.show', $order->id)); ?>" class="btn btn-dark rounded-pill px-4" target="_blank">
@@ -66,11 +63,7 @@
     </div>
 
     <div class="row g-4">
-
-        <!-- Kolom Kiri: Info Pemesan -->
         <div class="col-lg-5">
-
-            <!-- Info Pemesan -->
             <div class="card detail-card p-4 mb-4">
                 <p class="section-title">👤 Data Pemesan</p>
                 <div class="info-row">
@@ -87,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Status Pesanan -->
             <div class="card detail-card p-4">
                 <p class="section-title">📊 Status Pesanan</p>
                 <div class="info-row">
@@ -125,7 +117,6 @@
                     </span>
                 </div>
 
-                <!-- Aksi Update Status Admin -->
                 <?php if($order->status_payment == 'success' && $order->status_delivery != 'dibatalkan' && $order->status_delivery != 'selesai'): ?>
                 <div class="mt-3 pt-2">
                     <p class="section-title">⚙️ Ubah Status Pengiriman</p>
@@ -143,19 +134,16 @@
                 </div>
                 <?php endif; ?>
             </div>
-
         </div>
 
-        <!-- Kolom Kanan: Barang yang Dibeli -->
         <div class="col-lg-7">
             <div class="card detail-card p-4">
                 <p class="section-title">🛍️ Barang yang Dibeli</p>
-
                 <?php $__currentLoopData = $order->orderItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="item-row">
                     <div>
                         <p class="fw-bold mb-1"><?php echo e($item->nama_barang); ?></p>
-                        <small class="text-muted"><?php echo e($item->qty); ?> pcs × Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></small>
+                        <small class="text-muted"><?php echo e($item->qty); ?> pcs &times; Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></small>
                     </div>
                     <div class="fw-bold" style="color: #E7998B;">
                         Rp <?php echo e(number_format($item->qty * $item->harga, 0, ',', '.')); ?>
@@ -164,17 +152,13 @@
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                <!-- Total -->
                 <div class="d-flex justify-content-between align-items-center mt-4 pt-3" style="border-top: 2px dashed #eee;">
                     <span class="fw-bold" style="font-size: 1rem;">Total Belanja</span>
                     <h4 class="fw-bold text-danger mb-0">Rp <?php echo e(number_format($order->total_price, 0, ',', '.')); ?></h4>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/admin/orders/detail.blade.php ENDPATH**/ ?>

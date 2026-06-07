@@ -14,9 +14,8 @@
 
     .text-orange { color: #ee4d2d !important; }
     
-    /* Tombol Midtrans Custom */
     .btn-midtrans { 
-        background: #556B2F; /* Grassy Green */
+        background: #556B2F;
         color: white; 
         border: none; 
         padding: 14px 30px; 
@@ -29,7 +28,6 @@
     }
     .btn-midtrans:hover { background: #425522; color: #fff; }
 
-    /* Badge Order ID */
     .order-id {
         background: #f1f1f1;
         padding: 8px 20px;
@@ -43,7 +41,6 @@
 
 <div class="payment-page pt-4">
     <div class="payment-card">
-        
         <div style="font-size: 4.5rem; margin-bottom: 10px;">💳</div>
         <h3 class="fw-bold mb-3" style="color: #333;">Menunggu Pembayaran</h3>
         
@@ -60,7 +57,6 @@
             Jika jendela tidak muncul atau tidak sengaja tertutup, silakan klik tombol di bawah ini.
         </p>
 
-        
         <button id="pay-button" class="btn-midtrans">Selesaikan Pembayaran</button>
         
         <div class="mt-4">
@@ -68,7 +64,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo e(env('MIDTRANS_CLIENT_KEY')); ?>"></script>
 <script>
@@ -89,13 +84,11 @@
         });
     };
 
-    // OTOMATIS BUKA POP-UP SAAT HALAMAN DIMUAT
     window.onload = function() {
         setTimeout(function() {
             document.getElementById('pay-button').click();
         }, 500);
     };
 </script>
-
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/payment.blade.php ENDPATH**/ ?>

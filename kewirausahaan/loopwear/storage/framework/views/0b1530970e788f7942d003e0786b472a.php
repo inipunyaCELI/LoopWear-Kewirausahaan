@@ -1,5 +1,4 @@
 <?php $__env->startSection('konten'); ?>
-
 <style>
     .profile-wrapper {
         max-width: 640px;
@@ -187,12 +186,10 @@
 <div class="profile-wrapper">
     <h1 class="profile-heading">Edit Profil</h1>
 
-    
     <div class="profile-card">
         <p class="profile-card-title">Informasi Profil</p>
         <p class="profile-card-sub">Perbarui nama, foto, dan informasi kontak kamu.</p>
 
-        
         <div class="avatar-row">
             <div class="avatar-circle" id="avatarCircle">
                 <?php if(auth()->user()->avatar): ?>
@@ -215,17 +212,14 @@
             <?php echo csrf_field(); ?>
             <?php echo method_field('PUT'); ?>
 
-            <input type="file" id="avatarInput" name="avatar" accept="image/*"
-                   style="display:none;" onchange="previewAvatar(this)">
+            <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none;" onchange="previewAvatar(this)">
 
             <p class="section-label">Informasi dasar</p>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="name">Nama lengkap</label>
-                    <input class="profile-input <?php echo e($errors->has('name') ? 'is-invalid' : ''); ?>"
-                           type="text" id="name" name="name"
-                           value="<?php echo e(old('name', auth()->user()->name)); ?>">
+                    <input class="profile-input <?php echo e($errors->has('name') ? 'is-invalid' : ''); ?>" type="text" id="name" name="name" value="<?php echo e(old('name', auth()->user()->name)); ?>">
                     <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -237,9 +231,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="username">Username</label>
-                    <input class="profile-input <?php echo e($errors->has('username') ? 'is-invalid' : ''); ?>"
-                           type="text" id="username" name="username"
-                           value="<?php echo e(old('username', auth()->user()->username)); ?>">
+                    <input class="profile-input <?php echo e($errors->has('username') ? 'is-invalid' : ''); ?>" type="text" id="username" name="username" value="<?php echo e(old('username', auth()->user()->username)); ?>">
                     <?php $__errorArgs = ['username'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -253,44 +245,30 @@ unset($__errorArgs, $__bag); ?>
 
             <div class="mb-3">
                 <label class="profile-label" for="email">Email</label>
-                
-                <input class="profile-input"
-                       type="email" id="email" name="email"
-                       value="<?php echo e(auth()->user()->email); ?>"
-                       readonly
-                       style="background-color: #f4f4f2; cursor: not-allowed; color: #888;"
-                       title="Email tidak dapat diubah">
+                <input class="profile-input" type="email" id="email" name="email" value="<?php echo e(auth()->user()->email); ?>" readonly style="background-color: #f4f4f2; cursor: not-allowed; color: #888;" title="Email tidak dapat diubah">
                 <small style="font-size: 0.7rem; color: #aaa; margin-top: 4px; display: block;">*Email tidak dapat diubah karena terhubung dengan akun Anda.</small>
             </div>
 
             <div class="mb-3">
                 <label class="profile-label" for="phone">Nomor HP</label>
-                <input class="profile-input" type="tel" id="phone" name="phone"
-                       placeholder="Contoh: 08123456789"
-                       value="<?php echo e(old('phone', auth()->user()->phone)); ?>">
+                <input class="profile-input" type="tel" id="phone" name="phone" placeholder="Contoh: 08123456789" value="<?php echo e(old('phone', auth()->user()->phone)); ?>">
             </div>
 
             <p class="section-label">Alamat pengiriman</p>
 
             <div class="mb-3">
                 <label class="profile-label" for="address">Alamat</label>
-                <input class="profile-input" type="text" id="address" name="address"
-                       placeholder="Jl. Merdeka No. 10..."
-                       value="<?php echo e(old('address', auth()->user()->address)); ?>">
+                <input class="profile-input" type="text" id="address" name="address" placeholder="Jl. Merdeka No. 10..." value="<?php echo e(old('address', auth()->user()->address)); ?>">
             </div>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="city">Kota</label>
-                    <input class="profile-input" type="text" id="city" name="city"
-                           placeholder="Pontianak"
-                           value="<?php echo e(old('city', auth()->user()->city)); ?>">
+                    <input class="profile-input" type="text" id="city" name="city" placeholder="Pontianak" value="<?php echo e(old('city', auth()->user()->city)); ?>">
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="postal_code">Kode pos</label>
-                    <input class="profile-input" type="text" id="postal_code" name="postal_code"
-                           placeholder="78111"
-                           value="<?php echo e(old('postal_code', auth()->user()->postal_code)); ?>">
+                    <input class="profile-input" type="text" id="postal_code" name="postal_code" placeholder="78111" value="<?php echo e(old('postal_code', auth()->user()->postal_code)); ?>">
                 </div>
             </div>
 
@@ -299,7 +277,6 @@ unset($__errorArgs, $__bag); ?>
         </form>
     </div>
 
-    
     <div class="profile-card">
         <p class="profile-card-title">Ubah Password</p>
         <p class="profile-card-sub">Gunakan password yang kuat untuk keamanan akun kamu.</p>
@@ -317,17 +294,13 @@ unset($__errorArgs, $__bag); ?>
 
             <div class="mb-3">
                 <label class="profile-label" for="current_password">Password lama</label>
-                <input class="profile-input <?php echo e($errors->has('current_password') ? 'is-invalid' : ''); ?>"
-                       type="password" id="current_password" name="current_password"
-                       placeholder="••••••••">
+                <input class="profile-input <?php echo e($errors->has('current_password') ? 'is-invalid' : ''); ?>" type="password" id="current_password" name="current_password" placeholder="••••••••">
             </div>
 
             <div class="d-flex gap-3 form-row-2">
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="password">Password baru</label>
-                    <input class="profile-input <?php echo e($errors->has('password') ? 'is-invalid' : ''); ?>"
-                           type="password" id="password" name="password"
-                           placeholder="••••••••">
+                    <input class="profile-input <?php echo e($errors->has('password') ? 'is-invalid' : ''); ?>" type="password" id="password" name="password" placeholder="••••••••">
                     <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -339,8 +312,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 <div class="mb-3 flex-fill">
                     <label class="profile-label" for="password_confirmation">Konfirmasi password</label>
-                    <input class="profile-input" type="password" id="password_confirmation"
-                           name="password_confirmation" placeholder="••••••••">
+                    <input class="profile-input" type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••">
                 </div>
             </div>
 
@@ -354,13 +326,11 @@ unset($__errorArgs, $__bag); ?>
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const circle = document.getElementById('avatarCircle');
-                circle.innerHTML = '<img src="' + e.target.result + '" alt="Preview">';
+                document.getElementById('avatarCircle').innerHTML = `<img src="${e.target.result}" alt="Preview">`;
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 </script>
-
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/edit.blade.php ENDPATH**/ ?>

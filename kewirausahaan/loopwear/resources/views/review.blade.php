@@ -3,7 +3,6 @@
 @section('konten')
 
 @isset($product)
-{{-- ===== TAMPILAN DETAIL PRODUK (dipanggil dari Cbarang::show) ===== --}}
 <style>
     .product-detail-container { font-family: 'Quicksand', sans-serif; color: #333; }
     .product-title { color: #556B2F; font-family: 'Fredoka One', cursive; font-size: 2.5rem; }
@@ -53,7 +52,7 @@
     .recommendation-title { font-family: 'Fredoka One', cursive; color: #556B2F; margin-top: 50px; }
     .rec-card { border: none; transition: 0.3s; text-decoration: none; color: inherit; }
     .rec-card:hover { transform: translateY(-5px); }
-    .rec-img-wrapper { aspect-ratio: 1/1; overflow: hidden; border-radius: 15px; background: #f8f9fa; }
+    .rec-img-wrapper { aspect-ratio: 1/1; overflow: hidden; border-radius: 15px; background: #f8f9fa; border: 1px solid #dee2e6; }
     .rec-img { width: 100%; height: 100%; object-fit: cover; }
 </style>
 
@@ -64,30 +63,31 @@
     </a>
 
     <div class="row align-items-start">
-        {{-- Kiri: Gambar Produk --}}
         <div class="col-md-5 mb-4 text-center">
             <div class="p-3 shadow-sm" style="background: #f8f9fa; border-radius: 20px;">
                 <img src="{{ asset('images/' . $product->gambar) }}" alt="{{ $product->nama_barang }}" class="img-fluid rounded" style="max-height: 500px; object-fit: contain;">
             </div>
         </div>
 
-        {{-- Kanan: Detail Produk --}}
         <div class="col-md-7 ps-md-5">
             <h1 class="product-title">{{ $product->nama_barang }}</h1>
 
-            @php
-                $jml_review = isset($reviews) ? $reviews->count() : 0;
-            @endphp
+        <p class="text-muted mb-4" style="font-size: 0.9rem;">
+            @if($total_review > 0)
+                {{ $rata_rating }}
+                <span style="color: #F29C9C;">
+                    @for($i = 1; $i <= 5; $i++)
+                        {!! $i <= round($rata_rating) ? '★' : '☆' !!}
+                    @endfor
+                </span>
+                &nbsp;|&nbsp; {{ $total_review }} Penilaian
+                &nbsp;|&nbsp; {{ $total_terjual }} Terjual
+            @else
+                <span style="color: #ccc;">★★★★★</span>
+                &nbsp;|&nbsp; 0 Penilaian &nbsp;|&nbsp; 0 Terjual
+            @endif
+        </p>
 
-            <p class="text-muted mb-4" style="font-size: 0.9rem;">
-                @if($jml_review > 0)
-                    4.9 <span style="color: #F29C9C;">★★★★★</span> &nbsp;|&nbsp; {{ $jml_review }} Penilaian &nbsp;|&nbsp; {{ $jml_review + rand(1, 3) }} Terjual
-                @else
-                    0 <span style="color: #ccc;">★★★★★</span> &nbsp;|&nbsp; 0 Penilaian &nbsp;|&nbsp; 0 Terjual
-                @endif
-            </p>
-
-            {{-- KOTAK REVIEW DINAMIS --}}
             <div class="review-ticker-box">
                 @forelse($reviews ?? [] as $rev)
                     <div class="mb-3 border-bottom pb-2">
@@ -99,12 +99,10 @@
                 @endforelse
             </div>
 
-            {{-- HARGA --}}
             <div class="price-box">
                 Rp {{ number_format($product->harga, 0, ',', '.') }}
             </div>
 
-            {{-- TOMBOL AKSI --}}
             <div class="row g-3">
                 <div class="col-6">
                     <form action="{{ route('wishlist.add', $product->id_barang) }}" method="POST">
@@ -130,15 +128,15 @@
         @forelse($recommendations ?? [] as $rec)
             <div class="col-6 col-md-3">
                 <a href="{{ route('user.products.detail', $rec->id_barang) }}" class="rec-card d-block">
-                    <div class="rec-img-wrapper mb-2 shadow-sm border">
-                        <img src="{{ asset('images/' . $rec->gambar) }}" class="rec-img">
+                    <div class="rec-img-wrapper mb-2 shadow-sm">
+                        <img src="{{ asset('images/' . $rec->gambar) }}" class="rec-img" alt="{{ $rec->nama_barang }}">
                     </div>
                     <h6 class="mb-1 fw-bold text-dark" style="font-size: 0.9rem;">{{ $rec->nama_barang }}</h6>
                     <p class="text-danger fw-bold" style="font-size: 0.85rem;">Rp {{ number_format($rec->harga, 0, ',', '.') }}</p>
                 </a>
             </div>
         @empty
-            <p class="text-muted">Tidak ada rekomendasi serupa saat ini.</p>
+            <p class="text-muted ps-3">Tidak ada rekomendasi serupa saat ini.</p>
         @endforelse
     </div>
 </div>

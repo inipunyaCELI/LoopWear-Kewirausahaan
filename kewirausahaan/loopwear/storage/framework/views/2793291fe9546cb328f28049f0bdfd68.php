@@ -1,5 +1,4 @@
 <?php $__env->startSection('konten'); ?>
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
     
@@ -122,7 +121,6 @@
     .icon.love { color: #e74c3c; }
     .icon.cart { color: #f39c12; }
 
-    /* Buttons View All */
     .btn-view-all {
         border-radius: 50px;
         font-weight: 600;
@@ -143,7 +141,6 @@
 </style>
 
 <div class="container product-page py-5">
-    
     <div class="text-center mb-5">
         <h1 class="title-main mb-2">CATEGORIES PRODUCTS</h1>
         <p class="subtitle">Temukan gaya personalmu dengan koleksi fashion<br>terbaik dari LoopWear.</p>
@@ -198,14 +195,27 @@
             <?php $__empty_1 = true; $__currentLoopData = collect($data[$key] ?? [])->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="col-md-4">
                 <div class="text-center">
-                    
                     <a href="<?php echo e(route('user.products.detail', $item->id_barang)); ?>" class="text-decoration-none text-dark">
                         <div class="product-img-wrapper">
-                            <img src="<?php echo e(asset('images/' . $item->gambar)); ?>" class="product-img"
-                                 onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
+                            <img src="<?php echo e(asset('images/' . $item->gambar)); ?>" class="product-img" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
                         </div>
-                        <h6 class="product-name"><?php echo e($item->nama_barang); ?></h6>
-                    </a>
+                            <h6 class="product-name"><?php echo e($item->nama_barang); ?></h6>
+
+                            <div class="mb-2" style="font-size: 0.8rem; font-family: 'Quicksand', sans-serif;">
+                                <?php if($item->total_review > 0): ?>
+                                    <span class="text-warning">
+                                        <?php for($i = 1; $i <= 5; $i++): ?>
+                                            <?php echo $i <= round($item->rata_rating) ? '★' : '☆'; ?>
+
+                                        <?php endfor; ?>
+                                    </span>
+                                    <span class="text-muted">(<?php echo e($item->total_review); ?>)</span>
+                                <?php else: ?>
+                                    <span style="color: #ccc;">★★★★★</span>
+                                    <span class="text-muted" style="font-size: 0.75rem; font-style: italic;">Belum ada ulasan</span>
+                                <?php endif; ?>
+                            </div>
+                        </a>
 
                     <div class="product-meta">
                         <span class="price">
@@ -215,7 +225,6 @@
 
                         <span class="divider">|</span>
 
-                        
                         <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline;">
                             <?php echo csrf_field(); ?>
                             <button class="icon love">❤️</button>
@@ -233,14 +242,11 @@
             <?php endif; ?>
         </div>
 
-        
         <div class="text-center mt-3">
             <a href="<?php echo e(route('category.show', $key)); ?>" class="btn-view-all">VIEW ALL</a>
         </div>
     </section>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
 </div>
-
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/products.blade.php ENDPATH**/ ?>

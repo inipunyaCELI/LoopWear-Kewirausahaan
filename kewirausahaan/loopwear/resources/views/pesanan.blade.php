@@ -18,7 +18,6 @@
 
     <div class="card shadow-sm" style="border-radius: 15px; border: none;">
         <div class="card-body p-0">
-            <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-fill" id="pesananTabs" role="tablist" style="border-bottom: 2px solid #EBEBEB;">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active fw-bold text-dark py-3" id="semua-tab" data-bs-toggle="tab" data-bs-target="#semua" type="button" role="tab">Semua</button>
@@ -34,29 +33,22 @@
                 </li>
             </ul>
 
-            <!-- Tab panes -->
             <div class="tab-content p-4" id="pesananTabsContent">
-                
-                <!-- Tab: Semua -->
                 <div class="tab-pane fade show active" id="semua" role="tabpanel">
                     @include('components.order_list', ['orders' => $semua])
                 </div>
                 
-                <!-- Tab: Dikemas -->
                 <div class="tab-pane fade" id="dikemas" role="tabpanel">
                     @include('components.order_list', ['orders' => $dikemas])
                 </div>
                 
-                <!-- Tab: Dikirim -->
                 <div class="tab-pane fade" id="dikirim" role="tabpanel">
                     @include('components.order_list', ['orders' => $dikirim])
                 </div>
                 
-                <!-- Tab: Selesai -->
                 <div class="tab-pane fade" id="selesai" role="tabpanel">
                     @include('components.order_list', ['orders' => $selesai])
                 </div>
-                
             </div>
         </div>
     </div>
@@ -79,7 +71,6 @@
     }
 </style>
 
-<!-- Script Midtrans untuk Lanjut Bayar -->
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script>
 function retryPayment(snapToken) {
@@ -105,5 +96,4 @@ function retryPayment(snapToken) {
     });
 }
 </script>
-
 @endsection

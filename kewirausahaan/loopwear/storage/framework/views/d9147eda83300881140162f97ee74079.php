@@ -16,7 +16,6 @@
 
     <div class="card shadow-sm" style="border-radius: 15px; border: none;">
         <div class="card-body p-0">
-            <!-- Nav tabs -->
             <ul class="nav nav-tabs nav-fill" id="pesananTabs" role="tablist" style="border-bottom: 2px solid #EBEBEB;">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active fw-bold text-dark py-3" id="semua-tab" data-bs-toggle="tab" data-bs-target="#semua" type="button" role="tab">Semua</button>
@@ -32,29 +31,22 @@
                 </li>
             </ul>
 
-            <!-- Tab panes -->
             <div class="tab-content p-4" id="pesananTabsContent">
-                
-                <!-- Tab: Semua -->
                 <div class="tab-pane fade show active" id="semua" role="tabpanel">
                     <?php echo $__env->make('components.order_list', ['orders' => $semua], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
                 
-                <!-- Tab: Dikemas -->
                 <div class="tab-pane fade" id="dikemas" role="tabpanel">
                     <?php echo $__env->make('components.order_list', ['orders' => $dikemas], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
                 
-                <!-- Tab: Dikirim -->
                 <div class="tab-pane fade" id="dikirim" role="tabpanel">
                     <?php echo $__env->make('components.order_list', ['orders' => $dikirim], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
                 
-                <!-- Tab: Selesai -->
                 <div class="tab-pane fade" id="selesai" role="tabpanel">
                     <?php echo $__env->make('components.order_list', ['orders' => $selesai], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -77,7 +69,6 @@
     }
 </style>
 
-<!-- Script Midtrans untuk Lanjut Bayar -->
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo e(env('MIDTRANS_CLIENT_KEY')); ?>"></script>
 <script>
 function retryPayment(snapToken) {
@@ -103,7 +94,5 @@ function retryPayment(snapToken) {
     });
 }
 </script>
-
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ACER\OneDrive\Documents\Kuliah\Semester 2\Kewirausahaan\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/pesanan.blade.php ENDPATH**/ ?>

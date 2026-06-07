@@ -10,7 +10,7 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with('user', 'order')
+        $reviews = Review::with(['user', 'order'])
             ->latest()
             ->get();
 
@@ -25,14 +25,14 @@ class ReviewController extends Controller
             'komentar' => 'nullable|string|max:500',
         ]);
 
-        // Pastikan pesanan milik user yang login dan statusnya selesai
+        $userId = auth()->id();
+
         $order = Order::where('id', $request->order_id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', $userId)
             ->where('status_delivery', 'selesai')
             ->firstOrFail();
 
-        // Cek jika sudah pernah mengulas order ini
-        $alreadyReviewed = Review::where('user_id', auth()->id())
+        $alreadyReviewed = Review::where('user_id', $userId)
             ->where('order_id', $order->id)
             ->exists();
 
@@ -41,7 +41,7 @@ class ReviewController extends Controller
         }
 
         Review::create([
-            'user_id'  => auth()->id(),
+            'user_id'  => $userId,
             'order_id' => $order->id,
             'rating'   => $request->rating,
             'komentar' => $request->komentar,

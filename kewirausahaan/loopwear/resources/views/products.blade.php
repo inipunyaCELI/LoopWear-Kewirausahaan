@@ -1,7 +1,6 @@
 @extends('layout.main')
 
 @section('konten')
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&display=swap');
     
@@ -124,7 +123,6 @@
     .icon.love { color: #e74c3c; }
     .icon.cart { color: #f39c12; }
 
-    /* Buttons View All */
     .btn-view-all {
         border-radius: 50px;
         font-weight: 600;
@@ -145,7 +143,6 @@
 </style>
 
 <div class="container product-page py-5">
-    
     <div class="text-center mb-5">
         <h1 class="title-main mb-2">CATEGORIES PRODUCTS</h1>
         <p class="subtitle">Temukan gaya personalmu dengan koleksi fashion<br>terbaik dari LoopWear.</p>
@@ -200,14 +197,26 @@
             @forelse(collect($data[$key] ?? [])->take(3) as $item)
             <div class="col-md-4">
                 <div class="text-center">
-                    {{-- Link menuju Halaman Detail/Review --}}
                     <a href="{{ route('user.products.detail', $item->id_barang) }}" class="text-decoration-none text-dark">
                         <div class="product-img-wrapper">
-                            <img src="{{ asset('images/' . $item->gambar) }}" class="product-img"
-                                 onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
+                            <img src="{{ asset('images/' . $item->gambar) }}" class="product-img" onerror="this.onerror=null;this.src='{{ asset('images/no-image.png') }}';">
                         </div>
-                        <h6 class="product-name">{{ $item->nama_barang }}</h6>
-                    </a>
+                            <h6 class="product-name">{{ $item->nama_barang }}</h6>
+
+                            <div class="mb-2" style="font-size: 0.8rem; font-family: 'Quicksand', sans-serif;">
+                                @if($item->total_review > 0)
+                                    <span class="text-warning">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            {!! $i <= round($item->rata_rating) ? '★' : '☆' !!}
+                                        @endfor
+                                    </span>
+                                    <span class="text-muted">({{ $item->total_review }})</span>
+                                @else
+                                    <span style="color: #ccc;">★★★★★</span>
+                                    <span class="text-muted" style="font-size: 0.75rem; font-style: italic;">Belum ada ulasan</span>
+                                @endif
+                            </div>
+                        </a>
 
                     <div class="product-meta">
                         <span class="price">
@@ -216,7 +225,6 @@
 
                         <span class="divider">|</span>
 
-                        {{-- Tombol Like & Cart --}}
                         <form action="{{ route('wishlist.add', $item->id_barang) }}" method="POST" style="display:inline;">
                             @csrf
                             <button class="icon love">❤️</button>
@@ -234,13 +242,10 @@
             @endforelse
         </div>
 
-        {{-- VIEW ALL --}}
         <div class="text-center mt-3">
             <a href="{{ route('category.show', $key) }}" class="btn-view-all">VIEW ALL</a>
         </div>
     </section>
     @endforeach
-
 </div>
-
 @endsection

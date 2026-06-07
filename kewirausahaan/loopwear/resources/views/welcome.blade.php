@@ -5,9 +5,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-    /* =========================================
-       0. GLOBAL STYLING
-       ========================================= */
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
@@ -22,9 +19,6 @@
         font-size: 1.8rem;
     }
 
-    /* =========================================
-       1. HERO SECTION STYLING
-       ========================================= */
     .hero-section {
         transition: background-color 0.8s ease-in-out;
         overflow: hidden; 
@@ -120,9 +114,6 @@
         border-color: #47510B;
     }
 
-    /* =========================================
-       2. CAROUSEL & NEW BANNER STYLING
-       ========================================= */
     .save-carousel { border-radius: 20px; overflow: hidden; border: none; margin-bottom: 50px; }
     
     .save-poster {
@@ -130,19 +121,11 @@
         min-height: 220px;
         display: flex;
         align-items: center;
-        padding: 30px 90px; 
+        padding: 30px 40px; 
         transition: all 0.3s ease;
     }
 
-    .save-poster img {
-        max-height: 180px; 
-        object-fit: contain;
-        filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
-        transition: transform 0.4s ease;
-    }
-
-    .save-poster:hover { transform: scale(1.02) rotate(-0.5deg); }
-    .save-poster:hover img { transform: scale(1.08) translateY(-5px); }
+    .save-poster:hover { transform: scale(1.01); }
 
     .save-text h3 { font-family: 'Fredoka One', cursive; font-weight: 800; color: #e27d60; font-size: 1.8rem; margin-bottom: 5px; text-transform: uppercase; }
     .save-text p { font-size: 0.95rem; color: #555; margin-bottom: 10px; font-weight: 600; }
@@ -178,10 +161,6 @@
         line-height: 1.5;
     }
 
-    /* =========================================
-       3. PRODUK DINAMIS STYLING
-       ========================================= */
-       
     .best-seller-section {
         background-color: #e6eeb1; 
         border-radius: 25px;
@@ -254,7 +233,6 @@
         transform: scale(1.1);
     }
 
-    /* Wishlist Button Styling */
     .btn-wishlist-grid {
         background: #fff;
         border: none;
@@ -330,7 +308,6 @@
         margin-top: auto;
     }
 
-    /* Animasi Toast Notifikasi */
     @keyframes slideIn {
         from { opacity: 0; transform: translateY(20px); }
         to   { opacity: 1; transform: translateY(0); }
@@ -341,7 +318,6 @@
     }
 </style>
 
-{{-- 1. HERO SECTION --}}
 <section id="hero-section" class="hero-section" style="min-height: 100vh;">
     <div class="container pt-5">
         <div class="row align-items-center" style="min-height: 80vh;">
@@ -359,19 +335,19 @@
                 </div>
 
                 <div class="d-flex gap-4 hero-thumbs align-items-center">
-                    <img src="{{ asset('images/hijab_pink.png') }}" onclick="changeHero('hijab', this)" class="active">
-                    <img src="{{ asset('images/baju.png') }}" onclick="changeHero('baju', this)">
-                    <img src="{{ asset('images/celana.png') }}" onclick="changeHero('celana', this)">
-                    <img src="{{ asset('images/sepatu.png') }}" onclick="changeHero('sepatu', this)">
+                    <img src="{{ asset('images/hijab_pink.png') }}" class="active">
+                    <img src="{{ asset('images/baju.png') }}">
+                    <img src="{{ asset('images/celana.png') }}">
+                    <img src="{{ asset('images/sepatu.png') }}">
                 </div>
             </div> 
 
             <div class="col-md-6 hero-right-col">
                 <div id="hero-glow"></div>
-                <img id="floater-1" src="" class="floater floater-1">
-                <img id="floater-2" src="" class="floater floater-2">
-                <img id="floater-3" src="" class="floater floater-3">
-                <img id="hero-img" src="" class="position-relative main-hero-img" alt="Produk Utama">
+                <img id="floater-1" src="{{ asset('images/baju.png') }}" class="floater floater-1" alt="float">
+                <img id="floater-2" src="{{ asset('images/celana.png') }}" class="floater floater-2" alt="float">
+                <img id="floater-3" src="{{ asset('images/sepatu.png') }}" class="floater floater-3" alt="float">
+                <img id="hero-img" src="{{ asset('images/hijab_pink.png') }}" class="position-relative main-hero-img" alt="Produk Utama">
             </div> 
 
         </div> 
@@ -380,53 +356,58 @@
 
 <div id="products-start"></div>
 
-{{-- 2. LOOP TRENDS BANNER CAROUSEL --}}
 <div class="container mt-5 pt-4">
     <div id="saveCarousel" class="carousel slide save-carousel shadow-sm" data-bs-ride="carousel">
         <div class="carousel-inner">
             
+            <!-- VOUCHER 1: LAYOUT A (Image Kiri, Teks Kanan) -->
             <div class="carousel-item active">
-                <div class="save-poster">
+                <div class="save-poster" style="background-color: #e6eed6;">
                     <div class="row align-items-center w-100 m-0">
                         <div class="col-md-4 text-center">
-                             <img src="{{ asset('images/sepatu.png') }}" class="img-fluid" alt="Sepatu">
+                            <img src="{{ asset('images/hijab_pink.png') }}" alt="Hijab" style="max-height: 160px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));">
                         </div>
-                        <div class="col-md-5 save-text px-md-4">
-                            <h3>NEW ARRIVAL: SNEAKERS SERIES</h3>
-                            <p class="mb-0">Koleksi sepatu preloved original hits, rilis malam ini.</p>
-                            <small class="text-muted" style="font-size: 0.75rem;">Koleksi Terbatas</small>
-                        </div>
-                        <div class="col-md-3 text-center mt-3 mt-md-0">
-                            <a href="/category/sepatu" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold" style="font-size: 0.85rem;">BELI SEKARANG ></a>
+                        <div class="col-md-8 px-md-5 mt-3 mt-md-0 text-center text-md-start">
+                            <h2 class="fw-bold mb-2" style="font-family: 'Fredoka One', cursive; color: #47510B; font-size: 2.2rem; text-transform: uppercase;">DISKON SPESIAL 25%</h2>
+                            <h4 class="fw-bold mb-3" style="color: #111;">KODE VOUCHER: <span style="color: #47510B;">LOOPOOTD</span></h4>
+                            <p class="mb-1" style="font-size: 0.95rem; font-weight: 700; color: #444;">Periode s.d 25 Juni 2026 | S&K Berlaku</p>
+                            <p class="mb-0" style="font-size: 0.85rem; font-weight: 600; color: #666;">Min. Belanja: Rp 100.000 • Tanpa Syarat Tumpuk</p>
                         </div>
                     </div>
                 </div>
             </div>
             
+            <!-- VOUCHER 2: LAYOUT B (Teks Kiri, Image Kanan - Flex Reverse) -->
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #eaf4f4;">
-                    <div class="row align-items-center w-100 m-0">
-                        <div class="col-md-8 save-text px-md-4">
-                            <h3 style="color: #47510B;">CURATED THRIFT MIX</h3>
-                            <p class="mb-0">Pashmina silk dan culotte jeans terkurasi untuk OOTD harianmu.</p>
-                            <small class="text-muted" style="font-size: 0.75rem;">Hemat & Aesthetic</small>
+                    <div class="row align-items-center w-100 m-0 flex-md-row-reverse">
+                        <div class="col-md-5 text-center">
+                            <img src="{{ asset('images/baju.png') }}" alt="Baju" style="max-height: 170px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));">
                         </div>
-                        <div class="col-md-4 text-center">
-                             <img src="{{ asset('images/hijab_pink.png') }}" class="img-fluid" alt="Hijab">
+                        <div class="col-md-7 px-md-5 mt-3 mt-md-0 text-center text-md-end">
+                            <h2 class="fw-bold mb-2" style="font-family: 'Fredoka One', cursive; color: #2c7a7b; font-size: 2.2rem; text-transform: uppercase;">WELCOME GIFT 50K</h2>
+                            <h4 class="fw-bold mb-3" style="color: #111;">KODE VOUCHER: <span style="color: #2c7a7b;">FIRSTLOOP</span></h4>
+                            <p class="mb-1" style="font-size: 0.95rem; font-weight: 700; color: #444;">Eksklusif Untuk Pengguna Baru | S&K Berlaku</p>
+                            <p class="mb-0" style="font-size: 0.85rem; font-weight: 600; color: #666;">Tanpa Minimum Belanja • Langsung Pakai</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- VOUCHER 3: LAYOUT C (Image Kiri, Teks Tengah, Tombol Kanan) -->
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #fffaf0;">
                     <div class="row align-items-center w-100 m-0">
-                        <div class="col-md-4 text-center">
-                             <img src="{{ asset('images/baju.png') }}" class="img-fluid" alt="Baju">
+                        <div class="col-md-3 text-center">
+                            <img src="{{ asset('images/sepatu.png') }}" alt="Sepatu" style="max-height: 140px; object-fit: contain; transform: rotate(-5deg); filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));">
                         </div>
-                        <div class="col-md-8 save-text px-md-4">
-                            <h3>VINTAGE COQUETTE FINDS</h3>
-                            <p class="mb-0">Kemeja pita dan cardigan gemes untuk tampilan vintage aesthetic.</p>
+                        <div class="col-md-6 px-md-4 mt-3 mt-md-0 text-center text-md-start">
+                            <h2 class="fw-bold mb-2" style="font-family: 'Fredoka One', cursive; color: #e27d60; font-size: 2rem; text-transform: uppercase;">PROMO BEBAS ONGKIR</h2>
+                            <p class="mb-1" style="font-size: 0.95rem; font-weight: 700; color: #444;">Koleksi Sepatu Preloved Original Siap Kirim</p>
+                            <h5 class="fw-bold mt-2" style="color: #111;">KODE: <span style="color: #e27d60;">LOOP66</span></h5>
+                        </div>
+                        <div class="col-md-3 text-center mt-4 mt-md-0">
+                            <a href="/category/sepatu" class="btn rounded-pill px-4 py-2 fw-bold bg-transparent" style="border: 2px solid #e27d60; color: #e27d60; transition: 0.3s;" onmouseover="this.style.backgroundColor='#e27d60'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#e27d60';">BELI SEKARANG ></a>
                         </div>
                     </div>
                 </div>
@@ -445,7 +426,6 @@
     </div>
 </div>
 
-{{-- 3. SECTION: MOST WANTED PICKS --}}
 <div class="container mt-5 pt-4">
     <div class="best-seller-section shadow-sm">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
@@ -455,7 +435,6 @@
             <div class="col-6 col-md-3">
                 <div class="product-grid-card-1">
                     <div class="product-img-box">
-                        {{-- Fitur Tombol Wishlist --}}
                         <form action="{{ route('wishlist.add', $barang->id_barang) }}" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
                             @csrf
                             <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
@@ -491,7 +470,6 @@
     </div>
 </div>
 
-{{-- 4. BANNER: THE THRIFT EDIT --}}
 <div class="container mt-5 pt-4">
     <div class="earth-edit-banner shadow-sm">
         <i class="fas fa-leaf mb-3" style="font-size: 2.5rem; color: white;"></i>
@@ -503,7 +481,6 @@
     </div>
 </div>
 
-{{-- 5. SECTION: JUST FOR YOU --}}
 <div class="container mt-5 pt-4 mb-5">
     <div class="just-for-you-section shadow-sm">
         <h3 class="text-center section-title mb-5" style="color: #c44131;">Just For You</h3>
@@ -513,7 +490,6 @@
             <div class="col-6 col-md-3">
                 <div class="product-grid-card-2"> 
                     <div class="product-img-box" style="background-color: #fff;">
-                        {{-- Fitur Tombol Wishlist --}}
                         <form action="{{ route('wishlist.add', $barang->id_barang) }}" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
                             @csrf
                             <button type="submit" class="btn-wishlist-grid {{ isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : '' }}" title="Tambah ke Wishlist">
@@ -547,14 +523,12 @@
 
         </div>
 
-        {{-- Tombol Lihat Semua Produk --}}
         <div class="text-center mt-5">
             <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
         </div>
     </div>
 </div>
 
-{{-- NOTIFIKASI TOAST --}}
 @if(session('success'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -611,7 +585,6 @@
 </script>
 @endif
 
-{{-- SCRIPT HERO UTAMA --}}
 <script>
     const heroData = {
         hijab: {
@@ -741,18 +714,18 @@
     }
 
     window.addEventListener('load', function() {
-        const firstThumb = document.querySelectorAll('.hero-thumbs img')[0];
-        changeHero('hijab', firstThumb);
+        const thumbs = document.querySelectorAll('.hero-thumbs img');
+        changeHero('hijab', thumbs[0]);
         startAutoSlide();
-    });
 
-    document.querySelectorAll('.hero-thumbs img').forEach((thumb, index) => {
-        thumb.onclick = function() {
-            clearInterval(autoSlideInterval);
-            currentCategoryIndex = index;
-            changeHero(categories[index], this);
-            startAutoSlide();
-        };
+        thumbs.forEach((thumb, index) => {
+            thumb.addEventListener('click', function() {
+                clearInterval(autoSlideInterval);
+                currentCategoryIndex = index;
+                changeHero(categories[index], this);
+                startAutoSlide();
+            });
+        });
     });
 </script>
 @endsection

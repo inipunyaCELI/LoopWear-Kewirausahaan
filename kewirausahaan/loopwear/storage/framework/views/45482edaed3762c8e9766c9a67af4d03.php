@@ -47,7 +47,6 @@
         transition: all 0.6s ease-in-out;
     }
 
-    /* Input Style */
     .auth-container input {
         background-color: #F0F4F8; 
         border: 1px solid #E1E8F0;
@@ -69,7 +68,6 @@
         cursor: pointer;
     }
 
-    /* Button Styles */
     .btn-auth {
         border-radius: 50px;
         font-weight: bold;
@@ -96,32 +94,27 @@
         color: #47510B;
         padding: 12px 45px;
         font-size: 14px;
-        transition: all 0.3s ease; /* Biar perubahan warnanya nggak kaku */
+        transition: all 0.3s ease; 
     }
    
     .btn-outline:hover {
-        background-color: #47510B; /* Berubah jadi Grassy Green penuh */
-        color: #fff24d;           /* Teks berubah jadi Kuning */
+        background-color: #47510B; 
+        color: #fff24d;           
         border-color: #47510B;
     }
 
-    /* --- POSISI FORM --- */
     .sign-in-form { left: 0; z-index: 2; }
     .sign-up-form { left: 0; opacity: 0; z-index: 1; }
     .forgot-form { left: 0; opacity: 0; z-index: 1; }
 
-    /* --- ANIMASI GESER --- */
-    /* State: Sign Up Aktif */
     .auth-container.right-panel-active .sign-in-form { transform: translateX(100%); opacity: 0; }
     .auth-container.right-panel-active .sign-up-form { transform: translateX(100%); opacity: 1; z-index: 5; }
     .auth-container.right-panel-active .forgot-form { transform: translateX(100%); opacity: 0; }
 
-    /* State: Forgot Password Aktif */
     .auth-container.forgot-panel-active .sign-in-form { opacity: 0; }
     .auth-container.forgot-panel-active .sign-up-form { opacity: 0; }
     .auth-container.forgot-panel-active .forgot-form { opacity: 1; z-index: 5; }
 
-    /* --- OVERLAY KUNING --- */
     .overlay-container {
         position: absolute;
         top: 0;
@@ -185,7 +178,6 @@
 <div class="container auth-page-wrapper">
     <div class="auth-container" id="auth-container">
         
-        
         <form action="<?php echo e(url('/register')); ?>" method="POST" class="sign-up-form">
             <?php echo csrf_field(); ?>
             <h2 class="auth-title">CREATE ACCOUNT</h2>
@@ -201,29 +193,13 @@
             </div>
     
             <a href="<?php echo e(route('google.login')); ?>" style="width: 90%; text-decoration: none;">
-                <button type="button" style="
-                width: 100%;
-                padding: 13px 0;
-                border-radius: 50px;
-                border: 2px solid #ddd;
-                background: #fff;
-                color: #47510B;
-                font-family: 'Quicksand', sans-serif;
-                font-weight: 700;
-                font-size: 14px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-            ">
-                <img src="https://developers.google.com/identity/images/g-logo.png" width="20">
-                SIGN UP WITH GOOGLE
+                <button type="button" style="width: 100%; padding: 13px 0; border-radius: 50px; border: 2px solid #ddd; background: #fff; color: #47510B; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" width="20" alt="Google Logo">
+                    SIGN UP WITH GOOGLE
                 </button>
             </a>
         </form>
 
-        
         <form action="<?php echo e(url('/login')); ?>" method="POST" class="sign-in-form" id="login-form">
             <?php echo csrf_field(); ?>
             <h2 class="auth-title">LOG IN TO LOOP WEAR</h2>
@@ -231,10 +207,22 @@
             <input type="password" name="password" placeholder="PASSWORD" required />
             <a class="forgot-pass-trigger" id="toForgotBtn">Forgot your password?</a>
             <button type="submit" class="btn-auth btn-solid">LOGIN</button>
+            
+            <div style="width: 90%; display: flex; align-items: center; margin: 10px 0;">
+                <hr style="flex: 1; border-color: #ddd;">
+                <span style="margin: 0 10px; color: #aaa; font-size: 13px; font-weight: 600;">OR</span>
+                <hr style="flex: 1; border-color: #ddd;">
+            </div>
+
+            <a href="<?php echo e(route('google.login')); ?>" style="width: 90%; text-decoration: none;">
+                <button type="button" style="width: 100%; padding: 13px 0; border-radius: 50px; border: 2px solid #ddd; background: #fff; color: #47510B; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" width="20" alt="Google Logo">
+                    LOGIN WITH GOOGLE
+                </button>
+            </a>
         </form>
 
-        
-        <form action="#" method="POST" class="forgot-form" id="forgot-form">
+        <form action="<?php echo e(route('password.email')); ?>" method="POST" class="forgot-form" id="forgot-form">
             <?php echo csrf_field(); ?>
             <h2 class="auth-title">RESET PASSWORD</h2>
             <p style="color: #47510B; margin-bottom: 20px;">We will send you an email to reset your password</p>
@@ -243,7 +231,6 @@
             <a class="forgot-pass-trigger" id="backToLoginBtn" style="margin-top: 15px;">Back to Login</a>
         </form>
 
-        
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
