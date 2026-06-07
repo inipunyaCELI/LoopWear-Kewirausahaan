@@ -1,6 +1,4 @@
-@extends('layout.main')
-
-@section('konten')
+<?php $__env->startSection('konten'); ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap');
 
@@ -187,9 +185,9 @@
 <div class="container auth-page-wrapper">
     <div class="auth-container" id="auth-container">
         
-        {{-- 1. FORM REGISTER --}}
-        <form action="{{ url('/register') }}" method="POST" class="sign-up-form">
-            @csrf
+        
+        <form action="<?php echo e(url('/register')); ?>" method="POST" class="sign-up-form">
+            <?php echo csrf_field(); ?>
             <h2 class="auth-title">CREATE ACCOUNT</h2>
             <input type="text" name="name" placeholder="NAME" required />
             <input type="email" name="email" placeholder="EMAIL" required />
@@ -202,7 +200,7 @@
                 <hr style="flex: 1; border-color: #ddd;">
             </div>
     
-            <a href="{{ route('google.login') }}" style="width: 90%; text-decoration: none;">
+            <a href="<?php echo e(route('google.login')); ?>" style="width: 90%; text-decoration: none;">
                 <button type="button" style="
                 width: 100%;
                 padding: 13px 0;
@@ -225,9 +223,9 @@
             </a>
         </form>
 
-        {{-- 2. FORM LOGIN --}}
-        <form action="{{ url('/login') }}" method="POST" class="sign-in-form" id="login-form">
-            @csrf
+        
+        <form action="<?php echo e(url('/login')); ?>" method="POST" class="sign-in-form" id="login-form">
+            <?php echo csrf_field(); ?>
             <h2 class="auth-title">LOG IN TO LOOP WEAR</h2>
             <input type="email" name="email" placeholder="EMAIL" required />
             <input type="password" name="password" placeholder="PASSWORD" required />
@@ -240,7 +238,7 @@
                 <hr style="flex: 1; border-color: #ddd;">
             </div>
 
-            <a href="{{ route('google.login') }}" style="width: 90%; text-decoration: none;">
+            <a href="<?php echo e(route('google.login')); ?>" style="width: 90%; text-decoration: none;">
                 <button type="button" style="
                     width: 100%;
                     padding: 13px 0;
@@ -263,9 +261,9 @@
             </a>
         </form>
 
-        {{-- 3. FORM FORGOT PASSWORD --}}
-        <form action="{{ route('password.email') }}" method="POST" class="forgot-form" id="forgot-form">
-            @csrf
+        
+        <form action="<?php echo e(route('password.email')); ?>" method="POST" class="forgot-form" id="forgot-form">
+            <?php echo csrf_field(); ?>
             <h2 class="auth-title">RESET PASSWORD</h2>
             <p style="color: #47510B; margin-bottom: 20px;">We will send you an email to reset your password</p>
             <input type="email" name="email" placeholder="EMAIL" required />
@@ -273,7 +271,7 @@
             <a class="forgot-pass-trigger" id="backToLoginBtn" style="margin-top: 15px;">Back to Login</a>
         </form>
 
-        {{-- OVERLAY KUNING --}}
+        
         <div class="overlay-container">
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
@@ -317,4 +315,5 @@
         container.classList.remove("forgot-panel-active");
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/auth/login.blade.php ENDPATH**/ ?>

@@ -24,6 +24,12 @@ Route::post('/login', [AuthController::class, 'auth']);
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'storeRegister']);
 Route::get('/logout', [AuthController::class, 'logout']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
+Route::get('/reset-password/{token}', function (string $token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
 // --- GOOGLE OAUTH ---
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
