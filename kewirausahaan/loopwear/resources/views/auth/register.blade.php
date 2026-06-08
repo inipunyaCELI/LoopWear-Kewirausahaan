@@ -1,7 +1,9 @@
 @extends('layout.main')
+
 @section('konten')
 <style>
-    body {background-color: #FDFAD8; }
+    body { background-color: #FDFAD8; }
+    
     .auth-container {
         max-width: 850px;
         margin: 50px auto;
@@ -57,12 +59,14 @@
         padding: 14px;
     }
 </style>
+
 <div class="auth-container">
     <div class="row g-0">
         <div class="col-md-7 auth-form-side">
             <div class="text-center mb-4">
                 <h2 class="auth-title fw-bold">CREATE ACCOUNT</h2>
             </div>
+            
             @if ($errors->any())
             <div class="alert alert-danger">
                 <ul class="mb-0">
@@ -71,7 +75,8 @@
                     @endforeach
                 </ul>
             </div>
-        @endif
+            @endif
+
             <form action="{{ url('/register') }}" method="POST">
                 @csrf
                 <div class="mb-3">
@@ -86,6 +91,7 @@
                 <button type="submit" class="btn btn-auth-solid shadow-sm">SIGN UP</button>
             </form>
         </div>
+        
         <div class="col-md-5 auth-yellow-side d-flex flex-column justify-content-center align-items-center text-center">
             <h2 class="fw-bold mb-3">HELLO, FRIEND!</h2>
             <p class="mb-4 small">Enter your personal details and start your journey with us</p>
@@ -93,5 +99,4 @@
         </div>
     </div>
 </div>
-
 @endsection

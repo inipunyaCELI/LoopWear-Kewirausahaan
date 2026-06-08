@@ -4,13 +4,16 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap');
 
+    .about-wrapper {
+        font-family: 'Quicksand', sans-serif;
+    }
+
     .about-heading {
         font-family: 'Fredoka One', cursive;
         letter-spacing: 1px;
     }
 
     .about-text {
-        font-family: 'Quicksand', sans-serif;
         font-size: 1.05rem;
         line-height: 1.9;
         color: #555;
@@ -18,7 +21,6 @@
     }
 
     .about-quote {
-        font-family: 'Quicksand', sans-serif;
         font-size: 1.1rem;
         font-style: italic;
         color: #6A8EAE;
@@ -37,8 +39,11 @@
         box-shadow: 0 4px 20px rgba(71, 81, 11, 0.07);
     }
 
+    .about-hero-logo {
+        max-width: 220px;
+    }
+
     .about-tagline {
-        font-family: 'Quicksand', sans-serif;
         font-size: 1rem;
         font-weight: 700;
         color: #47510B;
@@ -63,30 +68,29 @@
         box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     }
 
-    .about-card-visi {
-        border-top: 4px solid #6A8EAE;
-    }
+    .about-card-visi { border-top: 4px solid #6A8EAE; }
+    .about-card-misi { border-top: 4px solid #E7998B; }
+    .about-card-kenapa { border-top: 4px solid #fff24d; }
 
-    .about-card-misi {
-        border-top: 4px solid #E7998B;
-    }
+    .text-visi { color: #6A8EAE; }
+    .text-misi { color: #E7998B; }
+    .text-kenapa { color: #47510B; }
 
-    .about-card-kenapa {
-        border-top: 4px solid #fff24d;
-    }
-
-     .custom-ol {
-        font-family: 'Quicksand', sans-serif;
+    /* --- LIST STYLES --- */
+    .custom-ol, .custom-ul {
         font-size: 1rem;
         color: #555;
         line-height: 1.8;
         list-style: none;
-        counter-reset: angka-misi;
         padding-left: 0;
         margin: 0;
     }
 
-    .custom-ol li {
+    .custom-ol {
+        counter-reset: angka-misi;
+    }
+
+    .custom-ol li, .custom-ul li {
         position: relative;
         margin-bottom: 12px;
         padding-left: 40px;
@@ -96,45 +100,21 @@
     .custom-ol li::before {
         content: counter(angka-misi);
         counter-increment: angka-misi;
-        position: absolute;
-        left: 0;
-        top: 0;
         background-color: #E7998B;
         color: #fff;
-        width: 26px;
-        height: 26px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 0.8rem;
-    }
-
-    .custom-ul {
-        font-family: 'Quicksand', sans-serif;
-        font-size: 1rem;
-        color: #555;
-        line-height: 1.8;
-        list-style: none; 
-        padding-left: 0;
-        margin: 0;
-    }
-
-    .custom-ul li {
-        position: relative;
-        margin-bottom: 12px;
-        padding-left: 40px; 
-        padding-top: 2px;
     }
 
     .custom-ul li::before {
         content: '✓';
+        background-color: #fff24d;
+        color: #47510B;
+        font-size: 0.85rem; 
+    }
+
+    .custom-ol li::before, .custom-ul li::before {
         position: absolute;
         left: 0;
         top: 0;
-        background-color: #fff24d;
-        color: #47510B;
         width: 26px;
         height: 26px;
         border-radius: 50%;
@@ -142,15 +122,14 @@
         align-items: center;
         justify-content: center;
         font-weight: 800;
-        font-size: 0.85rem; 
     }
 </style>
 
-<div class="container py-5">
+<div class="container py-5 about-wrapper">
 
     {{-- HERO --}}
     <div class="about-hero">
-        <img src="{{ asset('images/logo_loop.png') }}" alt="Loop Logo" style="max-width: 220px;" class="mb-3">
+        <img src="{{ asset('images/logo_loop.png') }}" alt="Loop Logo" class="about-hero-logo mb-3">
         <p class="about-tagline">Preloved Fashion · Sustainable Style</p>
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -170,7 +149,7 @@
 
             {{-- VISI --}}
             <div class="about-card about-card-visi">
-                <h2 class="text-center mb-4 about-heading" style="color: #6A8EAE;">Visi</h2>
+                <h2 class="text-center mb-4 about-heading text-visi">Visi</h2>
                 <p class="about-quote mb-0">
                     "Menjadi platform penjualan pakaian preloved yang terpercaya dan membantu meningkatkan kesadaran masyarakat tentang pentingnya fashion berkelanjutan."
                 </p>
@@ -178,7 +157,7 @@
 
             {{-- MISI --}}
             <div class="about-card about-card-misi">
-                <h2 class="text-center mb-4 about-heading" style="color: #E7998B;">Misi</h2>
+                <h2 class="text-center mb-4 about-heading text-misi">Misi</h2>
                 <ol class="custom-ol">
                     <li>Menyediakan pakaian preloved berkualitas dengan harga terjangkau.</li>
                     <li>Memberikan alternatif fashion yang lebih ramah lingkungan.</li>
@@ -189,7 +168,7 @@
 
             {{-- KENAPA --}}
             <div class="about-card about-card-kenapa">
-                <h2 class="text-center mb-4 about-heading" style="color: #47510B;">Kenapa Memilih LoopWear?</h2>
+                <h2 class="text-center mb-4 about-heading text-kenapa">Kenapa Memilih LoopWear?</h2>
                 <ul class="custom-ul">
                     <li>Pakaian preloved yang masih berkualitas</li>
                     <li>Harga lebih terjangkau dibanding pakaian baru</li>

@@ -24,7 +24,7 @@ class Cbarang extends Controller
             'nama_barang' => 'required',
             'harga'       => 'required|numeric',
             'kategori'    => 'required',
-            'warna'       => 'required', // Tambahkan validasi warna
+            'warna'       => 'required',
             'stok'        => 'required|numeric',
             'gambar'      => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -39,7 +39,7 @@ class Cbarang extends Controller
             'nama_barang' => $request->nama_barang,
             'harga'       => $request->harga,
             'kategori'    => strtolower(trim($request->kategori)), 
-            'warna'       => $request->warna, // Simpan data warna
+            'warna'       => $request->warna,
             'stok'        => $request->stok, 
             'gambar'      => $nama_file ?? null,
             'status'      => 'available'
@@ -52,20 +52,17 @@ class Cbarang extends Controller
     {
         $product = Mbarang::findOrFail($id);
         
-        // Rekomendasi produk berdasarkan kategori yang sama
         $recommendations = Mbarang::where('kategori', $product->kategori)
                             ->where('id_barang', '!=', $id)
                             ->take(4)
                             ->get();
 
-        // Pengaman jika tabel Review belum siap
         try {
             $reviews = $product->reviews()->with('user')->latest()->get();
         } catch (\Exception $e) {
             $reviews = collect(); 
         }
 
-        // DISINI YANG DIUBAH: Mengarahkan langsung ke file review.blade.php
         return view('review', compact('product', 'recommendations', 'reviews'));
     }
 
@@ -114,10 +111,13 @@ class Cbarang extends Controller
     public function destroy($id)
     {
         $barang = Mbarang::findOrFail($id);
+        
         if ($barang->gambar && file_exists(public_path('images/' . $barang->gambar))) {
             unlink(public_path('images/' . $barang->gambar));
         }
+        
         $barang->delete();
+        
         return redirect()->route('barang.index')->with('status', [
             'judul' => 'Terhapus!',
             'pesan' => 'Barang sudah dihapus',

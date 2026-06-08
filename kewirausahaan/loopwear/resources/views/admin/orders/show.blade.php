@@ -76,7 +76,6 @@
             border-top: 1px dashed #333;
             padding-top: 15px;
         }
-        /* Hide buttons when printing */
         @media print {
             body { background: none; padding: 0; }
             .receipt-card { border: none; box-shadow: none; margin: 0; max-width: 100%; padding: 0; }

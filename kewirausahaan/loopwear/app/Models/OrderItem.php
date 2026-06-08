@@ -19,6 +19,6 @@ class OrderItem extends Model
 
     public function mbarang()
     {
-        return $this->belongsTo(Mbarang::class, 'barang_id');
+        return $this->belongsTo(Mbarang::class, 'barang_id', 'id_barang');
     }
 }

@@ -13,4 +13,14 @@ class Wishlist extends Model
         'barang_id',
         'user_id', 
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function mbarang()
+    {
+        return $this->belongsTo(Mbarang::class, 'barang_id', 'id_barang');
+    }
 }

@@ -10,6 +10,21 @@ class Mbarang extends Model
     use HasFactory;
 
     protected $table = 'mbarangs';
+    
     protected $primaryKey = 'id_barang';
-    protected $fillable = ['nama_barang', 'harga', 'stok', 'status', 'gambar', 'kategori', 'warna'];
+    
+    protected $fillable = [
+        'nama_barang', 
+        'harga', 
+        'stok', 
+        'status', 
+        'gambar', 
+        'kategori', 
+        'warna'
+    ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'barang_id', 'id_barang');
+    }
 }

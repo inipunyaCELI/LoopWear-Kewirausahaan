@@ -16,7 +16,6 @@
         overflow: hidden;
     }
 
-    /* Dekorasi background subtle */
     .contact-page::before {
         content: '';
         position: absolute;
@@ -46,7 +45,6 @@
         z-index: 1;
     }
 
-    /* === LOGO === */
     .logo-wrapper {
         position: relative;
         animation: fadeInLeft 0.7s ease both;
@@ -72,7 +70,6 @@
         transform: scale(1.04) rotate(-1deg);
     }
 
-    /* === INFO ITEMS === */
     .info-col {
         animation: fadeInUp 0.7s ease 0.15s both;
     }
@@ -131,7 +128,6 @@
         color: #666;
     }
 
-    /* === DIVIDER === */
     .vertical-divider {
         border-left: 2px solid transparent;
         border-image: linear-gradient(to bottom, transparent, #8A9E71 30%, #8A9E71 70%, transparent) 1;
@@ -141,7 +137,6 @@
         width: 1px;
     }
 
-    /* === FORM === */
     .form-col {
         animation: fadeInRight 0.7s ease 0.3s both;
     }
@@ -181,7 +176,6 @@
         padding-top: 12px;
     }
 
-    /* === BUTTON === */
     .btn-submit {
         background-color: transparent;
         color: #47510B;
@@ -213,13 +207,7 @@
         z-index: 0;
     }
 
-    .btn-submit span {
-        position: relative;
-        z-index: 1;
-        transition: color 0.35s ease;
-    }
-
-    .btn-submit i {
+    .btn-submit span, .btn-submit i {
         position: relative;
         z-index: 1;
         transition: color 0.35s ease, transform 0.35s ease;
@@ -229,8 +217,7 @@
         transform: scaleX(1);
     }
 
-    .btn-submit:hover span,
-    .btn-submit:hover i {
+    .btn-submit:hover span, .btn-submit:hover i {
         color: #fff;
     }
 
@@ -238,7 +225,6 @@
         transform: translateX(4px);
     }
 
-    /* === ANIMASI === */
     @keyframes fadeInLeft {
         from { opacity: 0; transform: translateX(-30px); }
         to   { opacity: 1; transform: translateX(0); }
@@ -263,7 +249,6 @@
         </div>
 
         <div class="col-md-4 col-lg-3 mb-4 mb-md-0 ps-md-4 info-col">
-
             <div class="info-item">
                 <div class="info-icon"><i class="fas fa-store"></i></div>
                 <div class="info-text">
@@ -318,12 +303,13 @@
         </div>
 
         <div class="col-md-3 col-lg-4 form-col">
-            <form action="#" method="POST" class="m-0">
+            <form action="/contact" method="POST" class="m-0">
                 @csrf
-                <input type="text" class="form-control custom-input" placeholder="NAME">
-                <input type="text" class="form-control custom-input" placeholder="PHONE">
-                <input type="email" class="form-control custom-input" placeholder="EMAIL">
-                <textarea class="form-control custom-input" placeholder="MESSAGE"></textarea>
+                <input type="text" name="nama" class="form-control custom-input" placeholder="NAME" required>
+                <input type="text" name="telepon" class="form-control custom-input" placeholder="PHONE" required>
+                <input type="email" name="email" class="form-control custom-input" placeholder="EMAIL" required>
+                <textarea name="pesan" class="form-control custom-input" placeholder="MESSAGE" required></textarea>
+                
                 <button type="submit" class="btn btn-submit">
                     <span>SUBMIT</span>
                     <i class="fas fa-arrow-right" style="font-size: 0.75rem;"></i>

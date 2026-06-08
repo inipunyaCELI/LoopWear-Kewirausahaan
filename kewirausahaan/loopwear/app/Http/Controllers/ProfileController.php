@@ -23,7 +23,6 @@ class ProfileController extends Controller
         $request->validate([
             'name'        => ['required', 'string', 'max:255'],
             'username'    => ['nullable', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
-            'email'       => ['required', 'email', Rule::unique('users')->ignore($user->id)],
             'phone'       => ['nullable', 'string', 'max:20'],
             'address'     => ['nullable', 'string', 'max:255'],
             'city'        => ['nullable', 'string', 'max:100'],
@@ -31,7 +30,7 @@ class ProfileController extends Controller
             'avatar'      => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $data = $request->only(['name', 'username', 'email', 'phone', 'address', 'city', 'postal_code']);
+        $data = $request->only(['name', 'username', 'phone', 'address', 'city', 'postal_code']);
 
         if ($request->hasFile('avatar')) {
             if ($user->avatar) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Midtrans\Config;
+use Midtrans\Snap;
 
 class PesananController extends Controller
 {
@@ -14,14 +16,13 @@ class PesananController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Sync Midtrans Status FIRST
         foreach ($orders as $order) {
             if ($order->status_payment == 'pending') {
                 $order->syncMidtransStatus();
                 
                 if ($order->status_payment == 'pending' && is_null($order->snap_token)) {
-                    \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-                    \Midtrans\Config::$isProduction = false;
+                    Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+                    Config::$isProduction = false;
     
                     $params = [
                         'transaction_details' => [
@@ -31,16 +32,14 @@ class PesananController extends Controller
                     ];
                     
                     try {
-                        $snapToken = \Midtrans\Snap::getSnapToken($params);
+                        $snapToken = Snap::getSnapToken($params);
                         $order->update(['snap_token' => $snapToken]);
                     } catch (\Exception $e) {
-                        // Ignore
                     }
                 }
             }
         }
 
-        // Setelah di-sync, baru kita pecah ke masing-masing tab
         $semua = $orders;
         $dikemas = $orders->where('status_payment', 'success')->where('status_delivery', 'process');
         $dikirim = $orders->where('status_delivery', 'dikirim');
@@ -48,6 +47,7 @@ class PesananController extends Controller
 
         return view('pesanan', compact('semua', 'dikemas', 'dikirim', 'selesai'));
     }
+
     public function cancel($id)
     {
         $order = Order::where('id', $id)

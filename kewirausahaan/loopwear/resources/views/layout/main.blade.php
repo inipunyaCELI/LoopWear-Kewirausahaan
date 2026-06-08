@@ -6,16 +6,24 @@
     <title>LoopWear - Preloved Store</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- SWEETALERT2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #fff; scroll-behavior: smooth; }
+        body { 
+            font-family: 'Quicksand', sans-serif; 
+            background-color: #fff; 
+            scroll-behavior: smooth; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: fadeIn 0.4s ease;
+        }
 
-        /* --- NAVBAR BASE --- */
+        main {
+            flex: 1 0 auto;
+        }
+
         .navbar {
             background-color: #fff24d !important;
             padding: 12px 0;
@@ -30,7 +38,6 @@
             font-size: 1.8rem;
         }
 
-        /* --- MENU TENGAH (PINK) --- */
         .nav-center-group {
             display: flex;
             align-items: center;
@@ -48,26 +55,24 @@
             padding-bottom: 3px;
         }
 
-        .nav-link-custom:hover { color: #47510B !important; }
+        .nav-link-custom:hover, .nav-link-custom.active { color: #47510B !important; }
 
-        .nav-link-custom::after {
+        .nav-link-custom::after, .nav-right-link::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0%;
             height: 2px;
-            background-color: #47510B;
             border-radius: 2px;
             transition: width 0.3s ease;
         }
 
-        .nav-link-custom:hover::after { width: 100%; }
+        .nav-link-custom::after { background-color: #47510B; }
+        .nav-right-link::after { background-color: #E7998B; }
 
-        .nav-link-custom.active { color: #47510B !important; }
-        .nav-link-custom.active::after { width: 100%; }
+        .nav-link-custom:hover::after, .nav-link-custom.active::after, .nav-right-link:hover::after { width: 100%; }
 
-        /* --- MENU KANAN (GRASSY GREEN) --- */
         .nav-right-link {
             color: #47510B !important;
             font-weight: 700;
@@ -83,21 +88,6 @@
 
         .nav-right-link:hover { color: #E7998B !important; }
 
-        .nav-right-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background-color: #E7998B;
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        .nav-right-link:hover::after { width: 100%; }
-
-        /* --- FIX UKURAN IKON (HATI & KERANJANG) --- */
         .nav-icon-group {
             font-size: 1.2rem !important;
             text-decoration: none;
@@ -126,11 +116,15 @@
             100% { transform: scale(1.2) rotate(0deg); }
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .like-icon {
             filter: drop-shadow(0 2px 3px rgba(231, 153, 139, 0.4));
         }
 
-        /* User Pill Style */
         .user-pill {
             background-color: #47510B;
             color: #fff24d !important;
@@ -151,12 +145,12 @@
             align-items: center;
         }
 
-        /* Cart Badge */
         .cart-wrapper {
             position: relative;
             display: inline-block;
             text-decoration: none;
         }
+
         .cart-badge {
             position: absolute;
             top: -8px;
@@ -173,7 +167,6 @@
             justify-content: center;
         }
 
-        /* Toast Notification */
         .cart-toast {
             position: fixed;
             bottom: 30px;
@@ -190,12 +183,12 @@
             transition: all 0.4s ease;
             box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
+
         .cart-toast.show {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* --- PRODUCT STYLING (GLOBAL) --- */
         .product-img {
             width: 100%;
             height: 280px;
@@ -214,7 +207,6 @@
             transform: scale(1.05);
         }
 
-        /* --- BACK TO TOP --- */
         #backToTop {
             position: fixed;
             bottom: 30px;
@@ -245,14 +237,22 @@
             color: #fff;
         }
 
-        /* --- PAGE TRANSITION --- */
-        body {
-            animation: fadeIn 0.4s ease;
+        .cute-popup {
+            border-radius: 30px !important;
+            border: 3px solid #E7998B !important;
+            font-family: 'Quicksand', sans-serif !important;
+            box-shadow: 0 10px 30px rgba(231, 153, 139, 0.25) !important;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
+        .cute-title {
+            color: #47510B !important;
+            font-weight: 800 !important;
+            font-size: 1.6rem !important;
+        }
+
+        .cute-content {
+            color: #666 !important;
+            font-weight: 600 !important;
         }
 
         /* --- SEARCH OVERLAY --- */
@@ -408,9 +408,9 @@
     🛒 {{ session('success_cart') }}
 </div>
 <script>
-    setTimeout(function() {
-        var toast = document.getElementById('cartToast');
-        if (toast) { toast.classList.remove('show'); }
+    setTimeout(() => {
+        const toast = document.getElementById('cartToast');
+        if (toast) toast.classList.remove('show');
     }, 3000);
 </script>
 @endif
@@ -442,8 +442,7 @@
 
             {{-- Wishlist --}}
             <a href="/wishlist" class="nav-icon-group like-icon" title="Wishlist">❤️</a>
-
-            {{-- Cart dengan badge --}}
+            
             <a href="/cart" class="cart-wrapper nav-icon-group" title="Cart">
                 🛒
                 @if($cartCount > 0)
@@ -452,9 +451,7 @@
             </a>
 
             @auth
-                @php
-                    $unreadNotifications = auth()->user()->unreadNotifications;
-                @endphp
+                @php $unreadNotifications = auth()->user()->unreadNotifications; @endphp
                 <div class="dropdown">
                     <a href="#" class="cart-wrapper nav-icon-group dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         🔔
@@ -474,8 +471,8 @@
                                         <small class="text-muted" style="font-size: 0.7rem;">{{ $notification->created_at->diffForHumans() }}</small>
                                     </a>
                                 </li>
-                                @php $notification->markAsRead(); @endphp
                             @endforeach
+                            @php $unreadNotifications->markAsRead(); @endphp
                         @else
                             <li><span class="dropdown-item text-muted text-center py-3"><small>Belum ada notifikasi baru.</small></span></li>
                         @endif
@@ -496,7 +493,6 @@
                 @else
                     <a href="/pesanan" class="nav-right-link">📦 Pesanan</a>
                 @endif
-
                 <a href="/logout" class="nav-right-link text-danger">Logout</a>
             @else
                 <a href="/login" class="nav-right-link">👤 Login</a>
@@ -542,36 +538,50 @@
     @yield('konten')
 </main>
 
-{{-- SWEET ALERT SUCCESS --}}
 @if(session('success'))
 <script>
     Swal.fire({
-        icon: 'success',
-        title: 'Berhasil',
+        title: 'Yay! Berhasil! ✨',
         text: '{{ session('success') }}',
+        icon: 'success',
+        iconColor: '#E7998B',
+        background: '#FFFCF5',
         showConfirmButton: false,
-        timer: 2000
+        timer: 2500,
+        customClass: {
+            popup: 'cute-popup',
+            title: 'cute-title',
+            htmlContainer: 'cute-content'
+        },
+        backdrop: `rgba(71, 81, 11, 0.15)`
     });
 </script>
 @endif
 
-{{-- SWEET ALERT ERROR --}}
 @if(session('error'))
 <script>
     Swal.fire({
+        title: 'Oops! 🙈',
+        text: '{{ session('error') }}',
         icon: 'error',
-        title: 'Gagal',
-        text: '{{ session('error') }}'
+        iconColor: '#E7998B',
+        background: '#FFFCF5',
+        showConfirmButton: true,
+        confirmButtonColor: '#8A9E71',
+        confirmButtonText: 'Okeee',
+        customClass: {
+            popup: 'cute-popup',
+            title: 'cute-title',
+            htmlContainer: 'cute-content'
+        },
+        backdrop: `rgba(71, 81, 11, 0.15)`
     });
 </script>
 @endif
 
-{{-- FOOTER --}}
-<footer style="background-color: #47510B; color: #fff24d; padding: 2rem 0 1rem; margin-top: 0;">
+<footer style="background-color: #47510B; color: #fff24d; padding: 2rem 0 1rem; margin-top: auto;">
     <div class="container">
         <div class="row gy-4">
-
-            {{-- Kolom 1: Brand + Tagline --}}
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">LoopWear</p>
                 <p style="font-size: 0.82rem; line-height: 1.6; color: #fff24d; margin: 0; opacity: 0.85;">
@@ -579,49 +589,43 @@
                 </p>
             </div>
 
-            {{-- Kolom 2: Menu --}}
             <div class="col-md-2 offset-md-1">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Menu</p>
                 <ul style="list-style: none; padding: 0; font-size: 0.82rem; margin: 0;">
                     <li style="margin-bottom: 6px;"><a href="/" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Home</a></li>
                     <li style="margin-bottom: 6px;"><a href="/about" style="color: #fff24d; text-decoration: none; opacity: 0.85;">About</a></li>
                     <li style="margin-bottom: 6px;"><a href="/products" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Products</a></li>
+                    <li style="margin-bottom: 6px;"><a href="/review" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Review</a></li>
                     <li style="margin-bottom: 6px;"><a href="/contact" style="color: #fff24d; text-decoration: none; opacity: 0.85;">Contact</a></li>
                 </ul>
             </div>
 
-            {{-- Kolom 3: Kontak --}}
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Kontak</p>
                 <ul style="list-style: none; padding: 0; font-size: 0.82rem; margin: 0;">
-                    <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📧 hello@loopwear.com</li>
+                    <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📧 loopweaar@gmail.com</li>
                     <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📞 0812-3456-7890</li>
                     <li style="margin-bottom: 6px; color: #fff24d; opacity: 0.85;">📍 Banjarmasin, Indonesia</li>
                 </ul>
             </div>
 
-            {{-- Kolom 4: Sosmed --}}
             <div class="col-md-3">
                 <p style="font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; color: #fff24d;">Ikuti Kami</p>
-                <a href="https://instagram.com/LoopWear.official" target="_blank"
-                   style="display: flex; align-items: center; gap: 8px; color: #fff24d; text-decoration: none; font-size: 0.82rem; opacity: 0.85; margin-bottom: 8px;">
+                <a href="https://instagram.com/LoopWear.official" target="_blank" style="display: flex; align-items: center; gap: 8px; color: #fff24d; text-decoration: none; font-size: 0.82rem; opacity: 0.85; margin-bottom: 8px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff24d" viewBox="0 0 16 16">
                         <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm.003 1.44c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.843-.038 1.096-.046 3.232-.046zm0 2.452a4.108 4.108 0 1 0 0 8.215 4.108 4.108 0 0 0 0-8.215zm0 6.775a2.667 2.667 0 1 1 0-5.334 2.667 2.667 0 0 1 0 5.334zm5.23-6.937a.96.96 0 1 1-1.92 0 .96.96 0 0 1 1.92 0z"/>
                     </svg>
                     @LoopWear.official
                 </a>
-                <a href="https://facebook.com/LoopWear.id" target="_blank"
-                   style="display: flex; align-items: center; gap: 8px; color: #fff24d; text-decoration: none; font-size: 0.82rem; opacity: 0.85;">
+                <a href="https://facebook.com/LoopWear.id" target="_blank" style="display: flex; align-items: center; gap: 8px; color: #fff24d; text-decoration: none; font-size: 0.82rem; opacity: 0.85;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff24d" viewBox="0 0 16 16">
                         <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
                     </svg>
                     LoopWear.id
                 </a>
             </div>
-
         </div>
 
-        {{-- Garis & Copyright --}}
         <hr style="border-color: rgba(255,242,77,0.2); margin-top: 1.5rem; margin-bottom: 0.8rem;">
         <p style="text-align: center; font-size: 0.78rem; color: #fff24d; opacity: 0.7; margin: 0;">
             © 2025 LoopWear. All rights reserved. Made with 💛 in Banjarmasin.
@@ -634,19 +638,20 @@
 <button id="backToTop" title="Kembali ke atas">↑</button>
 
 <script>
-    const btn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-        btn.classList.toggle('show', window.scrollY > 300);
-    });
-    btn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-</script>
+    const btnTop = document.getElementById('backToTop');
+    const navbar = document.querySelector('.navbar');
 
-<script>
     window.addEventListener('scroll', () => {
-        document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
+        const y = window.scrollY;
+        if (btnTop) btnTop.classList.toggle('show', y > 300);
+        if (navbar) navbar.classList.toggle('scrolled', y > 50);
     });
+
+    if (btnTop) {
+        btnTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 </script>
 
 <script>

@@ -7,6 +7,7 @@
        0. GLOBAL STYLING
        ========================================= */
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 
     body {
         font-family: 'Quicksand', sans-serif;
@@ -20,7 +21,7 @@
     }
 
     /* =========================================
-       1. HERO SECTION STYLING (Pertahankan)
+       1. HERO SECTION STYLING
        ========================================= */
     .hero-section {
         transition: background-color 0.8s ease-in-out;
@@ -118,111 +119,150 @@
     }
 
     /* =========================================
-       3. more-ways-to-save STYLING (Carousel Poster)
+       2. CAROUSEL & NEW BANNER STYLING
        ========================================= */
-    .save-carousel {
-        border-radius: 12px;
-        overflow: hidden;
-        border: none;
-    }
+    .save-carousel { border-radius: 20px; overflow: hidden; border: none; margin-bottom: 50px; }
     
     .save-poster {
-        background-color: #fdf5e6; /* Krem pastel */
-        min-height: 150px; /* Lebih pendek dari banner utama */
+        background-color: #fdf5e6;
+        min-height: 220px;
         display: flex;
         align-items: center;
-        padding: 20px 40px;
+        padding: 30px 90px; 
+        transition: all 0.3s ease;
     }
 
-    .save-text h3 {
-        font-weight: 800;
-        color: #e27d60; 
-        font-size: 1.5rem;
-        margin-bottom: 5px;
+    .save-poster img {
+        max-height: 180px; 
+        object-fit: contain;
+        filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+        transition: transform 0.4s ease;
     }
 
-    .save-text p {
-        font-size: 0.9rem;
-        color: #555;
-        margin-bottom: 10px;
-    }
+    .save-poster:hover { transform: scale(1.02) rotate(-0.5deg); }
+    .save-poster:hover img { transform: scale(1.08) translateY(-5px); }
+
+    .save-text h3 { font-family: 'Fredoka One', cursive; font-weight: 800; color: #e27d60; font-size: 1.8rem; margin-bottom: 5px; text-transform: uppercase; }
+    .save-text p { font-size: 0.95rem; color: #555; margin-bottom: 10px; font-weight: 600; }
     
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 5%;
-        opacity: 0.7;
+    .carousel-control-prev, .carousel-control-next { width: 5%; opacity: 0.7; }
+    .carousel-control-prev-icon, .carousel-control-next-icon { filter: invert(1); }
+
+    .earth-edit-banner {
+        background-color: #c7d159; 
+        border-radius: 20px;
+        padding: 50px 30px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 8px 20px rgba(199, 209, 89, 0.3);
+        transition: all 0.3s ease;
     }
-    
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        filter: invert(1); /* Bikin panahnya jadi gelap */
+
+    .earth-edit-banner:hover { transform: translateY(-5px) rotate(1deg); }
+
+    .earth-edit-banner h2 {
+        font-family: 'Fredoka One', cursive;
+        font-size: 2.2rem;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+    }
+
+    .earth-edit-banner p {
+        font-weight: 600;
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.5;
     }
 
     /* =========================================
-       4. most-wanted-picks STYLING (Best Sellers Grid)
+       3. PRODUK DINAMIS STYLING
        ========================================= */
+       
     .best-seller-section {
-        background-color: #e6eeb1; /* Hijau Pastel Zalora */
-        border-radius: 15px;
-        padding: 40px 20px;
-    }
-
-    .section-thrift-edit {
-        background-color: #b8cc58;
-        border-radius: 15px;
-        padding: 50px 30px;
-        color: white;
-        text-align: center;
+        background-color: #e6eeb1; 
+        border-radius: 25px;
+        padding: 50px 20px;
     }
 
     .just-for-you-section {
-        background-color: #ffe5e5;
-        border-radius: 15px;
-        padding: 40px 20px;
+        background-color: #ffeceb; 
+        border-radius: 25px; 
+        padding: 50px 20px;
+        margin-bottom: 50px;
     }
 
-    /* Komponen Produk Proper Ala Zalora */
-    .product-grid-card {
-        border: none;
-        background: transparent;
+    .product-grid-card-1 {
+        background: #ffffff;
+        border-radius: 20px; 
+        padding: 12px;
         height: 100%;
         display: flex;
         flex-direction: column;
+        border: 4px solid #c7d159;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .product-grid-card-1:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(199, 209, 89, 0.4);
+    }
+
+    .product-grid-card-2 {
+        background: #fffafa;
+        border-radius: 20px;
+        padding: 12px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: 3px dashed #F29C9C; 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .product-grid-card-2:hover {
+        transform: scale(1.05) rotate(1deg); 
+        border-color: #d67a7a;
+        background: #fff;
     }
     
     .product-img-box {
-        background-color: #ffffff;
-        border-radius: 8px;
-        padding: 30px 20px;
+        background-color: #f8f9fa;
+        border-radius: 14px;
+        padding: 20px;
         position: relative;
         text-align: center;
         margin-bottom: 15px;
-        transition: box-shadow 0.3s ease;
-        height: 200px; /* Tinggi fix agar seragam */
+        height: 200px;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .product-grid-card:hover .product-img-box {
-        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        overflow: hidden;
     }
 
     .grid-img {
         height: 100%;
         max-height: 160px;
         object-fit: contain;
+        transition: transform 0.4s ease;
     }
 
+    .product-grid-card-1:hover .grid-img, .product-grid-card-2:hover .grid-img {
+        transform: scale(1.1);
+    }
+
+    /* Wishlist Button Styling */
     .btn-wishlist-grid {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: none;
+        background: #fff;
         border: none;
-        font-size: 1.2rem;
-        color: #bbb;
-        transition: color 0.2s ease, transform 0.2s ease;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        font-size: 1.1rem;
+        color: #ddd;
+        transition: color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         cursor: pointer;
         padding: 0;
         line-height: 1;
@@ -230,64 +270,50 @@
 
     .btn-wishlist-grid:hover {
         color: #F29C9C;
-        transform: scale(1.2);
+        transform: scale(1.1);
     }
 
-    /* State aktif: sudah masuk wishlist */
     .btn-wishlist-grid.wishlisted,
     .btn-wishlist-grid.wishlisted:hover {
         color: #e74c3c;
     }
 
-    /* Form wishlist tidak menggeser layout */
-    .product-img-box form[action*="wishlist"] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        line-height: 0;
-    }
-
     .product-brand {
         font-weight: 800;
-        font-size: 0.9rem;
-        margin-bottom: 2px;
-        color: #333;
+        font-size: 0.85rem;
+        margin-bottom: 4px;
+        color: #F29C9C; 
+        letter-spacing: 0.5px;
     }
 
     .product-name {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        font-weight: 700;
         color: #555;
         margin-bottom: 8px;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
         overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .product-price-discount {
-        color: #c9302c; /* Merah Bold */
+        color: #333;
         font-weight: 800;
-        font-size: 1.1rem;
-        margin-right: 8px;
-    }
-
-    .product-price-ori {
-        text-decoration: line-through;
-        color: #999;
-        font-size: 0.85rem;
+        font-size: 1.15rem;
     }
 
     .btn-grid-action {
         width: 100%;
-        background-color: transparent;
-        border: 1px solid #ccc;
-        color: #333;
-        padding: 8px;
-        border-radius: 6px;
-        font-size: 0.9rem;
+        background-color: #fff;
+        border: 2px solid #e0e0e0;
+        color: #555;
+        padding: 10px;
+        border-radius: 50px; 
+        font-weight: 700;
+        font-size: 0.85rem;
         transition: all 0.3s ease;
-        margin-top: auto; /* Tombol selalu di paling bawah */
+        margin-top: auto; 
         cursor: pointer;
     }
 
@@ -297,9 +323,9 @@
         color: white;
     }
 
-    /* Form keranjang agar full width */
-    .product-grid-card > form {
+    .product-grid-card-1 > form, .product-grid-card-2 > form {
         width: 100%;
+        margin-top: auto;
     }
 
     /* Animasi Toast Notifikasi */
@@ -311,13 +337,12 @@
         from { opacity: 1; }
         to   { opacity: 0; transform: translateY(10px); }
     }
-
 </style>
+
 
 <section id="hero-section" class="hero-section" style="min-height: 100vh;">
     <div class="container pt-5">
         <div class="row align-items-center" style="min-height: 80vh;">
-            
             
             <div class="col-md-6">
                 <h1 id="hero-title" class="display-3 fw-bold mb-3" style="font-family: 'Fredoka One', cursive;">
@@ -327,11 +352,10 @@
                     Hijab premium, lembut, siap bikin outfit makin glowing.
                 </p>
                 <div class="d-flex gap-3 mb-5">
-                    <a href="#products-start" id="order-btn" class="btn rounded-pill px-4 py-2 fw-bold shadow border-0">ORDER NOW</a>
-                    <a href="#products-start" id="view-menu-btn" class="btn rounded-pill px-4 py-2 fw-bold">VIEW PRODUCTS</a>
+                    <a href="/cart" id="order-btn" class="btn rounded-pill px-4 py-2 fw-bold shadow border-0">ORDER NOW</a>
+                    <a href="/category/hijab" id="view-menu-btn" class="btn rounded-pill px-4 py-2 fw-bold">VIEW PRODUCTS</a>
                 </div>
 
-                
                 <div class="d-flex gap-4 hero-thumbs align-items-center">
                     <img src="<?php echo e(asset('images/hijab_pink.png')); ?>" onclick="changeHero('hijab', this)" class="active">
                     <img src="<?php echo e(asset('images/baju.png')); ?>" onclick="changeHero('baju', this)">
@@ -340,17 +364,11 @@
                 </div>
             </div> 
 
-            
             <div class="col-md-6 hero-right-col">
-                
                 <div id="hero-glow"></div>
-
-                
                 <img id="floater-1" src="" class="floater floater-1">
                 <img id="floater-2" src="" class="floater floater-2">
                 <img id="floater-3" src="" class="floater floater-3">
-
-                
                 <img id="hero-img" src="" class="position-relative main-hero-img" alt="Produk Utama">
             </div> 
 
@@ -360,25 +378,24 @@
 
 <div id="products-start"></div>
 
+
 <div class="container mt-5 pt-4">
-    <h3 class="text-center section-title mb-4"></h3>
-    
     <div id="saveCarousel" class="carousel slide save-carousel shadow-sm" data-bs-ride="carousel">
         <div class="carousel-inner">
             
             <div class="carousel-item active">
                 <div class="save-poster">
-                    <div class="row align-items-center w-100">
-                        <div class="col-md-2 p-0">
-                             <img src="<?php echo e(asset('images/jenius.png')); ?>" alt="Jenius" class="img-fluid" style="max-height: 50px;">
+                    <div class="row align-items-center w-100 m-0">
+                        <div class="col-md-4 text-center">
+                             <img src="<?php echo e(asset('images/sepatu.png')); ?>" class="img-fluid" alt="Sepatu">
                         </div>
-                        <div class="col-md-6 save-text px-md-4">
-                            <h3>TUMPUK PROMO 50 RIBU</h3>
-                            <p class="mb-0">Pakai kartu Jenius, potongan langsung + voucher.</p>
-                            <small class="text-muted" style="font-size: 0.75rem;">Periode: 1 - 31 Des 2023</small>
+                        <div class="col-md-5 save-text px-md-4">
+                            <h3>NEW ARRIVAL: SNEAKERS SERIES</h3>
+                            <p class="mb-0">Koleksi sepatu preloved original hits, rilis malam ini.</p>
+                            <small class="text-muted" style="font-size: 0.75rem;">Koleksi Terbatas</small>
                         </div>
-                        <div class="col-md-4 text-md-end p-0">
-                            <a href="#" class="btn btn-outline-dark rounded-0 px-4 py-2 fw-bold" style="font-size: 0.85rem;">KLAIM VOUCHER ></a>
+                        <div class="col-md-3 text-center mt-3 mt-md-0">
+                            <a href="/category/sepatu" class="btn btn-outline-dark rounded-pill px-4 py-2 fw-bold" style="font-size: 0.85rem;">BELI SEKARANG ></a>
                         </div>
                     </div>
                 </div>
@@ -386,14 +403,14 @@
             
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #eaf4f4;">
-                    <div class="row align-items-center w-100">
-                        <div class="col-md-8 save-text">
-                            <h3 style="color: #47510B;">GAJIAN SURPRISE!</h3>
-                            <p class="mb-0">Potongan harga otomatis di keranjang untuk koleksi tertentu.</p>
-                            <small class="text-muted" style="font-size: 0.75rem;">Tanpa Kode Voucher</small>
+                    <div class="row align-items-center w-100 m-0">
+                        <div class="col-md-8 save-text px-md-4">
+                            <h3 style="color: #47510B;">CURATED THRIFT MIX</h3>
+                            <p class="mb-0">Pashmina silk dan culotte jeans terkurasi untuk OOTD harianmu.</p>
+                            <small class="text-muted" style="font-size: 0.75rem;">Hemat & Aesthetic</small>
                         </div>
-                        <div class="col-md-4 text-md-end p-0">
-                             <img src="<?php echo e(asset('images/baju.png')); ?>" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                        <div class="col-md-4 text-center">
+                             <img src="<?php echo e(asset('images/hijab_pink.png')); ?>" class="img-fluid" alt="Hijab">
                         </div>
                     </div>
                 </div>
@@ -401,14 +418,13 @@
 
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #fffaf0;">
-                    <div class="row align-items-center w-100">
-                        <div class="col-md-3 p-0">
-                             <img src="<?php echo e(asset('images/sepatu.png')); ?>" class="img-fluid" style="max-height: 80px; object-fit: contain;">
+                    <div class="row align-items-center w-100 m-0">
+                        <div class="col-md-4 text-center">
+                             <img src="<?php echo e(asset('images/baju.png')); ?>" class="img-fluid" alt="Baju">
                         </div>
-                        <div class="col-md-9 save-text px-md-4">
-                            <h3>NEW ARRIVAL: SNEAKERS SERIES</h3>
-                            <p class="mb-0">Koleksi sepatu preloved hits, rilis malam ini.</p>
-                            <a href="#" class="text-dark fw-bold text-decoration-underline" style="font-size: 0.85rem;">BELI SEKARANG ></a>
+                        <div class="col-md-8 save-text px-md-4">
+                            <h3>VINTAGE COQUETTE FINDS</h3>
+                            <p class="mb-0">Kemeja pita dan cardigan gemes untuk tampilan vintage aesthetic.</p>
                         </div>
                     </div>
                 </div>
@@ -428,53 +444,54 @@
 </div>
 
 
-
 <div class="container mt-5 pt-4">
-    <div class="best-seller-section shadow">
+    <div class="best-seller-section shadow-sm">
         <h3 class="text-center section-title mb-5">Most Wanted Picks</h3>
         <div class="row g-4">
-
-            <?php $__empty_1 = true; $__currentLoopData = $most_wanted; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            
+            <?php $__empty_1 = true; $__currentLoopData = $latestProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="col-6 col-md-3">
-                <div class="product-grid-card">
+                <div class="product-grid-card-1">
                     <div class="product-img-box">
                         
-                        <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
+                        <form action="<?php echo e(route('wishlist.add', $barang->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
                             <?php echo csrf_field(); ?>
-                            <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
-                                <i class="<?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
+                            <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
+                                <i class="<?php echo e(isset(session('wishlist')[$barang->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
                             </button>
                         </form>
-                        <img src="<?php echo e(asset('images/' . $item->gambar)); ?>"
-                             class="grid-img"
-                             alt="<?php echo e($item->nama_barang); ?>"
-                             onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
+                        <a href="/products/<?php echo e($barang->id_barang); ?>">
+                            <img src="<?php echo e(asset('images/' . ($barang->gambar ?? 'no-image.png'))); ?>" class="grid-img" alt="<?php echo e($barang->nama_barang ?? $barang->nama); ?>" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
+                        </a>
                     </div>
-                    <div class="product-info mb-3 px-1">
-                        <div class="product-brand"><?php echo e(strtoupper($item->kategori)); ?></div>
-                        <div class="product-name"><?php echo e($item->nama_barang); ?></div>
+                    <div class="product-info mb-3 px-2 flex-grow-1">
+                        <div class="product-brand"><?php echo e(strtoupper($barang->kategori ?? 'LOOPWEAR')); ?></div>
+                        <div class="product-name">
+                            <a href="/products/<?php echo e($barang->id_barang); ?>" class="text-decoration-none text-dark"><?php echo e($barang->nama_barang ?? $barang->nama ?? 'Nama Produk'); ?></a>
+                        </div>
                         <div>
-                            <span class="product-price-discount">Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
+                            <span class="product-price-discount">Rp <?php echo e(number_format($barang->harga, 0, ',', '.')); ?></span>
                         </div>
                     </div>
-                    
-                    <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST">
+                    <form action="<?php echo e(route('cart.add', $barang->id_barang)); ?>" method="POST" class="px-2 pb-2">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
                     </form>
                 </div>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-            <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
+            <div class="col-12 text-center text-muted fst-italic py-4">
+                Belum ada produk yang tersedia.
+            </div>
             <?php endif; ?>
 
         </div>
     </div>
 </div>
 
-<!-- THE THRIFT EDIT -->
+
 <div class="container mt-5 pt-4">
-    <div class="section-thrift-edit shadow-sm">
+    <div class="earth-edit-banner shadow-sm">
         <i class="fas fa-leaf mb-3" style="font-size: 2.5rem; color: white;"></i>
         <h2 class="fw-bold mb-3" style="font-family: 'Fredoka One', cursive; letter-spacing: 1px;">THE THRIFT EDIT</h2>
         <p class="mb-0 mx-auto" style="max-width: 600px; font-weight: 500;">
@@ -484,50 +501,54 @@
     </div>
 </div>
 
+
 <div class="container mt-5 pt-4 mb-5">
-    <div class="just-for-you-section shadow">
-        <h3 class="text-center section-title mb-5" style="color: #c9302c;">Just For You</h3>
+    <div class="just-for-you-section shadow-sm">
+        <h3 class="text-center section-title mb-5" style="color: #c44131;">Just For You</h3>
         <div class="row g-4">
-
-        <?php $__empty_1 = true; $__currentLoopData = $just_for_you; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-        <div class="col-6 col-md-3">
-            <div class="product-grid-card">
-                <div class="product-img-box">
-                    
-                    <form action="<?php echo e(route('wishlist.add', $item->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:15px; right:15px; z-index:10;">
-                        <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
-                            <i class="<?php echo e(isset(session('wishlist')[$item->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
-                        </button>
-                    </form>
-                    <img src="<?php echo e(asset('images/' . $item->gambar)); ?>"
-                         class="grid-img"
-                         alt="<?php echo e($item->nama_barang); ?>"
-                         onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
-                </div>
-                <div class="product-info mb-3 px-1">
-                    <div class="product-brand"><?php echo e(strtoupper($item->kategori)); ?></div>
-                    <div class="product-name"><?php echo e($item->nama_barang); ?></div>
-                    <div>
-                        <span class="product-price-discount">Rp <?php echo e(number_format($item->harga, 0, ',', '.')); ?></span>
+            
+            <?php $__empty_1 = true; $__currentLoopData = $randomProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $barang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <div class="col-6 col-md-3">
+                <div class="product-grid-card-2"> 
+                    <div class="product-img-box" style="background-color: #fff;">
+                        
+                        <form action="<?php echo e(route('wishlist.add', $barang->id_barang)); ?>" method="POST" style="display:inline; position:absolute; top:10px; right:10px; z-index:10;">
+                            <?php echo csrf_field(); ?>
+                            <button type="submit" class="btn-wishlist-grid <?php echo e(isset(session('wishlist')[$barang->id_barang]) ? 'wishlisted' : ''); ?>" title="Tambah ke Wishlist">
+                                <i class="<?php echo e(isset(session('wishlist')[$barang->id_barang]) ? 'fas' : 'far'); ?> fa-heart"></i>
+                            </button>
+                        </form>
+                        <a href="/products/<?php echo e($barang->id_barang); ?>">
+                            <img src="<?php echo e(asset('images/' . ($barang->gambar ?? 'no-image.png'))); ?>" class="grid-img" alt="<?php echo e($barang->nama_barang ?? $barang->nama); ?>" onerror="this.onerror=null;this.src='<?php echo e(asset('images/no-image.png')); ?>';">
+                        </a>
                     </div>
+                    <div class="product-info mb-3 px-2 flex-grow-1">
+                        <div class="product-brand"><?php echo e(strtoupper($barang->kategori ?? 'LOOPWEAR')); ?></div>
+                        <div class="product-name">
+                            <a href="/products/<?php echo e($barang->id_barang); ?>" class="text-decoration-none text-dark"><?php echo e($barang->nama_barang ?? $barang->nama ?? 'Nama Produk'); ?></a>
+                        </div>
+                        <div>
+                            <span class="product-price-discount">Rp <?php echo e(number_format($barang->harga, 0, ',', '.')); ?></span>
+                        </div>
+                    </div>
+                    <form action="<?php echo e(route('cart.add', $barang->id_barang)); ?>" method="POST" class="px-2 pb-2">
+                        <?php echo csrf_field(); ?>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
+                    </form>
                 </div>
-                
-                <form action="<?php echo e(route('cart.add', $item->id_barang)); ?>" method="POST">
-                    <?php echo csrf_field(); ?>
-                    <button type="submit" class="btn-grid-action">Masukkan dalam keranjang</button>
-                </form>
             </div>
-        </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-        <div class="col-12 text-center text-muted fst-italic py-4">Belum ada produk tersedia.</div>
-        <?php endif; ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+            <div class="col-12 text-center text-muted fst-italic py-4">
+                Belum ada produk untukmu.
+            </div>
+            <?php endif; ?>
 
         </div>
-    </div>
 
-    <div class="text-center mt-5">
-        <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
+        
+        <div class="text-center mt-5">
+            <a href="/products" class="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold" style="border-width: 2px;">Lihat Semua Produk</a>
+        </div>
     </div>
 </div>
 
@@ -592,9 +613,6 @@
 
 
 <script>
-    /* =========================================
-       HERO SCRIPT (Pertahankan Logika)
-       ========================================= */
     const heroData = {
         hijab: {
             title: "Hijab LoopWear",
@@ -605,6 +623,7 @@
             btnBg: "#F29C9C",         
             btnText: "#FFFFFF",       
             mainImg: "<?php echo e(asset('images/hijab_pink.png')); ?>",
+            linkURL: "/category/hijab",
             floaters: [
                 "<?php echo e(asset('images/baju.png')); ?>",
                 "<?php echo e(asset('images/celana.png')); ?>",
@@ -620,6 +639,7 @@
             btnBg: "#C44131",         
             btnText: "#FFFFFF",
             mainImg: "<?php echo e(asset('images/baju.png')); ?>",
+            linkURL: "/category/baju",
             floaters: [
                 "<?php echo e(asset('images/hijab_pink.png')); ?>",
                 "<?php echo e(asset('images/celana.png')); ?>",
@@ -635,6 +655,7 @@
             btnBg: "#415AAB",         
             btnText: "#F7B0A1",       
             mainImg: "<?php echo e(asset('images/celana.png')); ?>",
+            linkURL: "/category/celana",
             floaters: [
                 "<?php echo e(asset('images/baju.png')); ?>",
                 "<?php echo e(asset('images/hijab_pink.png')); ?>",
@@ -650,6 +671,7 @@
             btnBg: "#4A5828",         
             btnText: "#F7B0A1",       
             mainImg: "<?php echo e(asset('images/sepatu.png')); ?>",
+            linkURL: "/category/sepatu",
             floaters: [
                 "<?php echo e(asset('images/baju.png')); ?>",
                 "<?php echo e(asset('images/hijab_pink.png')); ?>",
@@ -693,6 +715,7 @@
         const viewMenuBtn = document.getElementById('view-menu-btn');
         viewMenuBtn.style.borderColor = data.btnBg;
         viewMenuBtn.style.color = data.btnBg;
+        viewMenuBtn.href = data.linkURL; 
 
         viewMenuBtn.onmouseover = function() {
             this.style.backgroundColor = data.btnBg;
@@ -733,4 +756,4 @@
     });
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/welcome.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ASUS\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/welcome.blade.php ENDPATH**/ ?>

@@ -25,12 +25,11 @@
         min-height: 520px;
     }
 
-    /* --- STYLE JUDUL DISAMAKAN (CAPSLOCK & UKURAN SAMA) --- */
     .auth-title {
-        color: #FFB6A9; /* Petal Pink */
+        color: #FFB6A9;
         font-family: 'Fredoka One', cursive;
         margin-bottom: 20px;
-        font-size: 2.2rem; /* Ukuran sama persis */
+        font-size: 2.2rem;
         letter-spacing: 1px;
         text-transform: uppercase;
     }
@@ -46,7 +45,6 @@
         text-align: center;
     }
 
-    /* --- STYLE INPUT DISAMAKAN --- */
     .auth-container input {
         background-color: #F0F4F8; 
         border: 1px solid #E1E8F0;
@@ -56,7 +54,7 @@
         width: 90%;
         font-family: 'Quicksand', sans-serif;
         font-weight: 600;
-        color: #47510B; /* Grassy Green */
+        color: #47510B;
         transition: all 0.3s;
     }
 
@@ -65,7 +63,6 @@
         border-color: #FFB6A9;
     }
 
-    /* Teks tambahan khusus halaman forgot password */
     .forgot-desc {
         font-size: 14px;
         color: #47510B;
@@ -86,7 +83,6 @@
         color: #FFB6A9;
     }
 
-    /* --- STYLE TOMBOL DISAMAKAN --- */
     .btn-auth {
         border-radius: 50px;
         font-weight: bold;
@@ -122,7 +118,7 @@
         padding: 12px 45px;
         font-size: 14px;
         text-decoration: none;
-        display: inline-block; /* Penting untuk tag <a> yang dibentuk jadi tombol */
+        display: inline-block;
     }
 
     .btn-outline:hover {
@@ -130,7 +126,6 @@
         color: #fff24d;
     }
 
-    /* --- LOGIKA ANIMASI SLIDING (SAMA PERSIS DENGAN LOGIN) --- */
     .form-container {
         position: absolute;
         top: 0;
@@ -251,7 +246,6 @@
 <div class="container auth-page-wrapper">
     <div class="auth-container" id="auth-container">
         
-        {{-- PANEL KIRI SAAT DIGESER: FORM REGISTER --}}
         <div class="form-container sign-up-container">
             <form action="{{ url('/register') }}" method="POST">
                 @csrf
@@ -263,7 +257,6 @@
             </form>
         </div>
 
-        {{-- PANEL KIRI AWAL: FORM FORGOT PASSWORD --}}
         <div class="form-container sign-in-container">
             <form action="#" method="POST">
                 @csrf
@@ -275,22 +268,17 @@
             </form>
         </div>
 
-        {{-- KOTAK KUNING BERGESER --}}
         <div class="overlay-container">
             <div class="overlay">
-                {{-- Overlay Kiri (Tampil saat Sign Up terbuka) --}}
                 <div class="overlay-panel overlay-left">
                     <h2>WELCOME BACK!</h2>
                     <p>Already remembered your password? Login with your personal info</p>
-                    {{-- Tombol ini mengembalikan user ke halaman login --}}
                     <a href="{{ url('/login') }}" class="btn-auth btn-outline">SIGN IN</a>
                 </div>
                 
-                {{-- Overlay Kanan (Tampil di awal) --}}
                 <div class="overlay-panel overlay-right">
                     <h2>HELLO, FRIEND!</h2>
                     <p>Enter your personal details<br>and start your journey with us</p>
-                    {{-- TOMBOL INI SEKARANG BUTTON MURNI UNTUK MENGGESER ANIMASI --}}
                     <button type="button" class="btn-auth btn-outline" id="signUpBtn">SIGN UP</button>
                 </div>
             </div>
@@ -303,7 +291,6 @@
     const signUpButton = document.getElementById('signUpBtn');
     const container = document.getElementById('auth-container');
 
-    // Memicu animasi geser kotak kuning ke kiri tanpa pindah halaman
     signUpButton.addEventListener('click', () => {
         container.classList.add("right-panel-active");
     });
