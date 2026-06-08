@@ -80,13 +80,10 @@
                             $sudahUlasan = \App\Models\Review::where('user_id', auth()->id())->where('order_id', $order->id)->exists();
                         ?>
                         <?php if(!$sudahUlasan): ?>
-                            <button class="btn btn-outline-success fw-bold rounded-pill px-4"
-                                data-bs-toggle="modal"
-                                data-bs-target="#reviewModal<?php echo e($order->id); ?>">
+                            <button class="btn btn-outline-success fw-bold rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#reviewModal<?php echo e($order->id); ?>">
                                 ⭐ Beri Ulasan
                             </button>
 
-                            <!-- Modal Ulasan -->
                             <div class="modal fade" id="reviewModal<?php echo e($order->id); ?>" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content" style="border-radius: 15px;">
@@ -104,8 +101,7 @@
                                                     <label class="form-label fw-bold">Rating Bintang</label>
                                                     <div class="d-flex justify-content-center gap-2 fs-3" id="stars-<?php echo e($order->id); ?>">
                                                         <?php for($i = 1; $i <= 5; $i++): ?>
-                                                        <span class="star-btn" data-value="<?php echo e($i); ?>" data-order="<?php echo e($order->id); ?>" 
-                                                              style="cursor:pointer; color:#ccc; transition:color 0.2s;">★</span>
+                                                        <span class="star-btn" data-value="<?php echo e($i); ?>" data-order="<?php echo e($order->id); ?>" style="cursor:pointer; color:#ccc; transition:color 0.2s;">★</span>
                                                         <?php endfor; ?>
                                                     </div>
                                                     <input type="hidden" name="rating" id="ratingInput-<?php echo e($order->id); ?>" value="5">
@@ -113,9 +109,7 @@
 
                                                 <div class="mb-3">
                                                     <label class="form-label fw-bold">Komentar <span class="text-muted fw-normal">(Opsional)</span></label>
-                                                    <textarea name="komentar" class="form-control" rows="3"
-                                                        style="border-radius:10px;"
-                                                        placeholder="Tulis pengalamanmu di sini..."></textarea>
+                                                    <textarea name="komentar" class="form-control" rows="3" style="border-radius:10px;" placeholder="Tulis pengalamanmu di sini..."></textarea>
                                                 </div>
                                             </div>
                                             <div class="modal-footer border-0">
@@ -135,7 +129,6 @@
         </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-    <!-- Script bintang interaktif -->
     <script>
     document.querySelectorAll('.star-btn').forEach(function(star) {
         star.addEventListener('mouseover', function() {
@@ -161,10 +154,9 @@
             });
         });
     });
-    // Set bintang default 5
+    
     document.querySelectorAll('.star-btn[data-value="5"]').forEach(function(s) {
         s.click();
     });
     </script>
-<?php endif; ?>
-<?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/components/order_list.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\LoopWear-Kewirausahaan\kewirausahaan\loopwear\resources\views/components/order_list.blade.php ENDPATH**/ ?>
