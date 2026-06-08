@@ -32,17 +32,16 @@
 
         /* --- MENU TENGAH (PINK) --- */
         .nav-center-group {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
             align-items: center;
+            justify-content: center;
+            flex: 1;
         }
 
         .nav-link-custom {
             color: #E7998B !important;
             font-weight: 700;
-            margin: 0 15px;
+            margin: 0 10px;
             text-decoration: none;
             transition: 0.3s;
             position: relative;
@@ -255,6 +254,148 @@
             from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- SEARCH OVERLAY --- */
+        #searchOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: searchFadeIn 0.25s ease;
+        }
+
+        #searchOverlay.active { display: flex; }
+
+        @keyframes searchFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .search-overlay-inner {
+            width: 100%;
+            max-width: 640px;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        .search-overlay-title {
+            font-family: 'Fredoka One', cursive;
+            color: #E7998B;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .search-overlay-hint {
+            color: #777;
+            font-size: 0.82rem;
+            margin-bottom: 28px;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .search-bar-wrap {
+            display: flex;
+            background: #fff;
+            border: 2px solid #E7998B;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(231, 153, 139, 0.15);
+        }
+
+        #searchInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 18px 26px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            background: transparent;
+        }
+
+        .search-submit-btn {
+            background: #E7998B;
+            color: #fff;
+            border: none;
+            padding: 0 30px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-submit-btn:hover { background: #d4857a; }
+
+        .search-tag-group {
+            margin-top: 22px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .search-tag {
+            background: #fff;
+            color: #E7998B;
+            border: 1px solid #E7998B;
+            border-radius: 50px;
+            padding: 5px 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+        }
+
+        .search-tag:hover {
+            background: #E7998B;
+            color: #fff;
+        }
+
+        #closeSearchBtn {
+            position: absolute;
+            top: 22px;
+            right: 28px;
+            background: none;
+            border: none;
+            color: #E7998B;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        #closeSearchBtn:hover {
+            color: #47510B;
+            transform: rotate(90deg);
+        }
+
+        /* Search toggle button in navbar */
+        #searchToggleBtn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 18px;
+            transition: transform 0.2s ease;
+            line-height: 1;
+        }
+
+        #searchToggleBtn:hover { transform: scale(1.2); }
     </style>
 </head>
 
@@ -276,7 +417,7 @@
 <?php endif; ?>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
-    <div class="container d-flex align-items-center justify-content-between">
+    <div class="container d-flex align-items-center" style="gap: 10px;">
 
         
         <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt="LoopWear"></a>
@@ -296,6 +437,9 @@
 
         
         <div class="d-flex align-items-center">
+
+            
+            <button id="searchToggleBtn" title="Cari Produk">🔍</button>
 
             
             <a href="/wishlist" class="nav-icon-group like-icon" title="Wishlist">❤️</a>
@@ -361,6 +505,39 @@
         </div>
     </div>
 </nav>
+
+
+<div id="searchOverlay" role="dialog" aria-modal="true" aria-label="Pencarian Produk">
+    <button id="closeSearchBtn" title="Tutup (Esc)">✕</button>
+    <div class="search-overlay-inner">
+        <p class="search-overlay-title">🔍 Cari Produk</p>
+        <p class="search-overlay-hint">Cari berdasarkan nama produk, kategori, atau warna</p>
+        <form action="<?php echo e(route('search')); ?>" method="GET" id="searchForm">
+            <div class="search-bar-wrap">
+                <input
+                    type="text"
+                    name="q"
+                    id="searchInput"
+                    placeholder="Contoh: baju merah, hijab, sepatu hitam..."
+                    autocomplete="off"
+                    value="<?php echo e(request('q')); ?>"
+                    required
+                >
+                <button type="submit" class="search-submit-btn" title="Cari">🔍</button>
+            </div>
+        </form>
+        <div class="search-tag-group">
+            <span style="color: #777; font-size:0.78rem; align-self:center;">Populer:</span>
+            <a href="<?php echo e(route('search')); ?>?q=hijab" class="search-tag">Hijab</a>
+            <a href="<?php echo e(route('search')); ?>?q=baju" class="search-tag">Baju</a>
+            <a href="<?php echo e(route('search')); ?>?q=celana" class="search-tag">Celana</a>
+            <a href="<?php echo e(route('search')); ?>?q=sepatu" class="search-tag">Sepatu</a>
+            <a href="<?php echo e(route('search')); ?>?q=hitam" class="search-tag">Hitam</a>
+            <a href="<?php echo e(route('search')); ?>?q=putih" class="search-tag">Putih</a>
+            <a href="<?php echo e(route('search')); ?>?q=merah" class="search-tag">Merah</a>
+        </div>
+    </div>
+</div>
 
 <main>
     <?php echo $__env->yieldContent('konten'); ?>
@@ -471,6 +648,42 @@
     window.addEventListener('scroll', () => {
         document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
+</script>
+
+<script>
+    const searchOverlay  = document.getElementById('searchOverlay');
+    const searchToggleBtn = document.getElementById('searchToggleBtn');
+    const closeSearchBtn  = document.getElementById('closeSearchBtn');
+    const searchInput     = document.getElementById('searchInput');
+
+    function openSearch() {
+        searchOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => searchInput.focus(), 100);
+    }
+
+    function closeSearch() {
+        searchOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    searchToggleBtn.addEventListener('click', openSearch);
+    closeSearchBtn.addEventListener('click', closeSearch);
+
+    // Tutup jika klik di luar inner box
+    searchOverlay.addEventListener('click', function(e) {
+        if (e.target === searchOverlay) closeSearch();
+    });
+
+    // Tutup dengan tombol Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSearch();
+    });
+
+    // Buka langsung jika halaman ini adalah halaman search (agar input terisi)
+    <?php if(request()->routeIs('search') && request('q')): ?>
+    // Halaman hasil pencarian — tidak perlu buka overlay otomatis
+    <?php endif; ?>
 </script>
 
 </body>

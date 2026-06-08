@@ -78,6 +78,27 @@ class ProductController extends Controller
         return view('category', compact('items', 'kategori'));
     }
 
+    public function search(Request $request)
+    {
+        $query = trim($request->get('q', ''));
+
+        if (empty($query)) {
+            return redirect()->route('user.products');
+        }
+
+        // Cari berdasarkan nama produk, kategori, dan warna (termasuk kata warna di nama produk)
+        $items = Mbarang::where('status', 'available')
+            ->where(function($q) use ($query) {
+                $q->where('nama_barang', 'like', '%' . $query . '%')
+                  ->orWhere('kategori', 'like', '%' . $query . '%')
+                  ->orWhere('warna', 'like', '%' . $query . '%');
+            })
+            ->orderBy('nama_barang')
+            ->get();
+
+        return view('search', compact('items', 'query'));
+    }
+
     public function create() { }
     public function store(Request $request) { }
 

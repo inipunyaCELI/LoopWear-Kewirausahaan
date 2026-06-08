@@ -85,3 +85,6 @@ Route::get('/checkout/finish', function() { return view('checkout_finish'); })->
 
 // --- REVIEW ---
 Route::get('/review', [ReviewController::class, 'index'])->name('review.index');
+
+// --- SEARCH ---
+Route::get('/search', [ProductController::class, 'search'])->name('search');
