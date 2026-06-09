@@ -456,7 +456,7 @@
                     </div>
                     <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="px-2 pb-2">
                         @csrf
-                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Keranjang</button>
                     </form>
                 </div>
             </div>
@@ -511,7 +511,7 @@
                     </div>
                     <form action="{{ route('cart.add', $barang->id_barang) }}" method="POST" class="px-2 pb-2">
                         @csrf
-                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Keranjang</button>
                     </form>
                 </div>
             </div>

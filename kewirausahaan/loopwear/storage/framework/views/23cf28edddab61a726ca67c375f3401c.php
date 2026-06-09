@@ -454,7 +454,7 @@
                     </div>
                     <form action="<?php echo e(route('cart.add', $barang->id_barang)); ?>" method="POST" class="px-2 pb-2">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Keranjang</button>
                     </form>
                 </div>
             </div>
@@ -509,7 +509,7 @@
                     </div>
                     <form action="<?php echo e(route('cart.add', $barang->id_barang)); ?>" method="POST" class="px-2 pb-2">
                         <?php echo csrf_field(); ?>
-                        <button type="submit" class="btn-grid-action">Masukkan ke Tas</button>
+                        <button type="submit" class="btn-grid-action">Masukkan ke Keranjang</button>
                     </form>
                 </div>
             </div>
