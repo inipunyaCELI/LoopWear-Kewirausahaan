@@ -34,7 +34,7 @@
     }
     .order-id-link:hover { color: #E7998B; }
 
-    /* tombol aksi */
+    
     .btn-act {
         font-family: 'Quicksand', sans-serif;
         font-weight: 700;
@@ -62,7 +62,7 @@
     .btn-batal    { background: transparent; color: #c0392b; border: 1.5px solid #c0392b; }
     .btn-batal:hover { background: #c0392b; color: #fff; }
 
-    /* badge status */
+    
     .badge-sukses   { background: #e6f4ea; color: #2e7d32; border-radius: 20px; padding: 4px 14px; font-size: 0.78rem; font-weight: 700; }
     .badge-pending  { background: #fff8e1; color: #b45309; border-radius: 20px; padding: 4px 14px; font-size: 0.78rem; font-weight: 700; }
     .badge-lainnya  { background: #f0f0f0; color: #666; border-radius: 20px; padding: 4px 14px; font-size: 0.78rem; font-weight: 700; }

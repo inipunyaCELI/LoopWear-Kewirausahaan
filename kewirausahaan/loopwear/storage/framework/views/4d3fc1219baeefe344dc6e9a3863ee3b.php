@@ -5,16 +5,16 @@
 
     .search-page { font-family: 'Quicksand', sans-serif; color: #333; }
 
-    /* ── Hero bar ── */
+    
     .search-hero {
-        background: #fff9db; /* Light pastel yellow matching main theme */
+        background: #fff9db; 
         padding: 48px 0 40px;
         text-align: center;
     }
 
     .search-hero-title {
         font-family: 'Fredoka One', cursive;
-        color: #E7998B; /* Pink title */
+        color: #E7998B; 
         font-size: 2.2rem;
         letter-spacing: 1px;
         margin-bottom: 6px;
@@ -31,10 +31,10 @@
         max-width: 560px;
         margin: 0 auto;
         background: #fff;
-        border: 2px solid #E7998B; /* Pink border */
+        border: 2px solid #E7998B; 
         border-radius: 50px;
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(231, 153, 139, 0.15); /* Soft pink shadow */
+        box-shadow: 0 8px 30px rgba(231, 153, 139, 0.15); 
     }
 
     .search-bar-hero input {
@@ -63,7 +63,7 @@
 
     .search-bar-hero button:hover { background: #d4857a; }
 
-    /* ── Result info bar ── */
+    
     .result-info-bar {
         background: #fafafa;
         border-bottom: 1px solid #eee;
@@ -82,7 +82,7 @@
         padding: 4px 14px;
     }
 
-    /* ── Product Card ── */
+    
     .product-img-wrapper {
         max-width: 220px;
         aspect-ratio: 1 / 1;
@@ -143,7 +143,7 @@
 
     .btn-icon-loop:hover { transform: scale(1.2); }
 
-    /* ── Highlight matched text ── */
+    
     .product-badge {
         display: inline-block;
         font-size: 0.7rem;
@@ -157,7 +157,7 @@
     .badge-kategori { background: #e8f3e8; color: #47510B; }
     .badge-warna    { background: #fde8e5; color: #c0564a; }
 
-    /* ── Empty State ── */
+    
     .empty-state {
         text-align: center;
         padding: 60px 20px;

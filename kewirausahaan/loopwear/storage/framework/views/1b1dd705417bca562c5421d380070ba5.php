@@ -23,7 +23,7 @@
     }
     .btn-back-dash:hover { background: #47510B; color: #fff24d; }
 
-    /* FORM TAMBAH VOUCHER */
+    
     .form-card {
         background: #fffde8;
         border: 1.5px solid #e8e0a0;
@@ -68,7 +68,7 @@
     }
     .btn-tambah:hover { background: #363d08; }
 
-    /* TABEL */
+    
     .tbl-wrap {
         background: white;
         border-radius: 20px;
@@ -116,7 +116,7 @@
     .badge-nonaktif  { background: #f5f5f5; color: #888; border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 700; }
     .badge-target-new { background: #ede7f6; color: #673ab7; border-radius: 20px; padding: 3px 12px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-top: 4px; }
 
-    /* TOMBOL AKSI */
+    
     .btn-act {
         font-family: 'Quicksand', sans-serif;
         font-weight: 700;
