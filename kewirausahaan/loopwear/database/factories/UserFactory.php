@@ -1,10 +1,8 @@
 <?php
 
 namespace Database\Factories;
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-
 class UserFactory extends Factory
 {
     public function definition(): array
@@ -14,9 +12,9 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'username' => fake()->unique()->userName(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password: password
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
             'remember_token' => Str::random(10),
-            'role' => 'customer', // Default role diatur sebagai pembeli/customer
+            'role' => 'customer', 
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'city' => fake()->city(),
@@ -24,7 +22,6 @@ class UserFactory extends Factory
             'avatar' => null,
         ];
     }
-
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [

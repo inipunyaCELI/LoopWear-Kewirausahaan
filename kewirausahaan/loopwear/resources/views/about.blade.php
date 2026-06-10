@@ -29,7 +29,7 @@
         line-height: 1.8;
     }
 
-    /* --- HERO ABOUT --- */
+    
     .about-hero {
         background: linear-gradient(135deg, #fffde7 0%, #f9fbe7 100%);
         border-radius: 24px;
@@ -53,7 +53,7 @@
         opacity: 0.7;
     }
 
-    /* --- SECTION CARD --- */
+    
     .about-card {
         background: #fff;
         border-radius: 20px;
@@ -76,7 +76,7 @@
     .text-misi { color: #E7998B; }
     .text-kenapa { color: #47510B; }
 
-    /* --- LIST STYLES --- */
+    
     .custom-ol, .custom-ul {
         font-size: 1rem;
         color: #555;
@@ -127,7 +127,7 @@
 
 <div class="container py-5 about-wrapper">
 
-    {{-- HERO --}}
+    
     <div class="about-hero">
         <img src="{{ asset('images/logo_loop.png') }}" alt="Loop Logo" class="about-hero-logo mb-3">
         <p class="about-tagline">Preloved Fashion · Sustainable Style</p>
@@ -143,11 +143,11 @@
         </div>
     </div>
 
-    {{-- VISI MISI KENAPA --}}
+    
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            {{-- VISI --}}
+            
             <div class="about-card about-card-visi">
                 <h2 class="text-center mb-4 about-heading text-visi">Visi</h2>
                 <p class="about-quote mb-0">
@@ -155,7 +155,7 @@
                 </p>
             </div>
 
-            {{-- MISI --}}
+            
             <div class="about-card about-card-misi">
                 <h2 class="text-center mb-4 about-heading text-misi">Misi</h2>
                 <ol class="custom-ol">
@@ -166,7 +166,7 @@
                 </ol>
             </div>
 
-            {{-- KENAPA --}}
+            
             <div class="about-card about-card-kenapa">
                 <h2 class="text-center mb-4 about-heading text-kenapa">Kenapa Memilih LoopWear?</h2>
                 <ul class="custom-ul">

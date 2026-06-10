@@ -7,16 +7,16 @@
 
     .search-page { font-family: 'Quicksand', sans-serif; color: #333; }
 
-    /* ── Hero bar ── */
+    
     .search-hero {
-        background: #fff9db; /* Light pastel yellow matching main theme */
+        background: #fff9db; 
         padding: 48px 0 40px;
         text-align: center;
     }
 
     .search-hero-title {
         font-family: 'Fredoka One', cursive;
-        color: #E7998B; /* Pink title */
+        color: #E7998B; 
         font-size: 2.2rem;
         letter-spacing: 1px;
         margin-bottom: 6px;
@@ -33,10 +33,10 @@
         max-width: 560px;
         margin: 0 auto;
         background: #fff;
-        border: 2px solid #E7998B; /* Pink border */
+        border: 2px solid #E7998B; 
         border-radius: 50px;
         overflow: hidden;
-        box-shadow: 0 8px 30px rgba(231, 153, 139, 0.15); /* Soft pink shadow */
+        box-shadow: 0 8px 30px rgba(231, 153, 139, 0.15); 
     }
 
     .search-bar-hero input {
@@ -65,7 +65,7 @@
 
     .search-bar-hero button:hover { background: #d4857a; }
 
-    /* ── Result info bar ── */
+    
     .result-info-bar {
         background: #fafafa;
         border-bottom: 1px solid #eee;
@@ -84,7 +84,7 @@
         padding: 4px 14px;
     }
 
-    /* ── Product Card ── */
+    
     .product-img-wrapper {
         max-width: 220px;
         aspect-ratio: 1 / 1;
@@ -145,7 +145,7 @@
 
     .btn-icon-loop:hover { transform: scale(1.2); }
 
-    /* ── Highlight matched text ── */
+    
     .product-badge {
         display: inline-block;
         font-size: 0.7rem;
@@ -159,7 +159,7 @@
     .badge-kategori { background: #e8f3e8; color: #47510B; }
     .badge-warna    { background: #fde8e5; color: #c0564a; }
 
-    /* ── Empty State ── */
+    
     .empty-state {
         text-align: center;
         padding: 60px 20px;
@@ -207,7 +207,7 @@
     .suggestion-chip:hover { background: #47510B; color: #fff24d; }
 </style>
 
-{{-- ── Hero ── --}}
+
 <div class="search-hero">
     <h1 class="search-hero-title">Hasil Pencarian</h1>
     <p class="search-hero-sub">
@@ -218,7 +218,7 @@
         @endif
     </p>
 
-    {{-- Search again bar --}}
+    
     <form action="{{ route('search') }}" method="GET" class="px-3">
         <div class="search-bar-hero">
             <input
@@ -234,7 +234,7 @@
     </form>
 </div>
 
-{{-- ── Result Info Bar ── --}}
+
 <div class="result-info-bar">
     <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
         <div class="d-flex align-items-center gap-2">
@@ -249,7 +249,7 @@
     </div>
 </div>
 
-{{-- ── Main Content ── --}}
+
 <div class="container search-page py-5">
 
     @if($items->count() > 0)
@@ -259,7 +259,7 @@
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="text-center">
 
-                    {{-- Badges: Kategori & Warna --}}
+                    
                     <div class="mb-1" style="min-height: 26px;">
                         @if($item->kategori)
                             <span class="product-badge badge-kategori">{{ ucfirst($item->kategori) }}</span>
@@ -269,7 +269,7 @@
                         @endif
                     </div>
 
-                    {{-- Gambar + Link ke Detail --}}
+                    
                     <a href="{{ route('user.products.detail', $item->id_barang) }}" class="text-decoration-none">
                         <div class="product-img-wrapper shadow-sm">
                             <img
@@ -282,7 +282,7 @@
                         <h6 class="product-name">{{ $item->nama_barang }}</h6>
                     </a>
 
-                    {{-- Harga & Aksi --}}
+                    
                     <div class="product-meta">
                         <span class="price">Rp{{ number_format($item->harga, 0, ',', '.') }}</span>
                         <span class="divider">|</span>
@@ -305,7 +305,7 @@
 
     @else
 
-        {{-- ── Empty State ── --}}
+        
         <div class="empty-state">
             <div class="empty-icon">🔍</div>
             <h2 class="empty-title">Produk Tidak Ditemukan</h2>

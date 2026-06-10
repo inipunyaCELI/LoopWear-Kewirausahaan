@@ -298,7 +298,7 @@ function hitungTotal() {
     } else {
         if(barisDiskon) barisDiskon.style.display = 'none';
         
-        // Redupkan kotak voucher jika sedang dicentang tapi total belanja kurang dari minimum
+
         if(voucherBox && minBelanja > 0 && total < minBelanja) {
             voucherBox.style.opacity = '0.5';
         } else if (voucherBox) {

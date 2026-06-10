@@ -27,7 +27,7 @@
         line-height: 1.8;
     }
 
-    /* --- HERO ABOUT --- */
+    
     .about-hero {
         background: linear-gradient(135deg, #fffde7 0%, #f9fbe7 100%);
         border-radius: 24px;
@@ -51,7 +51,7 @@
         opacity: 0.7;
     }
 
-    /* --- SECTION CARD --- */
+    
     .about-card {
         background: #fff;
         border-radius: 20px;
@@ -74,7 +74,7 @@
     .text-misi { color: #E7998B; }
     .text-kenapa { color: #47510B; }
 
-    /* --- LIST STYLES --- */
+    
     .custom-ol, .custom-ul {
         font-size: 1rem;
         color: #555;

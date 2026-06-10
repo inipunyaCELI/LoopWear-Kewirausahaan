@@ -135,7 +135,13 @@ class CheckoutController extends Controller
                 'harga'      => $item['harga'],
                 'qty'        => $item['qty'],
             ]);
+
+            if (isset($cart[$id])) {
+                unset($cart[$id]);
+            }
         }
+
+        session()->put('cart', $cart);
 
         if ($voucher) {
             Voucher::where('kode', $voucher['kode'])->increment('terpakai');

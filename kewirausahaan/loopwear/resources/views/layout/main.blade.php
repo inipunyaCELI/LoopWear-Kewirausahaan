@@ -255,7 +255,6 @@
             font-weight: 600 !important;
         }
 
-        /* --- SEARCH OVERLAY --- */
         #searchOverlay {
             display: none;
             position: fixed;
@@ -380,7 +379,6 @@
             transform: rotate(90deg);
         }
 
-        /* Search toggle button in navbar */
         #searchToggleBtn {
             background: none;
             border: none;
@@ -418,14 +416,12 @@
 <nav class="navbar navbar-expand-lg shadow-sm">
     <div class="container d-flex align-items-center" style="gap: 10px;">
 
-        {{-- KOLOM 1: LOGO --}}
         <a class="navbar-brand" href="/"><img style="width: 100px" src="/images/logo_loop.png" alt="LoopWear"></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {{-- KOLOM 2: MENU TENGAH --}}
         <div class="nav-center-group d-none d-lg-flex">
             <a class="nav-link-custom {{ request()->is('/') ? 'active' : '' }}" href="/">Home</a>
             <a class="nav-link-custom {{ request()->is('about') ? 'active' : '' }}" href="/about">About</a>
@@ -434,13 +430,10 @@
             <a class="nav-link-custom {{ request()->is('contact') ? 'active' : '' }}" href="/contact">Contact</a>
         </div>
 
-        {{-- KOLOM 3: AKSI KANAN --}}
         <div class="d-flex align-items-center">
 
-            {{-- Search Button --}}
             <button id="searchToggleBtn" title="Cari Produk">🔍</button>
 
-            {{-- Wishlist --}}
             <a href="/wishlist" class="nav-icon-group like-icon" title="Wishlist">❤️</a>
             
             <a href="/cart" class="cart-wrapper nav-icon-group" title="Cart">
@@ -501,7 +494,6 @@
     </div>
 </nav>
 
-{{-- ===== SEARCH OVERLAY ===== --}}
 <div id="searchOverlay" role="dialog" aria-modal="true" aria-label="Pencarian Produk">
     <button id="closeSearchBtn" title="Tutup (Esc)">✕</button>
     <div class="search-overlay-inner">
@@ -674,19 +666,19 @@
     searchToggleBtn.addEventListener('click', openSearch);
     closeSearchBtn.addEventListener('click', closeSearch);
 
-    // Tutup jika klik di luar inner box
+
     searchOverlay.addEventListener('click', function(e) {
         if (e.target === searchOverlay) closeSearch();
     });
 
-    // Tutup dengan tombol Escape
+
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeSearch();
     });
 
-    // Buka langsung jika halaman ini adalah halaman search (agar input terisi)
+
     @if(request()->routeIs('search') && request('q'))
-    // Halaman hasil pencarian — tidak perlu buka overlay otomatis
+
     @endif
 </script>
 

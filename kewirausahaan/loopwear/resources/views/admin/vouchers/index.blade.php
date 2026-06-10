@@ -25,7 +25,7 @@
     }
     .btn-back-dash:hover { background: #47510B; color: #fff24d; }
 
-    /* FORM TAMBAH VOUCHER */
+    
     .form-card {
         background: #fffde8;
         border: 1.5px solid #e8e0a0;
@@ -70,7 +70,7 @@
     }
     .btn-tambah:hover { background: #363d08; }
 
-    /* TABEL */
+    
     .tbl-wrap {
         background: white;
         border-radius: 20px;
@@ -118,7 +118,7 @@
     .badge-nonaktif  { background: #f5f5f5; color: #888; border-radius: 20px; padding: 3px 12px; font-size: 0.78rem; font-weight: 700; }
     .badge-target-new { background: #ede7f6; color: #673ab7; border-radius: 20px; padding: 3px 12px; font-size: 0.75rem; font-weight: 700; display: inline-block; margin-top: 4px; }
 
-    /* TOMBOL AKSI */
+    
     .btn-act {
         font-family: 'Quicksand', sans-serif;
         font-weight: 700;
@@ -145,7 +145,7 @@
 
 <div class="container page-wrap py-5">
 
-    {{-- HEADER --}}
+    
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="page-title m-0">🏷️ Kelola Voucher</h3>
         <a href="/dashboard" class="btn-back-dash">← Kembali ke Dashboard</a>
@@ -207,7 +207,7 @@
                     <small class="text-muted" style="font-size:0.73rem;">kosong = selamanya</small>
                 </div>
 
-                {{-- CHECKBOX TARGET PENGGUNA BARU --}}
+                
                 <div class="col-12 mt-2">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="khusus_pengguna_baru" id="khususPenggunaBaru" value="1" {{ old('khusus_pengguna_baru') ? 'checked' : '' }} style="cursor: pointer; border-color: #c8d08a;">
@@ -244,7 +244,7 @@
                 <tr>
                     <td>
                         <span class="kode-badge">{{ $v->kode }}</span>
-                        {{-- Tampilkan badge penanda jika voucher dikunci khusus user baru --}}
+                        
                         @if($v->khusus_pengguna_baru)
                             <br><span class="badge-target-new">👤 User Baru</span>
                         @endif

@@ -67,7 +67,7 @@
     }
     .btn-pesanan:hover { background: #363d08; }
 
-    /* Voucher di checkout */
+    
     .voucher-box {
         background: #fffde8;
         border: 1.5px solid #c8d08a;
@@ -237,7 +237,7 @@
                         </div>
                     @endif
 
-                    {{-- RINGKASAN HARGA --}}
+                    
                     <div class="d-flex justify-content-between mb-2 summary-text">
                         <span>Subtotal Produk</span>
                         <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>

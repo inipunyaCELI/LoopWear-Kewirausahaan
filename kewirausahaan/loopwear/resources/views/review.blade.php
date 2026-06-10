@@ -122,7 +122,7 @@
 
     <hr class="my-5">
 
-    {{-- BAGIAN REKOMENDASI PRODUK --}}
+    
     <h3 class="recommendation-title mb-4">Rekomendasi {{ ucfirst($product->kategori) }} Lainnya </h3>
     <div class="row g-4">
         @forelse($recommendations ?? [] as $rec)
@@ -142,7 +142,7 @@
 </div>
 
 @else
-{{-- ===== TAMPILAN HALAMAN SEMUA ULASAN (dipanggil dari ReviewController::index) ===== --}}
+
 <style>
     .review-page { min-height: 80vh; }
     .star-display { color: #f5c518; font-size: 1.2rem; letter-spacing: 2px; }

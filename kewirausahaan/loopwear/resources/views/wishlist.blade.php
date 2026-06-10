@@ -5,7 +5,7 @@
     <h2 class="text-center mb-5" style="color:#E7998B; font-family: 'Fredoka One', cursive;">My Wishlist ❤️</h2>
 
     <div class="row">
-        {{-- Menggunakan $id => $item supaya sistem tahu kunci barangnya --}}
+        
         @forelse($wishlist as $id => $item)
             <div class="col-6 col-md-3 mb-4">
                 <div class="card border-0 shadow-sm p-3 h-100" style="border-radius: 20px; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
@@ -23,7 +23,7 @@
                         </div>
 
                         <div>
-                            {{-- Tombol Add to Cart --}}
+                            
                             <form action="{{ route('cart.add', $id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-warning w-100 mb-2" style="border-radius: 12px; font-weight: bold; background-color: #E7998B; border-color: #E7998B; color: white;">
@@ -31,10 +31,10 @@
                                 </button>
                             </form>
 
-                            {{-- Tombol Hapus (Diubah menjadi FORM POST/DELETE demi keamanan) --}}
+                            
                             <form action="{{ route('wishlist.remove', $id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus produk ini dari wishlist?');">
                                 @csrf
-                                @method('DELETE') {{-- Ubah atau hapus baris ini jika route di web.php Anda menggunakan Route::post --}}
+                                @method('DELETE') 
                                 <button type="submit" class="btn btn-link text-decoration-none p-0 w-100" style="color: #47510B; font-size: 0.8rem; font-weight: bold; opacity: 0.6;">
                                     ✕ Hapus Barang
                                 </button>

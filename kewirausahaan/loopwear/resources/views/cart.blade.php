@@ -164,7 +164,7 @@
 </div>
 
 <div class="cart-footer">
-    {{-- VOUCHER SECTION --}}
+    
     <div class="container mb-3">
         @if(session('voucher'))
             <div class="d-flex justify-content-end">
@@ -200,8 +200,8 @@
         @endif
     </div>
 
-    {{-- HIDDEN: data diskon & min belanja untuk JS --}}
-    {{-- PERBAIKAN: Menyimpan data tipe voucher dan nilai aslinya (persen/nominal) agar JS bisa menghitung ulang diskon --}}
+    
+    
     <span id="diskonVoucher" 
           data-tipe="{{ session('voucher.tipe', '') }}" 
           data-nilai="{{ session('voucher.nilai', 0) }}" 
@@ -229,7 +229,7 @@
             
             <div class="col-md-6 d-flex justify-content-end align-items-center gap-5">
                 <div class="text-end">
-                    {{-- Baris subtotal + diskon, muncul hanya kalau ada voucher --}}
+                    
                     <div id="barisDiskon" style="display:none;" class="diskon-row mb-1">
                         <span class="text-muted">Subtotal: Rp <span id="totalAsli">0</span></span><br>
                         <span class="fw-bold" style="color:#47510B;">🏷️ Diskon: -Rp <span id="nilaiDiskon">0</span></span>
@@ -297,7 +297,7 @@ function hitungTotal() {
     } else {
         if(barisDiskon) barisDiskon.style.display = 'none';
         
-        // Redupkan kotak voucher jika sedang dicentang tapi total belanja kurang dari minimum
+
         if(voucherBox && minBelanja > 0 && total < minBelanja) {
             voucherBox.style.opacity = '0.5';
         } else if (voucherBox) {

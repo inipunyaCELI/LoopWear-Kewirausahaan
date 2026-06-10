@@ -358,7 +358,7 @@
     <div id="saveCarousel" class="carousel slide save-carousel shadow-sm" data-bs-ride="carousel">
         <div class="carousel-inner">
             
-            <!-- VOUCHER 1: LAYOUT A (Image Kiri, Teks Kanan) -->
+            
             <div class="carousel-item active">
                 <div class="save-poster" style="background-color: #e6eed6;">
                     <div class="row align-items-center w-100 m-0">
@@ -375,7 +375,7 @@
                 </div>
             </div>
             
-            <!-- VOUCHER 2: LAYOUT B (Teks Kiri, Image Kanan - Flex Reverse) -->
+            
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #eaf4f4;">
                     <div class="row align-items-center w-100 m-0 flex-md-row-reverse">
@@ -392,7 +392,7 @@
                 </div>
             </div>
 
-            <!-- VOUCHER 3: LAYOUT C (Image Kiri, Teks Tengah, Tombol Kanan) -->
+            
             <div class="carousel-item">
                 <div class="save-poster" style="background-color: #fffaf0;">
                     <div class="row align-items-center w-100 m-0">

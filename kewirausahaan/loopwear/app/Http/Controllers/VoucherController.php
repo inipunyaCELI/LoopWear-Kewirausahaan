@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Voucher;
 use Illuminate\Http\Request;
-
 class VoucherController extends Controller
 {
     public function index()
@@ -12,7 +10,6 @@ class VoucherController extends Controller
         $vouchers = Voucher::latest()->get();
         return view('admin.vouchers.index', compact('vouchers'));
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -22,9 +19,8 @@ class VoucherController extends Controller
             'min_belanja'          => 'nullable|numeric|min:0',
             'kuota'                => 'nullable|integer|min:1',
             'berlaku_hingga'       => 'nullable|date',
-            'khusus_pengguna_baru' => 'nullable|boolean', // 1. Tambahkan validasi ini
+            'khusus_pengguna_baru' => 'nullable|boolean', 
         ]);
-
         Voucher::create([
             'kode'                 => strtoupper($request->kode),
             'tipe'                 => $request->tipe,
@@ -33,21 +29,16 @@ class VoucherController extends Controller
             'kuota'                => $request->kuota ?: null,
             'berlaku_hingga'       => $request->berlaku_hingga ?: null,
             'aktif'                => true,
-            // 2. Tambahkan ini. Karena checkbox di HTML jika tidak dicentang tidak mengirim data,
-            // kita gunakan $request->has() untuk menghasilkan true atau false.
             'khusus_pengguna_baru' => $request->has('khusus_pengguna_baru'), 
         ]);
-
         return back()->with('success', 'Voucher berhasil ditambahkan!');
     }
-
     public function toggle($id)
     {
         $voucher = Voucher::findOrFail($id);
         $voucher->update(['aktif' => !$voucher->aktif]);
         return back()->with('success', 'Status voucher diperbarui.');
     }
-
     public function destroy($id)
     {
         Voucher::findOrFail($id)->delete();

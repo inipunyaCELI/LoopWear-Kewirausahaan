@@ -65,7 +65,7 @@
     }
     .btn-pesanan:hover { background: #363d08; }
 
-    /* Voucher di checkout */
+    
     .voucher-box {
         background: #fffde8;
         border: 1.5px solid #c8d08a;
