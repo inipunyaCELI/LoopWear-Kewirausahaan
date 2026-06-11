@@ -261,7 +261,11 @@
                 <div class="info-icon"><i class="fas fa-envelope"></i></div>
                 <div class="info-text">
                     <h6>E-MAIL :</h6>
-                    <p>hello@loopwear.com</p>
+                    <p>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=loopweaar@gmail.com" target="_blank" style="color: inherit; text-decoration: none; position: relative; z-index: 10; pointer-events: auto;">
+                            loopweaar@gmail.com
+                        </a>
+                    </p>
                 </div>
             </div>
 
@@ -269,7 +273,11 @@
                 <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
                 <div class="info-text">
                     <h6>PHONE :</h6>
-                    <p>0812-3456-7890</p>
+                    <p>
+                        <a href="https://wa.me/628115540110" target="_blank" style="color: inherit; text-decoration: none; position: relative; z-index: 10; pointer-events: auto;">
+                            0812-3456-789
+                        </a>
+                    </p>
                 </div>
             </div>
 
@@ -285,7 +293,11 @@
                 <div class="info-icon"><i class="fab fa-instagram"></i></div>
                 <div class="info-text">
                     <h6>INSTAGRAM :</h6>
-                    <p>@LoopWear.official</p>
+                    <p>
+                        <a href="https://www.instagram.com/loopwear___?igsh=MTg5eXY1bWlsNjE4Ng%3D%3D&utm_source=qr" target="_blank" style="color: inherit; text-decoration: none;">
+                            @LoopWear.official
+                        </a>
+                    </p>
                 </div>
             </div>
 
